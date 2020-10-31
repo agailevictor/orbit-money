@@ -1,0 +1,45 @@
+{
+  "Caption": {
+    "MainHeading": "Build digital products with:",
+    "SubHeading1": "All-in-one tool",
+    "SubDesc1": "Build, run, and scale your apps - end to end",
+    "SubHeading2": "Easily add & manage your services",
+    "SubDesc2": "It brings together your tasks, projects, timelines, files and more"
+  },
+  "SignIn": {
+    "SignInLabel": "Sign in",
+    "HaveAccntLabel": "Don't have an account yet?",
+    "SignuphereLabel": "Sign up here",
+    "YourEmailLabel": "Your email",
+    "PasswordLabel": "Password",
+    "ForgotPasswordLabel": "Forgot Password?",
+    "RememberMeLabel": "Remember me",
+    "SignInButtonLabel": "Sign in",
+
+    "EmailRequiredValidationLabel": "Please enter email address.",
+    "EmailPatternValidationLabel": "Please enter a valid email address.",
+    "PasswordRequiredValidationLabel": "Your password is invalid. Please try again."
+  },
+  "SignUp": {
+    "SignUpLabel": "Create your account",
+    "HaveAccntLabel": "Already have an account?",
+    "SignuphereLabel": "Sign in here",
+    "FullNameLabel": "Full name",
+    "YourEmailLabel": "Your email",
+    "PasswordLabel": "Password",
+    "ConfirmPasswordLabel": "Confirm password",
+    "CheckboxLabel": "I accept the",
+    "TermsLabel": "Terms and Conditions",
+    "SignUpButtonLabel": "Create an account",
+
+    "FirstNameRequiredValidationLabel": "Please enter your first name.",
+    "LastNameRequiredValidationLabel": "Please enter your last name.",
+    "EmailRequiredValidationLabel": "Please enter email address.",
+    "EmailPatternValidationLabel": "Please enter a valid email address.",
+    "PasswordRequiredValidationLabel": "Please enter a password.",
+    "PasswordInvalidValidationLabel": "Your password is invalid. Please try again.",
+    "PasswordMinValidationLabel": "Minimum 8 characters required.",
+    "PasswordMatchValidationLabel": "Password does not match the confirm password.",
+    "TermsConditionRequiredLabel": "Please accept our Terms and Conditions."
+  }
+}

@@ -1,0 +1,23 @@
+#changePassTarget {
+  height: 54px;
+}
+
+.currencyBalance .btn {
+  margin-right: 3px;
+}
+.currencyBalance .btn :last-child {
+  margin: 0;
+}
+
+.dashboard-container {
+  .custom-control-label::before,
+  .custom-control-label::after {
+    top: -1rem;
+  }
+}
+
+.daterangepicker td.active,
+.daterangepicker td.active:hover {
+  color: #fff;
+  background-color: #d62303;
+}

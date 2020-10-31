@@ -1,0 +1,19 @@
+.form-control.is-invalid-input,
+.was-validated .form-control:invalid {
+  border-color: #ed4c78;
+}
+
+.is-invalid-input ~ .invalid-feedback,
+.is-invalid-input ~ .invalid-tooltip,
+.was-validated :invalid ~ .invalid-feedback,
+.was-validated :invalid ~ .invalid-tooltip {
+  display: block;
+}
+
+.invalid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #ed4c78;
+}
