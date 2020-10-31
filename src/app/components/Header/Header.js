@@ -1,20 +1,36 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, withRouter } from "react-router-dom";
 
 import Account from "../Account/Account";
 import Notification from "../Notification/Notification";
 import "./Header.scss";
 
-const Header = () => {
-  const [showSidebar, setShowSidebar] = useState(false);
-
+const Header = (props) => {
   const toggleSidebar = () => {
-    if (showSidebar) {
-      document.body.classList.remove("navbar-vertical-aside-mini-mode");
-    } else {
+    document.body.classList.remove("navbar-vertical-aside-closed-mode");
+    if (props.openMenu) {
+      // close
       document.body.classList.add("navbar-vertical-aside-mini-mode");
+    } else {
+      // open
+      document.body.classList.remove("navbar-vertical-aside-mini-mode");
     }
-    setShowSidebar(!showSidebar);
+    props.onMobileMenuClick(!props.openMenu);
+  };
+
+  const toggleMobileMenu = () => {
+    if (props.openMenu) {
+      //close
+      document.body.classList.add("navbar-vertical-aside-mini-mode");
+      document.body.classList.add("navbar-vertical-aside-closed-mode");
+      document.getElementById("aside1").classList.remove("navbar-vertical-aside-initialized");
+    } else {
+      //open
+      document.body.classList.remove("navbar-vertical-aside-mini-mode");
+      document.body.classList.remove("navbar-vertical-aside-closed-mode");
+      document.getElementById("aside1").classList.add("navbar-vertical-aside-initialized");
+    }
+    props.onMobileMenuClick(!props.openMenu);
   };
 
   return (
@@ -29,7 +45,7 @@ const Header = () => {
           </div>
 
           <div className="navbar-nav-wrap-content-left">
-            <button type="button" className="js-navbar-vertical-aside-toggle-invoker close mr-3" onClick={toggleSidebar}>
+            <button type="button" className="js-navbar-vertical-aside-toggle-invoker toggle-invoker close mr-3" onClick={toggleSidebar}>
               <i
                 className="tio-first-page navbar-vertical-aside-toggle-short-align"
                 data-toggle="tooltip"
@@ -42,19 +58,28 @@ const Header = () => {
                 data-placement="right"
                 title="Expand"></i>
             </button>
+            <button type="button" className="js-navbar-vertical-aside-toggle-invoker mobile-toggle-invoker close mr-3" onClick={toggleMobileMenu}>
+              <i className="tio-first-page navbar-vertical-aside-toggle-short-align" data-toggle="tooltip" data-placement="right" title=""></i>
+              <i
+                className="tio-last-page navbar-vertical-aside-toggle-full-align"
+                data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+                data-toggle="tooltip"
+                data-placement="right"
+                title=""></i>
+            </button>
           </div>
 
           <div className="navbar-nav-wrap-content-right">
             <ul className="navbar-nav align-items-center flex-row">
               <li className="nav-item d-none d-sm-inline-block">
                 <div className="hs-unfold">
-                  <Notification />
+                  <Notification {...props} />
                 </div>
               </li>
 
               <li className="nav-item">
                 <div className="hs-unfold">
-                  <Account />
+                  <Account {...props} />
                 </div>
               </li>
             </ul>
@@ -65,4 +90,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default withRouter(Header);

@@ -1,15 +1,16 @@
-import React from 'react';
+import React from "react";
+import { ToastContainer } from "react-toastify";
 
-import AppRouter from './Router'
-import './App.scss';
+import AppRouter from "./Router";
+import "./App.scss";
 
 const App = () => {
   return (
     <React.Fragment>
-      <AppRouter/>
+      <AppRouter />
+      <ToastContainer />
     </React.Fragment>
   );
-}
+};
 
-export default App
-
+export default App;

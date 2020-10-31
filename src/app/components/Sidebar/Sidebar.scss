@@ -1,8 +1,16 @@
+$large: 1025px;
+
 .navbar-vertical-aside {
-  transition: width 0.3s;
+  transition: width 0.15s;
 }
 
 .has-navbar-vertical-aside .main {
   // padding-left: 16.25rem;
-  transition: padding-left 0.3s;
+  transition: padding-left 0.15s;
+}
+
+@media screen and (max-width: $large) {
+  .navbar-vertical-aside {
+    transition: margin-left 0.2s;
+  }
 }

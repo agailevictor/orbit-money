@@ -14,6 +14,13 @@ const Account = (props) => {
     setIsOpened(false);
   };
 
+  const logout = (event) => {
+    event.preventDefault();
+    localStorage.removeItem("auth");
+    localStorage.removeItem("authToken");
+    props.history.replace("/signin");
+  };
+
   useEffect(() => {
     window.addEventListener("click", (e) => {
       const container = document.getElementById("account-drop");
@@ -76,7 +83,7 @@ const Account = (props) => {
             <i className="fas fa-cog nav-icon"></i>&nbsp; Settings
           </span>
         </a>
-        <Link className="dropdown-item" to="/signin">
+        <Link className="dropdown-item" to="" onClick={(e) => logout(e)}>
           <span className="text-truncate pr-2" title="log Out">
             <i className="fas fa-sign-out nav-i con"></i>&nbsp; Logout
           </span>

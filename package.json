@@ -3,6 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@progress/kendo-data-query": "^1.5.4",
+    "@progress/kendo-drawing": "^1.9.3",
+    "@progress/kendo-licensing": "^1.0.1",
+    "@progress/kendo-react-animation": "^4.0.0",
+    "@progress/kendo-react-data-tools": "^4.0.0",
+    "@progress/kendo-react-dateinputs": "^4.0.0",
+    "@progress/kendo-react-dropdowns": "^4.0.0",
+    "@progress/kendo-react-grid": "^4.0.0",
+    "@progress/kendo-react-inputs": "^4.0.0",
+    "@progress/kendo-react-intl": "^4.0.0",
+    "@progress/kendo-theme-default": "^4.25.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -14,6 +25,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "react": "^16.14.0",
     "react-bootstrap-daterangepicker": "^7.0.0",
+    "react-countup": "^4.3.3",
     "react-dom": "^16.14.0",
     "react-i18next": "^11.7.3",
     "react-router-dom": "^5.2.0",
@@ -24,7 +36,9 @@
     "yup": "^0.29.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start ",
+    "start:dev": "npm run start:browser && npm run start",
+    "start:browser": "open -n -a /Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --args --user-data-dir='/tmp/chrome_dev_test' --disable-web-security",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

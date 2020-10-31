@@ -1,4 +1,23 @@
+$large: 1025px;
+
 .header-logo {
-    min-width: 7rem; 
-    max-width: 7rem;
+  min-width: 7rem;
+  max-width: 7rem;
+}
+
+@media screen and (max-width: $large) {
+  .toggle-invoker {
+    display: none !important;
+  }
+  .mobile-toggle-invoker {
+    display: inline;
+  }
+}
+@media screen and (min-width: $large) {
+  .toggle-invoker {
+    display: inline;
+  }
+  .mobile-toggle-invoker {
+    display: none !important;
+  }
 }

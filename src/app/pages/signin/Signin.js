@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import Caption from "../../components/Caption/Caption";
 import SocialMediaLogin from "../../components/SocialMediaLogin/SocialMediaLogin";
@@ -59,21 +59,18 @@ class Signin extends React.Component {
                   callApi("post", ApiConstants.SIGN_IN, { email: values.email, password: values.password })
                     .then((response) => {
                       if (response.code === 200) {
-                        this.props.history.push("/dashboard");
+                        localStorage.setItem("authToken", response.data.token);
+                        localStorage.setItem("auth", true);
+                        this.props.history.replace("/dashboard");
                       }
                     })
                     .catch((error) => {
                       toast.error(error.message, {
                         position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
                       });
                     });
-                }}>
+                }}
+              >
                 {({ errors }) => (
                   <Form>
                     <div className="text-center mb-5">
@@ -106,7 +103,7 @@ class Signin extends React.Component {
                       <label className="input-label" htmlFor="signupSrPassword" tabIndex="0">
                         <span className="d-flex justify-content-between align-items-center">
                           {t("SignIn.PasswordLabel")}
-                          <Link to="/signin" className="input-label-secondary">
+                          <Link to="#" className="input-label-secondary">
                             {t("SignIn.ForgotPasswordLabel")}
                           </Link>
                         </span>
@@ -142,8 +139,6 @@ class Signin extends React.Component {
                     <button type="submit" className="btn btn-lg btn-block btn-primary" ref={(c) => (this.buttonSubmit = c)}>
                       {t("SignIn.SignInButtonLabel")}
                     </button>
-
-                    <ToastContainer />
                   </Form>
                 )}
               </Formik>

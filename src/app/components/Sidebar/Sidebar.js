@@ -3,10 +3,22 @@ import { Link } from "react-router-dom";
 
 import "./Sidebar.scss";
 
-const Sidebar = () => {
+const Sidebar = (props) => {
+  const closeMobileMenu = () => {
+    if (props.openMenu) {
+      //close
+      document.body.classList.add("navbar-vertical-aside-mini-mode");
+      document.body.classList.add("navbar-vertical-aside-closed-mode");
+      document.getElementById("aside1").classList.remove("navbar-vertical-aside-initialized");
+    }
+    props.onMobileMenuClick(!props.openMenu);
+  };
+
   return (
     <React.Fragment>
-      <aside className="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered">
+      <aside
+        id="aside1"
+        className="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered">
         <div className="navbar-vertical-container">
           <div className="navbar-vertical-footer-offset">
             <div className="navbar-brand-wrapper justify-content-between">
@@ -18,7 +30,7 @@ const Sidebar = () => {
               <button
                 type="button"
                 className="js-navbar-vertical-aside-toggle-invoker navbar-vertical-aside-toggle btn btn-icon btn-xs btn-ghost-dark">
-                <i className="tio-clear tio-lg"></i>
+                <i className="tio-clear tio-lg" onClick={closeMobileMenu}></i>
               </button>
             </div>
 
@@ -31,13 +43,13 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="nav-item ">
-                  <Link className="js-nav-tooltip-link nav-link " to="/dashboard" title="Recipients" data-placement="left">
+                  <Link className="js-nav-tooltip-link nav-link" to="/dashboard" title="Recipients" data-placement="left">
                     <i className="fas fa-user-friends nav-icon"></i>
                     <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Recipients</span>
                   </Link>
                 </li>
                 <li className="nav-item ">
-                  <Link className="js-nav-tooltip-link nav-link " href="/dashboard" title="Reports" data-placement="left">
+                  <Link className="js-nav-tooltip-link nav-link" to="/dashboard" title="Reports" data-placement="left">
                     <i className="fas fa-file-invoice nav-icon"></i>
                     <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Reports</span>
                   </Link>
@@ -49,17 +61,17 @@ const Sidebar = () => {
                 <li className="navbar-vertical-footer-list-item">
                   <ul className="navbar-nav navbar-nav-lg nav-tabs">
                     <li className="nav-item ">
-                      <Link className="js-nav-tooltip-link nav-link " href="/dashboard" title="Privacy Policy" data-placement="left">
+                      <Link className="js-nav-tooltip-link nav-link " to="/dashboard" title="Privacy Policy" data-placement="left">
                         <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Privacy Policy</span>
                       </Link>
                     </li>
                     <li className="nav-item ">
-                      <Link className="js-nav-tooltip-link nav-link " href="/dashboard" title="Terms and Condition" data-placement="left">
+                      <Link className="js-nav-tooltip-link nav-link " to="/dashboard" title="Terms and Condition" data-placement="left">
                         <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Terms and Conditions</span>
                       </Link>
                     </li>
                     <li className="nav-item ">
-                      <Link className="js-nav-tooltip-link nav-link " href="/dashboard" title="Support" data-placement="left">
+                      <Link className="js-nav-tooltip-link nav-link " to="/dashboard" title="Support" data-placement="left">
                         <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Support</span>
                       </Link>
                     </li>
@@ -70,6 +82,9 @@ const Sidebar = () => {
           </div>
         </div>
       </aside>
+      {props.openMenu && (
+        <div className="js-navbar-vertical-aside-toggle-invoker navbar-vertical-aside-mobile-overlay" onClick={closeMobileMenu}></div>
+      )}
     </React.Fragment>
   );
 };

@@ -1,0 +1,60 @@
+.data-grid-container {
+  width: 100%;
+  overflow-x: auto;
+
+  .k-grid {
+    border-color: #fff;
+    td,
+    tr,
+    th {
+      border: none;
+      padding: 14px 12px;
+    }
+    .k-grid-header {
+      background-color: #f8fafd;
+      .k-header {
+        vertical-align: middle;
+        text-transform: uppercase;
+      }
+    }
+    tr.k-alt {
+      background-color: #fff;
+    }
+    th:first-child,
+    td:first-child {
+      text-align: center;
+    }
+
+    tr.k-state-selected {
+      td {
+        background: #fff;
+      }
+    }
+    tr:hover {
+      background-color: #f8fafd;
+    }
+    .k-checkbox:checked {
+      border-color: #d62303;
+      color: #ffffff;
+      background-color: #d62303;
+    }
+    .btn-outline-danger {
+      color: #d62303;
+    }
+    #datatableCounterInfo {
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .k-pager-wrap {
+      color: #677788;
+      margin-top: 15px;
+      background-color: #fff;
+    }
+  }
+  .avatar-initials img {
+    height: 40px;
+  }
+  .type-text {
+    text-transform: capitalize;
+  }
+}

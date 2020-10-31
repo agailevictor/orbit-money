@@ -1,13 +1,33 @@
 import React from "react";
+import CountUp from "react-countup";
 import { withTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
-import Table from "./Table";
+import { callApi } from "../../services/apiServices";
+import ApiConstants from "../../shared/config/apiConstants";
+
+import DataGrid from "./DataGrid/DataGrid";
 import "./Dashboard.scss";
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { balance: 0, currency: "USD" };
+    this.fetchBalance();
+  }
+
+  fetchBalance() {
+    callApi("get", ApiConstants.FETCH_BALANCE)
+      .then((response) => {
+        if (response.code === 200) {
+          this.setState({ balance: response.data.balance });
+        }
+      })
+      .catch((error) => {
+        toast.error(error.message, {
+          position: "top-right",
+        });
+      });
   }
 
   render() {
@@ -41,10 +61,10 @@ class Dashboard extends React.Component {
                     <img src="assets/svg/flags/united-states-of-america.svg" height="18px" /> Current Balance
                   </p>
                   <p className="currency">
-                    <span className="js-counter display-4 text-dark" data-value="158470">
-                      158470
-                    </span>{" "}
-                    <small>USD</small>
+                    <span className="display-4 text-dark">
+                      <CountUp start={0} end={this.state.balance} duration={1.5} />
+                    </span>
+                    <small className="balance_currency">{this.state.currency}</small>
                   </p>
                 </div>
                 <div className="col-md-7 text-right">
@@ -70,7 +90,7 @@ class Dashboard extends React.Component {
             </div>
           </div>
 
-          <Table />
+          <DataGrid />
         </div>
       </React.Fragment>
     );
