@@ -1,29 +1,18 @@
 import React, { useState, useEffect } from "react";
-import Select from "react-select";
 import { Grid, GridColumn as Column } from "@progress/kendo-react-grid";
 import DateRangePicker from "react-bootstrap-daterangepicker";
+import { withTranslation } from "react-i18next";
+import moment, { now } from "moment";
+import Select from "react-select";
 import { toast } from "react-toastify";
 
-import { callApi } from "../../../services/apiServices";
+import Spinner from "../../../components/Spinner/Spinner";
+import { callApi, callDownloadApi } from "../../../services/apiServices";
 import ApiConstants from "../../../shared/config/apiConstants";
+
 import "bootstrap-daterangepicker/daterangepicker.css";
 import "@progress/kendo-theme-default/dist/all.css";
 import "./DataGrid.scss";
-
-const sortOptions = [
-  {
-    value: "ALL",
-    label: "All",
-  },
-  {
-    value: "SENT",
-    label: "Sent",
-  },
-  {
-    value: "RECEIVED",
-    label: "Received",
-  },
-];
 
 const customStyles = {
   control: (provided, state) => ({
@@ -37,8 +26,24 @@ const customStyles = {
 };
 
 const DataGrid = (props) => {
-  const [transactions, setTransactions] = useState([]);
+  const { t } = props;
+
+  const sortOptions = [
+    {
+      value: "ALL",
+      label: t("Dashboard.All"),
+    },
+    {
+      value: "SENT",
+      label: t("Dashboard.Sent"),
+    },
+    {
+      value: "RECEIVED",
+      label: t("Dashboard.Received"),
+    },
+  ];
   const [totalRecords, setTotalRecords] = useState(0);
+  const [gridLoader, setgridLoader] = useState(false);
   const [gridData, setgridData] = useState([]);
   const [skip, setSkip] = useState(0);
   const [take, setTake] = useState(5);
@@ -51,46 +56,56 @@ const DataGrid = (props) => {
   });
   const [sortOption, setSortOption] = useState(sortOptions[0].value);
   const [totalSelected, settotalSelected] = useState(0);
-  const [searchData, setSearchData] = useState(null);
+  const [searchData, setSearchData] = useState("");
+  const [fromDate, setFromDate] = useState(moment(now()).format("YYYY-MM-DD"));
+  const [toDate, setToDate] = useState(fromDate);
 
-  const fetchTransaction = (currentPage, selectedSortOption) => {
-    callApi("get", ApiConstants.FETCH_TRANSACTIONS + "page = " + currentPage + " & sortBy =" + selectedSortOption)
+  const fetchTransaction = (currentPage, pageSize, selectedSortOption, fromDateValue, toDateValue, searchText) => {
+    setgridLoader(true);
+    callApi("post", ApiConstants.FETCH_TRANSACTIONS, {
+      page: currentPage,
+      pageSize: pageSize,
+      sortBy: selectedSortOption,
+      text: searchText,
+      fromDate: fromDateValue,
+      toDate: toDateValue,
+    })
       .then((response) => {
         if (response.code === 200) {
           setTotalRecords(response.data.totalRecords);
           let gridDataArray = response.data.records.map((dataItem) => Object.assign({ selected: false }, dataItem));
-          setTransactions(gridDataArray);
           setgridData(gridDataArray);
           setTotalSelectedCount(gridDataArray);
+          setgridLoader(false);
         }
       })
       .catch((error) => {
         toast.error(error.message, {
           position: "top-right",
         });
+        setgridLoader(false);
       });
   };
 
-  const searchTransaction = (currentPage, selectedSortOption, user) => {
-    callApi("get", ApiConstants.SEARCH_TRANSACTIONS + "sortBy=" + selectedSortOption + "&users=" + user)
-      .then((response) => {
-        if (response.code === 200) {
-          setTotalRecords(response.data.totalRecords);
-          let gridDataArray = response.data.records.map((dataItem) => Object.assign({ selected: false }, dataItem));
-          setTransactions(gridDataArray);
-          setgridData(gridDataArray);
-          setTotalSelectedCount(gridDataArray);
-        }
-      })
-      .catch((error) => {
-        toast.error(error.message, {
-          position: "top-right",
-        });
+  const exportAsPdf = (currentPage, pageSize, selectedSortOption, fromDateValue, toDateValue, searchText) => {
+    let params = {
+      fromDate: fromDateValue,
+      toDate: toDateValue,
+      page: currentPage,
+      pageSize: pageSize,
+      sortBy: selectedSortOption,
+      text: searchText,
+    };
+    const filename = "transactions_" + fromDateValue + "_" + toDateValue + ".pdf";
+    callDownloadApi("post", ApiConstants.EXPORT_AS_PDF, params, null, filename).catch((error) => {
+      toast.error(error.message, {
+        position: "top-right",
       });
+    });
   };
 
   useEffect(() => {
-    fetchTransaction(1, sortOption);
+    fetchTransaction(1, take, sortOption, fromDate, toDate, searchData);
   }, [props.transactions]);
 
   const headerSelectionChange = (event) => {
@@ -144,17 +159,16 @@ const DataGrid = (props) => {
   const pageChange = (event) => {
     let skipValue = event.page.skip;
     let takeValue = event.page.take;
-    setgridData(transactions.slice(skipValue, skipValue + takeValue));
     setSkip(skipValue);
     setTake(takeValue);
     setPageable({
-      buttonCount: takeValue,
+      buttonCount: 5,
       info: true,
       type: "numeric",
       pageSizes: [5, 10, 25, 50],
       previousNext: true,
     });
-    fetchTransaction(Math.floor(skipValue / takeValue) + 1, sortOption);
+    fetchTransaction(Math.floor(skipValue / takeValue) + 1, takeValue, sortOption, fromDate, toDate, searchData);
   };
 
   return (
@@ -164,7 +178,7 @@ const DataGrid = (props) => {
           <div className="row justify-content-between align-items-center flex-grow-1">
             <div className="col-12 col-md">
               <div className="d-flex justify-content-between align-items-center">
-                <h5 className="card-header-title">Transcations</h5>
+                <h5 className="card-header-title">{t("Dashboard.Transactions")}</h5>
               </div>
             </div>
 
@@ -173,12 +187,19 @@ const DataGrid = (props) => {
                 <div className="col-sm-auto">
                   <div className="d-flex align-items-center mr-2">
                     <span className="mr-2">
-                      <DateRangePicker>
+                      <DateRangePicker
+                        onApply={(event, picker) => {
+                          const fromDateValue = moment(picker.startDate).format("YYYY-MM-DD");
+                          const toDateValue = moment(picker.toDate).format("YYYY-MM-DD");
+                          setFromDate(fromDateValue);
+                          setToDate(toDateValue);
+                          fetchTransaction(Math.floor(skip / take) + 1, take, sortOption, fromDateValue, toDateValue, searchData);
+                        }}>
                         <input placeholder="Select Date Range" type="text" className="form-control" />
                       </DateRangePicker>
                     </span>
 
-                    <span className="text-secondary mr-2">Sort By:</span>
+                    <span className="text-secondary mr-2">{t("Dashboard.SortBy")}</span>
 
                     <Select
                       options={sortOptions}
@@ -188,9 +209,7 @@ const DataGrid = (props) => {
                       styles={customStyles}
                       onChange={(value) => {
                         setSortOption(value.value);
-                        searchData !== null && searchData.trim().length > 0
-                          ? searchTransaction(Math.floor(skip / take) + 1, value.value, searchData)
-                          : fetchTransaction(Math.floor(skip / take) + 1, value.value);
+                        fetchTransaction(Math.floor(skip / take) + 1, take, value.value, fromDate, toDate, searchData);
                       }}
                     />
                   </div>
@@ -208,13 +227,11 @@ const DataGrid = (props) => {
                         id="datatableSearch"
                         type="search"
                         className="form-control"
-                        placeholder="Search users"
+                        placeholder={t("Dashboard.SearchUsers")}
                         aria-label="Search users"
                         onChange={(event) => {
                           setSearchData(event.target.value);
-                          event.target.value.trim().length > 0
-                            ? searchTransaction(Math.floor(skip / take) + 1, sortOption, event.target.value)
-                            : fetchTransaction(Math.floor(skip / take) + 1, sortOption);
+                          fetchTransaction(Math.floor(skip / take) + 1, take, sortOption, fromDate, toDate, event.target.value);
                         }}
                       />
                     </div>
@@ -226,6 +243,7 @@ const DataGrid = (props) => {
         </div>
 
         <div className="data-grid-container">
+          {gridData.length && gridLoader && <Spinner />}
           <Grid
             style={{ minWidth: "1100px" }}
             data={[...gridData]}
@@ -251,7 +269,7 @@ const DataGrid = (props) => {
                   <div className="align-items-center">
                     <span className="font-size-sm mr-3">
                       <span id="datatableCounter">{totalSelected} </span>
-                      Selected
+                      {t("Dashboard.Selected")}
                     </span>
                   </div>
                 </div>
@@ -281,7 +299,7 @@ const DataGrid = (props) => {
               cell={(props) => {
                 return (
                   <td>
-                    <strong className="text-dark">Transaction ID:</strong> <br /> <span>{props.dataItem.transactionId}</span>
+                    <strong className="text-dark">{t("Dashboard.TransactionID")}</strong> <br /> <span>{props.dataItem.reference}</span>
                   </td>
                 );
               }}
@@ -293,7 +311,7 @@ const DataGrid = (props) => {
               cell={(props) => {
                 return (
                   <td>
-                    <strong className="text-dark">From:</strong>
+                    <strong className="text-dark">{t("Dashboard.From")}</strong>
                     <br /> <span>{props.dataItem.iban}</span>
                   </td>
                 );
@@ -313,7 +331,7 @@ const DataGrid = (props) => {
                       {props.dataItem.amount} {props.dataItem.currency}
                     </span>
                     <span className="d-block font-size-sm">
-                      <span>{props.dataItem.transactionTime} </span> | <span>{props.dataItem.transactionDate}</span>
+                      <span>{props.dataItem.time} </span> | <span>{props.dataItem.date}</span>
                     </span>
                   </td>
                 );
@@ -324,15 +342,26 @@ const DataGrid = (props) => {
               title="Action"
               headerCell={(HeaderCellProps) => {
                 return (
-                  <a className="btn btn-sm btn-outline-danger float-right" href="#">
-                    <i className="far fa-file-pdf"></i> Transactions as PDF
+                  <a
+                    className="btn btn-sm btn-outline-danger float-right"
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      exportAsPdf(Math.floor(skip / take) + 1, take, sortOption, fromDate, toDate, searchData);
+                    }}>
+                    <i className="far fa-file-pdf"></i> {t("Dashboard.TransactionsasPDF")}
                   </a>
                 );
               }}
               cell={(props) => {
                 return (
                   <td style={{ textAlign: "center" }}>
-                    <button type="button" className="btn btn-white" data-toggle="tooltip" data-html="true" title="Download Transactions">
+                    <button
+                      type="button"
+                      className="btn btn-white"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      title={t("Dashboard.DownloadTransactions")}>
                       <i className="tio-download-to dropdown-item-icon"></i>
                     </button>
                   </td>
@@ -347,4 +376,4 @@ const DataGrid = (props) => {
   );
 };
 
-export default DataGrid;
+export default withTranslation()(DataGrid);

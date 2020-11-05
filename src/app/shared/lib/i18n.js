@@ -28,6 +28,15 @@ i18n
       en_uk: {
         translations: translationEn_UK,
       },
+      de: {
+        translations: translationEn_UK,
+      },
+      dk: {
+        translations: translationEn_UK,
+      },
+      es: {
+        translations: translationEn_UK,
+      },
     },
     // have a common namespace used around the full app
     ns: ["translations"],

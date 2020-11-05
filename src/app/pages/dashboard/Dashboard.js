@@ -2,31 +2,43 @@ import React from "react";
 import CountUp from "react-countup";
 import { withTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { connect } from "react-redux";
 
 import { callApi } from "../../services/apiServices";
 import ApiConstants from "../../shared/config/apiConstants";
 
 import DataGrid from "./DataGrid/DataGrid";
+import AppLoader from "../../components/AppLoader/AppLoader";
 import "./Dashboard.scss";
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { balance: 0, currency: "USD" };
+    this.state = {
+      balance: 0,
+      currency: "",
+      imgFlag: "",
+      showLoader: true,
+    };
+  }
+
+  componentDidMount() {
     this.fetchBalance();
   }
 
   fetchBalance() {
+    this.setState({ showLoader: true });
     callApi("get", ApiConstants.FETCH_BALANCE)
       .then((response) => {
         if (response.code === 200) {
-          this.setState({ balance: response.data.balance });
+          this.setState({ showLoader: false, balance: response.data.balance, currency: response.data.currency, imgFlag: response.data.url });
         }
       })
       .catch((error) => {
         toast.error(error.message, {
           position: "top-right",
         });
+        this.setState({ showLoader: false });
       });
   }
 
@@ -35,30 +47,18 @@ class Dashboard extends React.Component {
     return (
       <React.Fragment>
         <div className="content container-fluid dashboard-container">
+          <AppLoader show={this.state.showLoader} />
           <div className="page-header">
             <div className="row align-items-end">
               <div className="col-sm mb-2 mb-sm-0">
-                <nav aria-label="breadcrumb">
-                  <ol className="breadcrumb breadcrumb-no-gutter">
-                    <li className="breadcrumb-item">
-                      <a className="breadcrumb-link" href="#">
-                        Home
-                      </a>
-                    </li>
-                    <li className="breadcrumb-item active" aria-current="page">
-                      Dashboard
-                    </li>
-                  </ol>
-                </nav>
-
-                <h1 className="page-title">Dashbaord</h1>
+                <h1 className="page-title">{t("Dashboard.DashboardHeading")}</h1>
               </div>
             </div>
             <div className="card currencyBalance">
               <div className="row">
                 <div className="col-md-5">
                   <p className="text-danger">
-                    <img src="assets/svg/flags/united-states-of-america.svg" height="18px" /> Current Balance
+                    <img className="country-flag" src={this.state.imgFlag} /> {t("Dashboard.CurrentBalance")}
                   </p>
                   <p className="currency">
                     <span className="display-4 text-dark">
@@ -69,10 +69,10 @@ class Dashboard extends React.Component {
                 </div>
                 <div className="col-md-7 text-right">
                   <a href="#" className="btn btn-default">
-                    <img src="assets/svg/dashboard/send-money.svg" /> Pay
+                    <img src="assets/svg/dashboard/send-money.svg" /> {t("Dashboard.Pay")}
                   </a>
                   <a href="#" className="btn btn-default">
-                    <img src="assets/svg/dashboard/add-money.svg" /> Top Up Walltet
+                    <img src="assets/svg/dashboard/add-money.svg" /> {t("Dashboard.TopUpWallet")}
                   </a>
                 </div>
               </div>
@@ -81,11 +81,11 @@ class Dashboard extends React.Component {
 
           <div className="row">
             <div className="col-md-6">
-              <h4>Latest Transcations</h4>
+              <h4>{t("Dashboard.LatestTransactions")}</h4>
             </div>
             <div className="col-md-6 text-right">
               <a href="#">
-                <b>View All</b>
+                <b>{t("Dashboard.ViewAll")}</b>
               </a>
             </div>
           </div>
@@ -97,4 +97,8 @@ class Dashboard extends React.Component {
   }
 }
 
-export default withTranslation()(Dashboard);
+const mapStateToProps = (state) => ({
+  userToken: state.userReducer.userToken,
+});
+
+export default connect(mapStateToProps)(withTranslation()(Dashboard));

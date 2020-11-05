@@ -1,11 +1,14 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
+import { withTranslation } from "react-i18next";
 
 import Account from "../Account/Account";
 import Notification from "../Notification/Notification";
 import "./Header.scss";
 
 const Header = (props) => {
+  const { t } = props;
+
   const toggleSidebar = () => {
     document.body.classList.remove("navbar-vertical-aside-closed-mode");
     if (props.openMenu) {
@@ -50,13 +53,15 @@ const Header = (props) => {
                 className="tio-first-page navbar-vertical-aside-toggle-short-align"
                 data-toggle="tooltip"
                 data-placement="right"
-                title="Collapse"></i>
+                title={t("Header.Collapse")}
+              ></i>
               <i
                 className="tio-last-page navbar-vertical-aside-toggle-full-align"
                 data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
                 data-toggle="tooltip"
                 data-placement="right"
-                title="Expand"></i>
+                title={t("Header.Expand")}
+              ></i>
             </button>
             <button type="button" className="js-navbar-vertical-aside-toggle-invoker mobile-toggle-invoker close mr-3" onClick={toggleMobileMenu}>
               <i className="tio-first-page navbar-vertical-aside-toggle-short-align" data-toggle="tooltip" data-placement="right" title=""></i>
@@ -65,7 +70,8 @@ const Header = (props) => {
                 data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
                 data-toggle="tooltip"
                 data-placement="right"
-                title=""></i>
+                title=""
+              ></i>
             </button>
           </div>
 
@@ -90,4 +96,4 @@ const Header = (props) => {
   );
 };
 
-export default withRouter(Header);
+export default withTranslation()(withRouter(Header));

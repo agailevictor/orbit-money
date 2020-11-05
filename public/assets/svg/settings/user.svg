@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="28px" viewBox="0 0 26 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>user</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="user" transform="translate(1.000000, 1.000000)" stroke="#DD0E28" stroke-width="2">
+            <path d="M24,26 L24,23 C24,19.6862915 21.3137085,17 18,17 L6,17 C2.6862915,17 0,19.6862915 0,23 L0,26" id="Path"></path>
+            <circle id="Oval" cx="12" cy="6" r="6"></circle>
+        </g>
+    </g>
+</svg>

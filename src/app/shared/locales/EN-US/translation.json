@@ -41,5 +41,58 @@
     "PasswordMinValidationLabel": "Minimum 8 characters required.",
     "PasswordMatchValidationLabel": "Password does not match the confirm password.",
     "TermsConditionRequiredLabel": "Please accept our Terms and Conditions."
+  },
+  "Header": {
+    "Collapse": "Collapse",
+    "Expand": "Expand"
+  },
+  "Account": {
+    "MembershipNo": "Membership No",
+    "BusinessID": "Business ID",
+    "CreateBusinessAccount": "Create A business account",
+    "Settings": "Settings",
+    "Logout": "Logout"
+  },
+  "Sidebar": {
+    "Dashboard": "Dashboard",
+    "Recipients": "Recipients",
+    "Reports": "Reports",
+    "PrivacyPolicy": "Privacy Policy",
+    "TermsAndConditions": "Terms and Conditions",
+    "Support": "Support"
+  },
+  "Dashboard": {
+    "DashboardHeading": "Dashboard",
+    "CurrentBalance": "Current Balance",
+    "Pay": "Pay",
+    "TopUpWallet": "Top Up Wallet",
+    "LatestTransactions": "Latest Transactions",
+    "ViewAll": "View All",
+    "Transactions": "Transactions",
+    "SortBy": "Sort By:",
+    "All": "All",
+    "Sent": "Sent",
+    "Received": "Received",
+    "SearchUsers": "Search users",
+    "Selected": "Selected",
+    "TransactionID": "Transaction ID:",
+    "From": "From:",
+    "TransactionsasPDF": "Transactions as PDF",
+    "DownloadTransactions": "Download Transactions"
+  },
+  "Settings": {
+    "SettingsHeading": "Settings",
+    "PersonalAccountTitle": "Personal Account Details",
+    "PersonalAccountDetails": "Update personal details and documents",
+    "BusinessAccountTitle": "Business Account Details",
+    "BusinessAccountDetails": "Update business details and documents.",
+    "EmailSettingTitle": "Email setting",
+    "EmailSettingDetails": "Verify or update your primary email",
+    "NotificationTitle": "Notification",
+    "NotificationDetails": "Configure your notification settings",
+    "ChangePasswordTitle": "Change Password",
+    "ChangePasswordDetails": "Update your new password",
+    "DeleteAccountTitle": "Delete My Account",
+    "DeleteAccountDetails": "After deleting you will not able to restore."
   }
 }

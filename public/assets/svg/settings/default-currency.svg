@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>default-currency</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="default-currency" transform="translate(1.000000, 1.000000)" stroke="#DD0E28" stroke-width="2">
+            <circle id="Oval" cx="15" cy="15" r="15"></circle>
+            <line x1="15.3199995" y1="7" x2="15.3199995" y2="22.8399981" id="Path"></line>
+            <path d="M18.9199991,9.87999966 L13.5199997,9.87999966 C12.1282423,9.87999966 11,11.008242 11,12.3999994 C11,13.7917568 12.1282423,14.9199991 13.5199997,14.9199991 L17.1199993,14.9199991 C18.5117567,14.9199991 19.6399989,16.0482414 19.6399989,17.4399988 C19.6399989,18.8317561 18.5117567,19.9599985 17.1199993,19.9599985 L11,19.9599985" id="Path"></path>
+        </g>
+    </g>
+</svg>

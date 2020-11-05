@@ -4,12 +4,14 @@ import { withTranslation } from "react-i18next";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import { connect } from "react-redux";
 
 import Caption from "../../components/Caption/Caption";
 import SocialMediaLogin from "../../components/SocialMediaLogin/SocialMediaLogin";
 
 import { callApi } from "../../services/apiServices";
 import ApiConstants from "../../shared/config/apiConstants";
+import * as signInActions from "../../actions/signInActions";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./Signin.scss";
@@ -59,6 +61,7 @@ class Signin extends React.Component {
                   callApi("post", ApiConstants.SIGN_IN, { email: values.email, password: values.password })
                     .then((response) => {
                       if (response.code === 200) {
+                        signInActions.signInResponse(response.data.token);
                         localStorage.setItem("authToken", response.data.token);
                         localStorage.setItem("auth", true);
                         this.props.history.replace("/dashboard");
@@ -150,4 +153,15 @@ class Signin extends React.Component {
   }
 }
 
-export default withTranslation()(Signin);
+const mapStateToProps = (state) => {
+  return {
+    userToken: state.userReducer.userToken,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signInResponse: (userToken) => dispatch(signInActions.signInResponse(userToken)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Signin));

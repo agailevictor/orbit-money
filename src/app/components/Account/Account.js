@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { withTranslation } from "react-i18next";
 
 import "./Account.scss";
 
 const Account = (props) => {
+  const { t } = props;
   const [isOpened, setIsOpened] = useState(false);
 
   const openClass =
@@ -53,7 +55,7 @@ const Account = (props) => {
             </div>
             <div className="media-body">
               <span className="card-title h5">Albert Bristol</span>
-              <span className="card-text text-danger">Membership No: P21928534</span>
+              <span className="card-text text-danger">{t("Account.MembershipNo")}: P21928534</span>
             </div>
           </div>
         </div>
@@ -64,7 +66,7 @@ const Account = (props) => {
             <a href="#" className="d-block w-100">
               <div className="media-body">
                 <span className="card-title h5">ABC LLC </span>
-                <span className="card-text text-danger">Business ID: P21928534</span>
+                <span className="card-text text-danger">{t("Account.BusinessID")}: P21928534</span>
                 <span className="arrow">
                   <i className="fas fa-chevron-right"></i>
                 </span>
@@ -73,19 +75,19 @@ const Account = (props) => {
           </div>
         </div>
 
-        <a className="dropdown-item" href="#">
-          <span className="text-truncate pr-2" title="Create A business account">
-            <i className="fas fa-briefcase nav-icon"></i>&nbsp; Create A business account
+        <Link className="dropdown-item" to="#">
+          <span className="text-truncate pr-2" title={t("Account.CreateBusinessAccount")}>
+            <i className="fas fa-briefcase nav-icon"></i> {t("Account.CreateBusinessAccount")}
           </span>
-        </a>
-        <a className="dropdown-item" href="#">
-          <span className="text-truncate pr-2" title="Settings">
-            <i className="fas fa-cog nav-icon"></i>&nbsp; Settings
+        </Link>
+        <Link className="dropdown-item" to="/settings" onClick={closePopup}>
+          <span className="text-truncate pr-2" title={t("Account.Settings")}>
+            <i className="fas fa-cog nav-icon"></i> {t("Account.Settings")}
           </span>
-        </a>
+        </Link>
         <Link className="dropdown-item" to="" onClick={(e) => logout(e)}>
-          <span className="text-truncate pr-2" title="log Out">
-            <i className="fas fa-sign-out nav-i con"></i>&nbsp; Logout
+          <span className="text-truncate pr-2" title={t("Account.Logout")}>
+            <i className="fas fa-sign-out nav-i con"></i> {t("Account.Logout")}
           </span>
         </Link>
       </div>
@@ -93,4 +95,4 @@ const Account = (props) => {
   );
 };
 
-export default Account;
+export default withTranslation()(Account);

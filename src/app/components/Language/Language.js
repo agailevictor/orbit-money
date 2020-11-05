@@ -1,29 +1,54 @@
 import React from "react";
-import Select from "react-select";
 import { useTranslation } from "react-i18next";
 
+import Select2 from "../Select2/Select2";
 import "./Language.scss";
 
-const options = [
+const countryOptions = [
   {
     value: "en_us",
-    label: (
-      <div>
-        <img src="./assets/vendor/flags/1x1/us.svg" className="avatar avatar-xss avatar-circle mr-2" alt="country-img" />
-        English (US)
-      </div>
-    ),
+    label: "English (US)",
+    icon: "us",
   },
   {
     value: "en_uk",
-    label: (
-      <div>
-        <img src="./assets/vendor/flags/1x1/gb.svg" className="avatar avatar-xss avatar-circle mr-2" alt="country-img" />
-        English (UK)
-      </div>
-    ),
+    label: "English (UK)",
+    icon: "gb",
+  },
+  {
+    value: "de",
+    label: "Deutsch",
+    icon: "de",
+  },
+  {
+    value: "dk",
+    label: "Dansk",
+    icon: "dk",
+  },
+  {
+    value: "es",
+    label: "Español",
+    icon: "es",
   },
 ];
+
+const renderOptions = (options) => {
+  return options.map((option) => {
+    return {
+      value: option.value,
+      label: (
+        <div>
+          <img
+            src={`./assets/vendor/flags/1x1/${option.icon}.svg`}
+            className="avatar avatar-xss avatar-circle mr-2"
+            style={{ width: "1rem", height: "1rem" }}
+          />
+          {option.label}
+        </div>
+      ),
+    };
+  });
+};
 
 const customStyles = {
   control: (provided, state) => ({
@@ -33,10 +58,6 @@ const customStyles = {
     outline: "none",
     boxShadow: "none",
   }),
-};
-
-const languageChange = (value) => {
-  console.log(value);
 };
 
 const Language = (props) => {
@@ -52,9 +73,9 @@ const Language = (props) => {
   return (
     <React.Fragment>
       <div className="select2-custom select2-custom-right" style={{ width: props.width ? props.width : "100%" }}>
-        <Select
-          options={options}
-          defaultValue={options.find((i) => i.value === languageSelected)}
+        <Select2
+          options={renderOptions(countryOptions)}
+          defaultValue={renderOptions(countryOptions).find((i) => i.value === languageSelected)}
           placeholder="Select Language"
           isSearchable={false}
           onChange={changeLanguage}
