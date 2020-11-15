@@ -1,0 +1,43 @@
+{
+  "Caption": {
+    "MainHeading": "Créez des produits numériques avec:",
+    "SubHeading1": "Outil tout-en-un",
+    "SubDesc1": "Créez, exécutez et faites évoluer vos applications de bout en bout",
+    "SubHeading2": "Ajoutez et gérez facilement vos services",
+    "SubDesc2": "Il rassemble vos tâches, projets, calendriers, fichiers et plus"
+  },
+  "SignIn": {
+    "SignInLabel": "connecter vous",
+    "HaveAccntLabel": "Don't have an account yet?",
+    "SignuphereLabel": "Sign up here",
+    "YourEmailLabel": "Your email",
+    "PasswordLabel": "Password",
+    "ForgotPasswordLabel": "Forgot Password?",
+    "RememberMeLabel": "Remember me",
+    "SignInButtonLabel": "Sign in",
+    "EmailRequiredValidationLabel": "Please enter email address.",
+    "EmailPatternValidationLabel": "Please enter a valid email address.",
+    "PasswordRequiredValidationLabel": "Your password is invalid. Please try again."
+  },
+  "SignUp": {
+    "SignUpLabel": "Create your account",
+    "HaveAccntLabel": "Already have an account?",
+    "SignuphereLabel": "Sign in here",
+    "FullNameLabel": "Full name",
+    "YourEmailLabel": "Your email",
+    "PasswordLabel": "Password",
+    "ConfirmPasswordLabel": "Confirm password",
+    "CheckboxLabel": "I accept the",
+    "TermsLabel": "Terms and Conditions",
+    "SignUpButtonLabel": "Create an account",
+    "FirstNameRequiredValidationLabel": "Please enter your first name.",
+    "LastNameRequiredValidationLabel": "Please enter your last name.",
+    "EmailRequiredValidationLabel": "Please enter email address.",
+    "EmailPatternValidationLabel": "Please enter a valid email address.",
+    "PasswordRequiredValidationLabel": "Please enter a password.",
+    "PasswordInvalidValidationLabel": "Your password is invalid. Please try again.",
+    "PasswordMinValidationLabel": "Minimum 8 characters required.",
+    "PasswordMatchValidationLabel": "Password does not match the confirm password.",
+    "TermsConditionRequiredLabel": "Please accept our Terms and Conditions."
+  }
+}

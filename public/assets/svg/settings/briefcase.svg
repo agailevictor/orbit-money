@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="29px" viewBox="0 0 32 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>briefcase</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="briefcase" transform="translate(1.000000, 1.000000)" stroke="#DD0E28">
+            <rect id="Rectangle" stroke-width="2" x="0" y="6" width="30" height="21" rx="3"></rect>
+            <path d="M21,3 C21,1.34314575 19.6568542,0 18,0 L12,0 C10.3431458,0 9,1.34314575 9,3" id="Path" stroke-width="2"></path>
+            <path d="M30,14 C30,12.3431458 28.6568542,11 27,11 L3,11 C1.34314575,11 0,12.3431458 0,14" id="Path-Copy-5" stroke-width="2" transform="translate(15.000000, 12.500000) scale(1, -1) translate(-15.000000, -12.500000) "></path>
+            <line x1="15.3599997" y1="15.6959997" x2="15.3599997" y2="12.6959997" id="Path" stroke-width="1.56"></line>
+        </g>
+    </g>
+</svg>
