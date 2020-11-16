@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import { connect } from "react-redux";
 
 import Caption from "../../components/Caption/Caption";
 import SocialMediaLogin from "../../components/SocialMediaLogin/SocialMediaLogin";
 
-import { callApi } from "../../services/apiServices";
+import { callApi } from "../../services/apiService";
+import { tostService } from "../../services/toastService";
+
 import ApiConstants from "../../shared/config/apiConstants";
 import * as signInActions from "../../actions/signInActions";
 
@@ -23,11 +24,12 @@ class Signin extends React.Component {
     super(props);
     this.state = {
       showPassword: false,
+      signinProgress: false,
     };
     const { t } = this.props;
     SignInSchema = Yup.object().shape({
-      email: Yup.string().email("Invalid email address").required(t("SignIn.EmailRequiredValidationLabel")),
-      password: Yup.string().required(t("SignIn.PasswordRequiredValidationLabel")).min(8, "Minimum 8 characters required"),
+      email: Yup.string().email(t("SignIn.EmailPatternValidationLabel")).required(t("SignIn.EmailRequiredValidationLabel")),
+      password: Yup.string().required(t("SignIn.PasswordRequiredValidationLabel")).min(8, t("SignIn.PasswordMinimumValidationLabel")),
     });
   }
 
@@ -41,6 +43,7 @@ class Signin extends React.Component {
 
   render() {
     const { t } = this.props;
+
     const { showPassword } = this.state;
     return (
       <React.Fragment>
@@ -58,6 +61,7 @@ class Signin extends React.Component {
                 }}
                 validationSchema={SignInSchema}
                 onSubmit={async (values) => {
+                  this.setState({ signinProgress: true });
                   callApi("post", ApiConstants.SIGN_IN, { email: values.email, password: values.password })
                     .then((response) => {
                       if (response.code === 200) {
@@ -65,15 +69,16 @@ class Signin extends React.Component {
                         localStorage.setItem("authToken", response.data.token);
                         localStorage.setItem("auth", true);
                         this.props.history.replace("/dashboard");
+                      } else {
+                        tostService.error(response.message);
                       }
+                      this.setState({ signinProgress: false });
                     })
                     .catch((error) => {
-                      toast.error(error.message, {
-                        position: "top-right",
-                      });
+                      tostService.error(error);
+                      this.setState({ signinProgress: false });
                     });
-                }}
-              >
+                }}>
                 {({ errors }) => (
                   <Form>
                     <div className="text-center mb-5">
@@ -99,6 +104,7 @@ class Signin extends React.Component {
                         className={`form-control form-control-lg ${errors.email ? "is-invalid" : ""}`}
                         placeholder="Markwilliams@example.com"
                         name="email"
+                        tabIndex={1}
                       />
                       <ErrorMessage name="email">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
                     </div>
@@ -120,6 +126,7 @@ class Signin extends React.Component {
                           id="signupSrPassword"
                           placeholder="8+ characters required"
                           validate={this.isRequired(t("SignIn.PasswordRequiredValidationLabel"))}
+                          tabIndex={2}
                         />
                         <ErrorMessage name="password">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
 
@@ -139,8 +146,12 @@ class Signin extends React.Component {
                       </div>
                     </div>
 
-                    <button type="submit" className="btn btn-lg btn-block btn-primary" ref={(c) => (this.buttonSubmit = c)}>
-                      {t("SignIn.SignInButtonLabel")}
+                    <button
+                      type="submit"
+                      className="btn btn-lg btn-block btn-primary"
+                      ref={(c) => (this.buttonSubmit = c)}
+                      disabled={this.state.signinProgress}>
+                      {this.state.signinProgress ? t("SignIn.SigningButtonLabel") : t("SignIn.SignInButtonLabel")}
                     </button>
                   </Form>
                 )}

@@ -4,10 +4,12 @@ import { withTranslation } from "react-i18next";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+import { tostService } from "../../services/toastService";
 import SocialMediaLogin from "../../components/SocialMediaLogin/SocialMediaLogin";
 import Caption from "../../components/Caption/Caption";
-import { callApi } from "../../services/apiServices";
+import { callApi } from "../../services/apiService";
 import ApiConstants from "../../shared/config/apiConstants";
+import CountryList from "../../components/CountryList/CountryList";
 
 import "./Signup.scss";
 
@@ -21,6 +23,7 @@ class Signup extends React.Component {
       showPassword: false,
       showConfirmPassword: false,
       showTermsErrorMsg: false,
+      countryOptions: [],
     };
 
     const { t } = this.props;
@@ -28,6 +31,8 @@ class Signup extends React.Component {
       firstName: Yup.string().required(t("SignUp.FirstNameRequiredValidationLabel")),
       lastName: Yup.string().required(t("SignUp.LastNameRequiredValidationLabel")),
       email: Yup.string().email(t("SignUp.EmailPatternValidationLabel")).required(t("SignUp.EmailRequiredValidationLabel")),
+      phone: Yup.string().required(t("SignUp.PhoneNumberRequiredValidationLabel")).length(10, t("SignUp.PhoneNumberLengthValidationLabel")),
+      country: Yup.string().required(t("SignUp.CountryRequiredValidationLabel")),
       password: Yup.string().required(t("SignUp.PasswordRequiredValidationLabel")).min(8, t("SignUp.PasswordMinValidationLabel")),
       confirmPassword: Yup.string()
         .required(t("SignUp.PasswordRequiredValidationLabel"))
@@ -51,6 +56,22 @@ class Signup extends React.Component {
     this.setState({ showConfirmPassword: !showConfirmPassword });
   };
 
+  fetchCountries = () => {
+    callApi("get", ApiConstants.FETCH_COUNTRIES)
+      .then((response) => {
+        if (response.code === 200) {
+          this.setState({ countryOptions: response.dataList });
+        }
+      })
+      .catch((e) => {
+        tostService.error(e.message);
+      });
+  };
+
+  componentDidMount() {
+    this.fetchCountries();
+  }
+
   render() {
     const { t } = this.props;
     const { showPassword, showConfirmPassword } = this.state;
@@ -69,28 +90,36 @@ class Signup extends React.Component {
                   firstName: "",
                   lastName: "",
                   email: "",
+                  phone: "",
                   password: "",
                   confirmPassword: "",
                   termsCheckbox: false,
+                  country: "",
                 }}
                 validationSchema={SignUpSchema}
-                onSubmit={async (values) => {
+                onSubmit={(values) => {
                   callApi("post", ApiConstants.SIGN_UP, {
+                    countryId: values.country,
                     email: values.email,
                     firstName: values.firstName,
                     lastName: values.lastName,
                     password: values.password,
+                    phoneNumber: values.phone,
                   })
                     .then((response) => {
                       if (response.code === 200) {
-                        alert(response.message);
+                        tostService.success(response.message);
+                        this.props.history.push("/signin");
+                      } else {
+                        tostService.error(response.message);
                       }
                     })
                     .catch((e) => {
-                      alert(e);
+                      tostService.error(e.message);
                     });
-                }}>
-                {({ errors }) => (
+                }}
+              >
+                {({ errors, handleChange, touched, onSubmit }) => (
                   <Form>
                     <div className="text-center mb-5">
                       <h1 className="display-4">{t("SignUp.SignUpLabel")}</h1>
@@ -149,6 +178,36 @@ class Signup extends React.Component {
                       />
                       <ErrorMessage name="email">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
                     </div>
+
+                    <div className="js-form-message form-group">
+                      <label className="input-label" htmlFor="phonenubmer">
+                        Phone Number
+                      </label>
+
+                      <Field
+                        type="number"
+                        className={`form-control form-control-lg ${errors.phone ? "is-invalid" : ""}`}
+                        name="phone"
+                        id="phonenubmer"
+                        placeholder="(321) 325 0042"
+                      />
+                      <ErrorMessage name="phone">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
+                    </div>
+
+                    <div className="js-form-message form-group">
+                      <CountryList
+                        options={this.state.countryOptions}
+                        isSearchable={true}
+                        onChange={(value) => {
+                          let event = { target: { name: "country", value: value.value } };
+                          handleChange(event);
+                        }}
+                        className={`form-control-lg ${errors.country ? " is-invalid" : ""}`}
+                        error={errors.country}
+                        touched={touched.country}
+                      />
+                    </div>
+
                     <div className="js-form-message form-group">
                       <label className="input-label" htmlFor="signupSrPassword">
                         {t("SignUp.PasswordLabel")}
@@ -192,7 +251,7 @@ class Signup extends React.Component {
                       </div>
                     </div>
                     <div className="js-form-message form-group">
-                      <div className="custom-control custom-checkbox">
+                      <div className="custom-control custom-checkbox signup-checkbox">
                         <Field type="checkbox" className="custom-control-input" id="termsCheckbox" name="termsCheckbox" />
                         <label className="custom-control-label font-size-sm text-muted" htmlFor="termsCheckbox">
                           {t("SignUp.CheckboxLabel")} <a href="#">{t("SignUp.TermsLabel")}</a>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { withTranslation } from "react-i18next";
+import ReactTooltip from "react-tooltip";
 
 import Account from "../Account/Account";
 import Notification from "../Notification/Notification";
@@ -48,30 +49,14 @@ const Header = (props) => {
           </div>
 
           <div className="navbar-nav-wrap-content-left">
+            <ReactTooltip id="toggle-invoker" place="right" />
             <button type="button" className="js-navbar-vertical-aside-toggle-invoker toggle-invoker close mr-3" onClick={toggleSidebar}>
-              <i
-                className="tio-first-page navbar-vertical-aside-toggle-short-align"
-                data-toggle="tooltip"
-                data-placement="right"
-                title={t("Header.Collapse")}
-              ></i>
-              <i
-                className="tio-last-page navbar-vertical-aside-toggle-full-align"
-                data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
-                data-toggle="tooltip"
-                data-placement="right"
-                title={t("Header.Expand")}
-              ></i>
+              <i className="tio-first-page navbar-vertical-aside-toggle-short-align" data-for="toggle-invoker" data-tip={t("Header.Collapse")}></i>
+              <i className="tio-last-page navbar-vertical-aside-toggle-full-align" data-for="toggle-invoker" data-tip={t("Header.Expand")}></i>
             </button>
             <button type="button" className="js-navbar-vertical-aside-toggle-invoker mobile-toggle-invoker close mr-3" onClick={toggleMobileMenu}>
-              <i className="tio-first-page navbar-vertical-aside-toggle-short-align" data-toggle="tooltip" data-placement="right" title=""></i>
-              <i
-                className="tio-last-page navbar-vertical-aside-toggle-full-align"
-                data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
-                data-toggle="tooltip"
-                data-placement="right"
-                title=""
-              ></i>
+              <i className="tio-first-page navbar-vertical-aside-toggle-short-align" data-for="toggle-invoker" data-tip1={t("Header.Collapse")}></i>
+              <i className="tio-last-page navbar-vertical-aside-toggle-full-align" data-for="toggle-invoker" data-tip1={t("Header.Collapse")}></i>
             </button>
           </div>
 

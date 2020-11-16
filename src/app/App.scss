@@ -1,0 +1,53 @@
+.custom-error-container {
+  display: block;
+}
+
+.custom-error-upload-container {
+  border-color: #ed4c78;
+}
+
+.k-state-selected {
+  border-color: #d62303 !important;
+  background-color: #d62303 !important;
+}
+
+.page-item.active {
+  a:hover,
+  a:hover .text-hover-primary {
+    color: #fff !important;
+  }
+}
+
+.mainDetailBlock {
+  .card-footer {
+    .btn {
+      top: 0;
+      margin-bottom: 15px;
+    }
+  }
+
+  .stopFloating {
+    z-index: 0;
+  }
+}
+
+.Toastify__toast-container {
+  width: 100vw;
+  top: 0;
+  padding: 0;
+  text-align: center;
+
+  .Toastify__toast {
+    min-height: 42px;
+  }
+  .Toastify__toast--error {
+    background: #e74c3ced;
+  }
+  .Toastify__toast--success {
+    background: #07bc0ceb;
+  }
+}
+
+.verifiedLabel.not-verified i {
+  color: #d62303;
+}

@@ -4,7 +4,7 @@ import { withTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 
-import { callApi } from "../../services/apiServices";
+import { callApi } from "../../services/apiService";
 import ApiConstants from "../../shared/config/apiConstants";
 
 import DataGrid from "./DataGrid/DataGrid";
@@ -58,7 +58,8 @@ class Dashboard extends React.Component {
               <div className="row">
                 <div className="col-md-5">
                   <p className="text-danger">
-                    <img className="country-flag" src={this.state.imgFlag} /> {t("Dashboard.CurrentBalance")}
+                    {this.state.imgFlag && <img className="country-flag" src={this.state.imgFlag} style={{ marginRight: "5px" }} />}
+                    {t("Dashboard.CurrentBalance")}
                   </p>
                   <p className="currency">
                     <span className="display-4 text-dark">
@@ -69,24 +70,13 @@ class Dashboard extends React.Component {
                 </div>
                 <div className="col-md-7 text-right">
                   <a href="#" className="btn btn-default">
-                    <img src="assets/svg/dashboard/send-money.svg" /> {t("Dashboard.Pay")}
+                    <img src="assets/svg/dashboard/send-money.svg" /> {t("Dashboard.SendMoney")}
                   </a>
                   <a href="#" className="btn btn-default">
-                    <img src="assets/svg/dashboard/add-money.svg" /> {t("Dashboard.TopUpWallet")}
+                    <img src="assets/svg/dashboard/add-money.svg" /> {t("Dashboard.AddMoney")}
                   </a>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-md-6">
-              <h4>{t("Dashboard.LatestTransactions")}</h4>
-            </div>
-            <div className="col-md-6 text-right">
-              <a href="#">
-                <b>{t("Dashboard.ViewAll")}</b>
-              </a>
             </div>
           </div>
 

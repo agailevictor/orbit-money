@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { withTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 
 import AppLoader from "../../../components/AppLoader/AppLoader";
 import Select2 from "../../../components/Select2/Select2";
 
-import { callApi } from "../../../services/apiServices";
+import { callApi } from "../../../services/apiService";
 import ApiConstants from "../../../shared/config/apiConstants";
 import AppConfig from "../../../shared/config/appConfig";
 
 const UploadedDocument = (props) => {
+  const { t } = props;
   const [documents, setDocuments] = useState([
     { label: "ID CARD FRONT", value: "ID_CARD_FRONT" },
     { label: "ID CARD BACK", value: "ID_CARD_BACK" },
@@ -21,8 +24,15 @@ const UploadedDocument = (props) => {
 
   const [uploadedDocument, setUploadedDocument] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
-  const [selectedDocumentType, setSelectedDocumentType] = useState(documents[0]);
+  const [selectedDocumentType, setSelectedDocumentType] = useState("");
   const [fileData, setFileData] = useState(null);
+  const validationSchema = Yup.object().shape({
+    docType: Yup.string().required(t("Settings.PersonalAccount.DocumentTypeRequiredValidationLabel")),
+    custom_file_boxed: Yup.mixed()
+      .required(t("Settings.PersonalAccount.FileRequiredValidationLabel"))
+      .test("fileSize", t("Settings.PersonalAccount.FileSizeValidationLabel"), (value) => value && value.size <= 10000000)
+      .test("fileType", t("Settings.PersonalAccount.FileTypeValidationLabel"), (value) => value && ["application/pdf"].includes(value.type)),
+  });
 
   const fetchDocuments = () => {
     setShowLoader(true);
@@ -58,12 +68,7 @@ const UploadedDocument = (props) => {
 
   const uploadDocuments = () => {
     let typeIndex = uploadedDocument.findIndex((item) => {
-      console.log(
-        "item.documentTypes.toLowerCase() === selectedDocumentType.toLowerCase()",
-        item.documentTypes.toLowerCase(),
-        selectedDocumentType.toLowerCase()
-      );
-      return item.documentTypes.toLowerCase() === selectedDocumentType.toLowerCase();
+      return item.documentTypes.toLowerCase() === selectedDocumentType.value.toLowerCase();
     });
     if (typeIndex > -1) {
       pushDocuments("patch", ApiConstants.UPDATE_DOCUMENT);
@@ -76,7 +81,7 @@ const UploadedDocument = (props) => {
     setShowLoader(true);
     const data = new FormData();
     data.append("file", fileData);
-    data.append("type", selectedDocumentType);
+    data.append("type", selectedDocumentType.value);
 
     callApi(method, apiUrl, data, {
       "Content-Type": "multipart/form-data",
@@ -98,58 +103,87 @@ const UploadedDocument = (props) => {
   };
 
   const onDocumentTypeSelection = (event) => {
-    setSelectedDocumentType(event.value);
+    setSelectedDocumentType(event);
   };
 
   return (
     <React.Fragment>
       <AppLoader show={showLoader} />
-      <div id="uploadedDocument" className="card card-lg" style={{ display: `${props.active ? "block" : "none"}` }}>
-        <div className="card-body">
-          <h4>Upload Document</h4>
-          <div className="form-group">
-            <Select2
-              options={documents}
-              placeholder="Select"
-              isSearchable={true}
-              onChange={onDocumentTypeSelection}
-              defaultValue={selectedDocumentType}
-            />
-          </div>
-          <div className="form-group">
-            <div className="row">
-              <div className="col-md-12">
-                <div className="d-flex align-items-center">
-                  <label className="custom-file-boxed" htmlFor="customFileInputBoxedEg">
-                    <span id="customFileBoxedEg">Browse your device and upload documents</span>
-                    <small className="d-block text-muted">Maximum file size 10MB</small>
-                    <input
-                      id="customFileInputBoxedEg"
-                      className="js-file-attach custom-file-boxed-input"
-                      name="custom-file-boxed"
-                      type="file"
-                      onChange={(event) => {
-                        setFileData(event.target.files[0]);
-                      }}
-                    />
-                  </label>
+      <Formik
+        initialValues={{
+          docType: "",
+          custom_file_boxed: "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(values) => {
+          uploadDocuments();
+        }}>
+        {({ errors, touched, handleChange }) => (
+          <Form>
+            <div id="uploadedDocument" className="card card-lg" style={{ display: `${props.active ? "block" : "none"}` }}>
+              <div className="card-body">
+                <h4>{t("Settings.PersonalAccount.UploadDocument")}</h4>
+                <div className="form-group">
+                  <Select2
+                    options={documents}
+                    className={errors.docType ? "is-invalid" : ""}
+                    placeholder={t("Settings.PersonalAccount.Select")}
+                    isSearchable={true}
+                    onChange={(value) => {
+                      onDocumentTypeSelection(value);
+                      let event = { target: { name: "docType", value: value } };
+                      handleChange(event);
+                    }}
+                    defaultValue={selectedDocumentType}
+                    error={errors.docType}
+                    touched={touched.docType}
+                  />
+                </div>
+                <div className="form-group">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="d-flex align-items-center">
+                        <label
+                          className={`custom-file-boxed ${errors.custom_file_boxed ? "custom-error-upload-container" : ""}`}
+                          htmlFor="customFileInputBoxedEg">
+                          <span id="customFileBoxedEg">{t("Settings.PersonalAccount.BrowseDocuments")}</span>
+                          <small className="d-block text-muted">{t("Settings.PersonalAccount.MaximumFileSize")}</small>
+                          <input
+                            id="customFileInputBoxedEg"
+                            className={`js-file-attach custom-file-boxed-input ${errors.custom_file_boxed ? "is-invalid" : ""}`}
+                            name="custom_file_boxed"
+                            type="file"
+                            onChange={(event) => {
+                              setFileData(event.target.files[0]);
+                              let eventData = { target: { name: "custom_file_boxed", value: event.target.files[0] } };
+                              handleChange(eventData);
+                            }}
+                          />
+                        </label>
+                      </div>
+
+                      {errors.custom_file_boxed && touched.custom_file_boxed && (
+                        <div className="invalid-feedback custom-error-container">{errors.custom_file_boxed}</div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-5">
+                  <h4>{t("Settings.PersonalAccount.UploadedDocuments")}</h4>
+                  <div className="uploadedDoc">{documentStatus}</div>
+                </div>
+              </div>
+              <div className="card-footer d-flex align-items-center">
+                <div className="ml-auto">
+                  <button type="submit" className="btn btn-primary">
+                    {t("Settings.Update")}
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="mt-5">
-            <h4>Uploaded Documents</h4>
-            <div className="uploadedDoc">{documentStatus}</div>
-          </div>
-        </div>
-        <div className="card-footer d-flex align-items-center">
-          <div className="ml-auto">
-            <button type="button" className="btn btn-primary" onClick={uploadDocuments}>
-              Update
-            </button>
-          </div>
-        </div>
-      </div>
+          </Form>
+        )}
+      </Formik>
     </React.Fragment>
   );
 };

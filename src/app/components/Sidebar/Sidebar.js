@@ -17,6 +17,12 @@ const Sidebar = (props) => {
     props.onMobileMenuClick(!props.openMenu);
   };
 
+  const navClick = () => {
+    if (window.innerWidth < 1200) {
+      closeMobileMenu();
+    }
+  };
+
   const location = useLocation();
 
   return (
@@ -42,18 +48,18 @@ const Sidebar = (props) => {
             <div className="navbar-vertical-content">
               <ul className="navbar-nav navbar-nav-lg nav-tabs">
                 <li className={`nav-item ${location.pathname === "/dashboard" || location.pathname === "/" ? "active" : ""}`}>
-                  <Link className="js-nav-tooltip-link nav-link" to="/dashboard" title="Welcome page" data-placement="left">
+                  <Link className="js-nav-tooltip-link nav-link" to="/dashboard" title="Welcome page" data-placement="left" onClick={navClick}>
                     <i className="fas fa-home nav-icon"></i>
                     <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{t("Sidebar.Dashboard")}</span>
                   </Link>
                 </li>
-                <li className="nav-item ">
+                <li className="nav-item">
                   <Link className="js-nav-tooltip-link nav-link" to="/dashboard" title="Recipients" data-placement="left">
                     <i className="fas fa-user-friends nav-icon"></i>
                     <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{t("Sidebar.Recipients")}</span>
                   </Link>
                 </li>
-                <li className="nav-item ">
+                <li className="nav-item">
                   <Link className="js-nav-tooltip-link nav-link" to="/dashboard" title="Reports" data-placement="left">
                     <i className="fas fa-file-invoice nav-icon"></i>
                     <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{t("Sidebar.Reports")}</span>

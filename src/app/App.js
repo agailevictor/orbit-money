@@ -8,7 +8,7 @@ const App = () => {
   return (
     <React.Fragment>
       <AppRouter />
-      <ToastContainer pauseOnHover={false} autoClose={2000} />
+      <ToastContainer />
     </React.Fragment>
   );
 };

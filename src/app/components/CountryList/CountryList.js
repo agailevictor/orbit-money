@@ -5,15 +5,15 @@ import Select2 from "../Select2/Select2";
 const renderOptions = (options) => {
   return options.map((option) => {
     return {
-      value: option.value,
+      value: option.id,
       label: (
         <div>
           <img
-            src={`./assets/vendor/flags/1x1/${option.icon}.svg`}
+            src={option.url ? option.url : `./assets/vendor/flags/1x1/${option.icon}.svg`}
             className="avatar avatar-xss avatar-circle mr-2"
-            style={{ width: "1rem", height: "1rem" }}
+            style={{ width: "1rem", height: "1rem", marginTop: "-3px" }}
           />
-          {option.label}
+          {option.alpha3Code}
         </div>
       ),
     };
@@ -25,10 +25,13 @@ const CountryList = (props) => {
     <React.Fragment>
       <Select2
         options={renderOptions(props.options)}
-        defaultValue={props.defaultValue ? props.defaultValue : renderOptions(props.options)[0]}
+        value={props.value}
+        className={props.className}
         placeholder={props.placeholder ? props.placeholder : "Country"}
         isSearchable={props.isSearchable}
         onChange={(event) => props.onChange(event)}
+        error={props.error ? props.error : ""}
+        touched={props.touched ? props.touched : ""}
       />
     </React.Fragment>
   );
