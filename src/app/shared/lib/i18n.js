@@ -3,7 +3,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import XHR from "i18next-xhr-backend";
 
 import translationEn_US from "../locales/EN-US/translation.json";
-import translationEn_UK from "../locales/EN-UK/translation.json";
+import translatioFr_CA from "../locales/FR-CA/translation.json";
 
 const languageSelected = localStorage.getItem("languageSelected") ? localStorage.getItem("languageSelected") : "en_us";
 
@@ -25,17 +25,8 @@ i18n
       en_us: {
         translations: translationEn_US,
       },
-      en_uk: {
-        translations: translationEn_UK,
-      },
-      de: {
-        translations: translationEn_UK,
-      },
-      dk: {
-        translations: translationEn_UK,
-      },
-      es: {
-        translations: translationEn_UK,
+      fr: {
+        translations: translatioFr_CA,
       },
     },
     // have a common namespace used around the full app

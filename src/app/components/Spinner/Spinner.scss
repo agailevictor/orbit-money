@@ -1,5 +1,12 @@
 .spinner-loader {
   background: rgba(255, 255, 255, 0.95);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 200px;
+  }
 
   .k-i-loading::before,
   .k-i-loading::after,

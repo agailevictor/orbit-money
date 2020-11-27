@@ -5,11 +5,12 @@ const customStyles = {
   control: (provided, state) => ({
     ...provided,
     background: "transparent",
-    borderColor: "#e7eaf3",
+    border: "none",
     outline: "none",
     boxShadow: "none",
+    height: "100%",
   }),
-  container: (provided, state) => ({ ...provided, zIndex: 10 }),
+  container: (provided, state) => ({ ...provided, minWidth: "100px", padding: 0 }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     return {
       ...styles,
@@ -42,14 +43,22 @@ const dot = (isSelected) => {
 };
 const Select2 = (props) => {
   return (
-    <Select
-      options={props.options}
-      defaultValue={props.defaultValue}
-      placeholder={props.placeholder}
-      isSearchable={props.isSearchable}
-      styles={{ ...customStyles, ...props.styles }}
-      onChange={(event) => props.onChange(event)}
-    />
+    <div>
+      <Select
+        options={props.options}
+        value={props.value}
+        getOptionLabel={(x) => x.label}
+        getOptionValue={(x) => x.value}
+        className={`form-control ${props.className ? props.className : ""}`}
+        defaultValue={props.defaultValue}
+        placeholder={props.placeholder}
+        isSearchable={props.isSearchable}
+        styles={{ ...customStyles, ...props.style }}
+        onChange={(event) => props.onChange(event)}
+        autosize={false}
+      />
+      {props.error && <div className="invalid-feedback">{props.error}</div>}
+    </div>
   );
 };
 

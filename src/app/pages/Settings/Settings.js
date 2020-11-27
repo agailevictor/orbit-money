@@ -9,6 +9,7 @@ class Settings extends React.Component {
 
   render() {
     const { t } = this.props;
+    let selectedBusinessAccount = localStorage.getItem("selectedCustomerAccount")
     return (
       <React.Fragment>
         <div className="content container-fluid dashboard-container">
@@ -31,18 +32,21 @@ class Settings extends React.Component {
                   <i className="tio-chevron-right"></i>
                 </Link>
               </div>
-              <div className="col-md-4">
-                <Link className="d-flex align-items-center" to="/business-account">
-                  <img className="avatar" src="./assets/svg/settings/briefcase.svg" alt="" />
-                  <div className="ml-3 pr-3">
-                    <span className="d-block h5 text-hover-primary mb-0">{t("Settings.BusinessAccountTitle")}</span>
-                    <span className="d-block font-size-sm text-body">{t("Settings.BusinessAccountDetails")}</span>
-                  </div>
-                  <i className="tio-chevron-right"></i>
-                </Link>
-              </div>
-              <div className="col-md-4">
-                <Link className="d-flex align-items-center" to="#">
+              { selectedBusinessAccount && 
+                <div className="col-md-4">
+                  <Link className="d-flex align-items-center" to="/business-account">
+                    <img className="avatar" src="./assets/svg/settings/briefcase.svg" alt="" />
+                    <div className="ml-3 pr-3">
+                      <span className="d-block h5 text-hover-primary mb-0">{t("Settings.BusinessAccountTitle")}</span>
+                      <span className="d-block font-size-sm text-body">{t("Settings.BusinessAccountDetails")}</span>
+                    </div>
+                    <i className="tio-chevron-right"></i>
+                  </Link>
+                </div>
+              }
+              
+              {/* <div className="col-md-4">
+                <Link className="d-flex align-items-center" to="/email-setting">
                   <img className="avatar" src="./assets/svg/settings/mail.svg" alt="" />
                   <div className="ml-3 pr-3">
                     <span className="d-block h5 text-hover-primary mb-0">{t("Settings.EmailSettingTitle")}</span>
@@ -50,9 +54,9 @@ class Settings extends React.Component {
                   </div>
                   <i className="tio-chevron-right"></i>
                 </Link>
-              </div>
+              </div> */}
               <div className="col-md-4">
-                <Link className="d-flex align-items-center" to="#">
+                <Link className="d-flex align-items-center" to="/notification-settings">
                   <img className="avatar" src="./assets/svg/settings/bell.svg" alt="" />
                   <div className="ml-3 pr-3">
                     <span className="d-block h5 text-hover-primary mb-0">{t("Settings.NotificationTitle")}</span>
@@ -62,7 +66,7 @@ class Settings extends React.Component {
                 </Link>
               </div>
               <div className="col-md-4">
-                <Link className="d-flex align-items-center" to="#">
+                <Link className="d-flex align-items-center" to="/change-password">
                   <img className="avatar" src="./assets/svg/settings/lock.svg" alt="" />
                   <div className="ml-3 pr-3">
                     <span className="d-block h5 text-hover-primary mb-0">{t("Settings.ChangePasswordTitle")}</span>
@@ -72,7 +76,7 @@ class Settings extends React.Component {
                 </Link>
               </div>
               <div className="col-md-4">
-                <Link className="d-flex align-items-center" to="#">
+                <Link className="d-flex align-items-center" to="/delete-my-account">
                   <img className="avatar" src="./assets/svg/settings/delete.svg" alt="" />
                   <div className="ml-3 pr-3">
                     <span className="d-block h5 text-hover-primary mb-0">{t("Settings.DeleteAccountTitle")}</span>

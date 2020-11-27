@@ -4,7 +4,7 @@ import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 
 const MainLayout = (props) => {
-  let isOpen = window.innerWidth > 1024 ? true : false;
+  let isOpen = window.innerWidth >= 1200 ? true : false;
   const [openMenu, setopenMenu] = useState(isOpen);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const MainLayout = (props) => {
 
   useEffect(() => {
     function handleResize() {
-      if (window.innerWidth > 1024) {
+      if (window.innerWidth >= 1200) {
         setopenMenu(true);
         document.body.classList.remove("navbar-vertical-aside-closed-mode");
         document.body.classList.remove("navbar-vertical-aside-mini-mode");

@@ -165,7 +165,8 @@ aside .navbar-vertical-content .active.nav-item {
   border-top: 0px;
 }
 .mainDetailBlock .card-footer .btn {
-  margin-bottom: 15px;
+  position: relative;
+  top: 22px;
 }
 .chekboxEP .custom-control {
   float: left;
@@ -856,4 +857,154 @@ table.table tbody tr:hover {
 }
 .contryDD .media img {
   margin-top: 8px !important;
+}
+.alertMessage {
+  position: fixed;
+  z-index: 9999999;
+  background: gray;
+  width: 100%;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+.alertMessage p {
+  margin-bottom: 0px;
+  font-family: "Inter", sans-serif !important;
+}
+.alertMessage a,
+.alertMessage a:hover {
+  color: white !important;
+}
+.alertMessage i {
+  float: right;
+  font-size: 16px;
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  color: white;
+}
+.alertSuccess {
+  background: #00d200eb;
+}
+.alertDanger {
+  background: #ff3e3ebf;
+}
+.alertWarning {
+  background: #ffbc41f0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
+}
+.Qhint {
+  position: absolute;
+  margin-top: -28px;
+  right: 45px;
+}
+.BGgray {
+  background: #f6f6f6;
+}
+.addedAccount .card {
+  background: #fff;
+  box-shadow: 0 6px 12px rgba(140, 152, 164, 0.075) !important;
+  margin-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 8px !important;
+}
+.addedAccount .card:hover {
+  background: #fbfbfb;
+  border: 1px solid #d8d8d8;
+}
+.addedAccount p {
+  color: gray;
+}
+.addedAccount img {
+  height: 20px;
+  padding-right: 5px;
+}
+.addedAccount .btnSA {
+  background: #d62303;
+  color: white;
+  border-radius: 6px;
+  padding: 5px 21px;
+  border: 0px;
+}
+.optionDetail {
+  display: none;
+  position: absolute;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+}
+.addmoneylink li:hover + .optionDetail {
+  display: block;
+}
+.underline {
+  text-decoration: underline;
+}
+.memberBlock {
+  background: #f7f7f7;
+  padding: 15px;
+  border-radius: 10px;
+  padding-left: 40px;
+  position: relative;
+  margin-bottom: 10px;
+}
+.memberBlock > div:nth-child(1) {
+  position: absolute;
+  font-weight: bold;
+  width: 25px;
+  text-align: center;
+  line-height: 22px;
+  background: #f7f7f7;
+  height: 100%;
+  top: 0px;
+  border-radius: 10px;
+  border: 0px;
+  left: 5px;
+  padding-top: 8%;
+}
+.benDetail {
+  list-style-type: none;
+  padding-left: 0px;
+}
+.benDetail li {
+  display: inline-block;
+  width: 49%;
+  font-size: 16px;
+}
+.benDetail li label {
+  font-weight: bold;
+  padding-right: 3px;
+  margin-bottom: 0px;
+  color: black;
+}
+.benDetail li span {
+  color: black;
+}
+
+fieldset {
+  border: 1px solid #e3e3e3;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 6px;
+}
+fieldset legend {
+  width: inherit;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 16px;
+  margin-bottom: 0px;
+  color: black;
+}
+.btn-outline-primary:hover {
+  color: #fff !important;
+}
+.lh-48 {
+  line-height: 48px;
 }

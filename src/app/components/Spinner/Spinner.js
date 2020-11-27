@@ -9,7 +9,7 @@ const Spinner = (props) => {
   return (
     <React.Fragment>
       <div className="k-loading-mask spinner-loader show">
-        <div className="k-loading-image"></div>
+        <img src="/assets/img/preloader.gif" className="loader-img" />
       </div>
     </React.Fragment>
   );

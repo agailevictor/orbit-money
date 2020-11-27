@@ -1,11 +1,11 @@
-$large: 1025px;
+$large: 1199px;
 
 .header-logo {
   min-width: 7rem;
   max-width: 7rem;
 }
 
-@media screen and (max-width: $large) {
+@media screen and (max-width: 1199px) {
   .toggle-invoker {
     display: none !important;
   }

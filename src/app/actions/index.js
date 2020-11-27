@@ -1,3 +1,5 @@
-import * as signInActions from "./loginActions";
+import * as userActions from "./userActions";
+import * as lookupActions from "./lookupActions";
+import * as updateBusinessAccountAction from "./businessAccountActions";
 
-export const ActionCreators = Object.assign(signInActions);
+export const ActionCreators = { ...userActions, ...lookupActions, ...updateBusinessAccountAction };
