@@ -52,11 +52,11 @@
     "Expand": "Développer"
   },
   "Account": {
-    "MembershipNo": "Membership No",
-    "BusinessID": "Business ID",
-    "CreateBusinessAccount": "Create A business account",
-    "Settings": "Settings",
-    "Logout": "Logout"
+    "MembershipNo": "No. de membre",
+    "BusinessID": "ID d'entreprise",
+    "CreateBusinessAccount": "Créer un compte professionnel",
+    "Settings": "Réglages",
+    "Logout": "Se déconnecter"
   },
   "Sidebar": {
     "Dashboard": "Tableau de bord",
