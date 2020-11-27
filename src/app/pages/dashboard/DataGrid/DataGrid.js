@@ -3,12 +3,12 @@ import { Grid, GridColumn as Column } from "@progress/kendo-react-grid";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import { withTranslation } from "react-i18next";
 import moment, { now } from "moment";
-import { toast } from "react-toastify";
 import ReactTooltip from "react-tooltip";
 
 import Spinner from "../../../components/Spinner/Spinner";
 import Select2 from "../../../components/Select2/Select2";
 import { callApi, callDownloadApi } from "../../../services/apiService";
+import { toastService } from "../../../services/toastService";
 import ApiConstants from "../../../shared/config/apiConstants";
 import GridPager from "./GridPager";
 
@@ -69,9 +69,7 @@ const DataGrid = (props) => {
         }
       })
       .catch((error) => {
-        toast.error(error.message, {
-          position: "top-right",
-        });
+        toastService.error(error.message);
         setgridLoader(false);
       });
   };
@@ -81,10 +79,8 @@ const DataGrid = (props) => {
       ids: paramsValue,
     };
     const filename = "transactions_" + currentPage + "_" + fromDateValue + ".pdf";
-    callDownloadApi("post", ApiConstants.EXPORT_AS_PDF, params, null, filename).catch((error) => {
-      toast.error(error.message, {
-        position: "top-right",
-      });
+    callDownloadApi("post", ApiConstants.EXPORT_AS_PDF, params, filename, false).catch((error) => {
+      toastService.error(error.message);
     });
   };
 
@@ -318,13 +314,12 @@ const DataGrid = (props) => {
                     return (
                       <td>
                         <span
-                          className={`d-block h5 mb-0 strong ${
-                            props.dataItem.type === "SENT" ? "text-danger" : props.dataItem.type === "RECEIVED" ? "text-success" : ""
-                          }`}>
-                          {props.dataItem.amount} {props.dataItem.currency}
+                          className={`d-block h5 mb-0 strong ${props.dataItem.type === "SENT" ? "text-danger" : props.dataItem.type === "RECEIVED" ? "text-success" : ""
+                            }`}>
+                          {parseFloat(props.dataItem.amount).toFixed(2)} {props.dataItem.currency}
                         </span>
                         <span className="d-block font-size-sm">
-                          <span>{props.dataItem.time} </span> | <span>{props.dataItem.date}</span>
+                          <span>{props.dataItem.time} </span> | <span>{moment(props.dataItem.date).format("DD-MMM YYYY")}</span>
                         </span>
                       </td>
                     );
@@ -382,8 +377,8 @@ const DataGrid = (props) => {
         <div className="row">
           <div className="col-md-12 text-center mt-9">
             <img src="assets/svg/addmoney/no-transaction.svg" />
-            <h2 className="mt-5">You don’t have any transaction yet.</h2>
-            <p>Send money or add money into your wallet</p>
+            <h2 className="mt-5">{t("Dashboard.NoTransaction")}</h2>
+            <p>{t("Dashboard.SendOrAddMoneytoWallet")}</p>
           </div>
         </div>
       )}

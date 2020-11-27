@@ -1,7 +1,7 @@
 import React from "react";
 import { toast, Slide } from "react-toastify";
 
-export const tostService = {
+export const toastService = {
   success: (msg, duration = null) => {
     toast.dismiss();
     toast.success(msg, {

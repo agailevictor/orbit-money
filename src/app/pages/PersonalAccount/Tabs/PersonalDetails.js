@@ -3,13 +3,14 @@ import { withTranslation } from "react-i18next";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import { callApi } from "../../../services/apiService";
 import ApiConstants from "../../../shared/config/apiConstants";
-import { tostService } from "../../../services/toastService";
+import { callApi } from "../../../services/apiService";
+import { toastService } from "../../../services/toastService";
 
 import AppLoader from "../../../components/AppLoader/AppLoader";
-import Select2 from "../../../components/Select2/Select2";
 import CountryList from "../../../components/CountryList/CountryList";
+import ProvinceList from "../../../components/ProvinceList/ProvinceList";
+import CityList from "../../../components/CityList/CityList";
 
 const PersonalDetails = (props) => {
   const { t } = props;
@@ -23,10 +24,8 @@ const PersonalDetails = (props) => {
     state: Yup.mixed().required(t("Settings.PersonalAccount.ProvinceRequiredValidationLabel")),
   });
 
-  const [countryOptions, setCountryOptions] = useState([]);
-  const [provinceOptions, setProvinceOptions] = useState([]);
-  const [cityOptions, setCityOptions] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
+  const [isSubmitted, setisSubmitted] = useState(false);
   const [personalData, setPersonalData] = useState({
     firstName: "",
     middleName: "",
@@ -39,101 +38,9 @@ const PersonalDetails = (props) => {
     dped: "false",
   });
 
-  const fetchCountries = (personalData) => {
-    callApi("get", ApiConstants.FETCH_COUNTRIES)
-      .then((response) => {
-        if (response.code === 200) {
-          setCountryOptions(response.dataList);
-          let index = response.dataList.findIndex((country) => country.id === personalData.country);
-          index > -1 &&
-            setPersonalData({
-              ...personalData,
-              country: {
-                value: response.dataList[index].id,
-                label: (
-                  <div>
-                    <img
-                      src={response.dataList[index].url}
-                      className="avatar avatar-xss avatar-circle mr-2"
-                      style={{ width: "1rem", height: "1rem", marginTop: "-3px" }}
-                    />
-                    {response.dataList[index].alpha3Code}
-                  </div>
-                ),
-              },
-            });
-          if (personalData.state !== "") {
-            fetchProvinces(personalData.country);
-          }
-        } else {
-          // tostService.error(response.message, { autoClose: true });
-        }
-      })
-      .catch((e) => {
-        // tostService.error(e.message, { autoClose: true });
-      });
-  };
-
   useEffect(() => {
     fetchPersonalAccountDetails();
   }, []);
-
-  useEffect(() => {}, [countryOptions]);
-
-  const fetchProvinces = (value) => {
-    callApi("get", ApiConstants.FETCH_PROVINCES + value)
-      .then((response) => {
-        if (response.code === 200) {
-          setProvinceOptions(response.dataList);
-        } else {
-          //tostService.error(response.message, { autoClose: true });
-        }
-      })
-      .catch((e) => {
-        // tostService.error(e.message, { autoClose: true });
-      });
-  };
-
-  useEffect(() => {
-    let index = provinceOptions.findIndex((state) => state.id === personalData.state);
-    index > -1 &&
-      setPersonalData({
-        ...personalData,
-        state: {
-          value: provinceOptions[index].id,
-          label: <div>{provinceOptions[index].title}</div>,
-        },
-      });
-    if (personalData.state !== "") {
-      fetchCities(personalData.state);
-    }
-  }, [provinceOptions]);
-
-  const fetchCities = (value) => {
-    callApi("get", ApiConstants.FETCH_CITIES + value)
-      .then((response) => {
-        if (response.code === 200) {
-          setCityOptions(response.dataList);
-        } else {
-          //tostService.error(response.message, { autoClose: true });
-        }
-      })
-      .catch((e) => {
-        //tostService.error(e.message, { autoClose: true });
-      });
-  };
-
-  useEffect(() => {
-    let index = cityOptions.findIndex((city) => city.id === personalData.city);
-    index > -1 &&
-      setPersonalData({
-        ...personalData,
-        city: {
-          value: cityOptions[index].id,
-          label: <div>{cityOptions[index].title}</div>,
-        },
-      });
-  }, [cityOptions]);
 
   const fetchPersonalAccountDetails = () => {
     setShowLoader(true);
@@ -142,52 +49,42 @@ const PersonalDetails = (props) => {
         setShowLoader(false);
         if (response.code === 200) {
           setPersonalData(response.data);
-          if (response.data.country !== "") {
-            fetchCountries(response.data);
-          }
         } else {
-          tostService.error(response.message, { autoClose: true });
+          toastService.error(response.message, { autoClose: true });
         }
       })
       .catch((e) => {
         setShowLoader(false);
-        tostService.error(e.message, { autoClose: true });
+        toastService.error(e.message, { autoClose: true });
       });
   };
 
   const updatePersonalAccountDetails = (values) => {
     setShowLoader(true);
-    callApi("put", ApiConstants.UPDATE_PERSONAL_ACCOUNT_DETAILS, {
+    let params = {
       firstName: values.firstName,
       lastName: values.lastName,
+      middleName: values.middleName,
       address: values.address,
-      country: values.country.value,
-      state: values.state.value,
-      city: values.city.value,
-      pep: values.pep === "true" ? true : false,
-      dpep: values.dped === "true" ? true : false,
-    })
+      country: values.country,
+      state: values.state,
+      city: values.city,
+      pep: values.pep,
+      dpep: values.dpep,
+    };
+    callApi("put", ApiConstants.UPDATE_PERSONAL_ACCOUNT_DETAILS, params)
       .then((response) => {
         setShowLoader(false);
         if (response.code === 200) {
-          tostService.success(response.message, { autoClose: true });
+          toastService.success(response.message, { autoClose: true });
         } else {
-          tostService.error(response.message, { autoClose: true });
+          toastService.error(response.message, { autoClose: true });
         }
       })
       .catch((e) => {
         setShowLoader(false);
-        tostService.error(e.message, { autoClose: true });
+        toastService.error(e.message, { autoClose: true });
       });
-  };
-
-  const renderOptions = (options) => {
-    return options.map((option) => {
-      return {
-        value: option.id,
-        label: <div>{option.title}</div>,
-      };
-    });
   };
 
   return (
@@ -200,9 +97,8 @@ const PersonalDetails = (props) => {
           validationSchema={validationSchema}
           onSubmit={(values) => {
             updatePersonalAccountDetails(values);
-          }}
-        >
-          {({ errors, touched, handleChange, values, setFieldValue }) => (
+          }}>
+          {({ errors, handleChange, values, setFieldValue }) => (
             <Form>
               <div className="card-body" style={{ padding: "2rem" }}>
                 <div className="row form-group">
@@ -230,7 +126,7 @@ const PersonalDetails = (props) => {
                     <div className="form-group">
                       <Field
                         type="text"
-                        className={`form-control ${errors.firstName ? "is-invalid" : ""}`}
+                        className={`form-control ${errors.firstName && isSubmitted ? "is-invalid" : ""}`}
                         name="firstName"
                         id="firstName"
                         placeholder={t("Settings.PersonalAccount.FirstName")}
@@ -242,7 +138,7 @@ const PersonalDetails = (props) => {
                     <div className="form-group">
                       <Field
                         type="text"
-                        className={`form-control ${errors.middleName ? "is-invalid" : ""}`}
+                        className={`form-control ${errors.middleName && isSubmitted ? "is-invalid" : ""}`}
                         name="middleName"
                         id="middleName"
                         placeholder={t("Settings.PersonalAccount.MiddleName")}
@@ -254,7 +150,7 @@ const PersonalDetails = (props) => {
                     <div className="form-group">
                       <Field
                         type="text"
-                        className={`form-control ${errors.lastName ? "is-invalid" : ""}`}
+                        className={`form-control ${errors.lastName && isSubmitted ? "is-invalid" : ""}`}
                         name="lastName"
                         id="lastName"
                         placeholder={t("Settings.PersonalAccount.LastName")}
@@ -269,7 +165,7 @@ const PersonalDetails = (props) => {
                     <div className="form-group">
                       <Field
                         type="text"
-                        className={`form-control ${errors.address ? "is-invalid" : ""}`}
+                        className={`form-control ${errors.address && isSubmitted ? "is-invalid" : ""}`}
                         name="address"
                         id="Address"
                         placeholder={t("Settings.PersonalAccount.Address")}
@@ -283,58 +179,53 @@ const PersonalDetails = (props) => {
                   <div className="col-md-4">
                     <div className="form-group">
                       <CountryList
-                        options={countryOptions}
                         value={values.country}
                         isSearchable={true}
                         onChange={(value) => {
-                          let event = { target: { name: "country", value: value } };
-                          handleChange(event);
                           setFieldValue("state", "");
-                          fetchProvinces(value.value);
-                        }}
-                        className={`form-control ${errors.country ? " is-invalid" : ""}`}
-                        error={errors.country}
-                        touched={touched.country}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <Select2
-                        options={renderOptions(provinceOptions)}
-                        value={values.state}
-                        className={errors.state ? "is-invalid" : ""}
-                        placeholder={t("Settings.PersonalAccount.Province")}
-                        isSearchable={true}
-                        onChange={(value) => {
-                          console.log("value", value);
-                          let event = { target: { name: "state", value: value } };
-                          handleChange(event);
                           setFieldValue("city", "");
-                          fetchCities(value.value);
+                          let event = { target: { name: "country", value: value.value } };
+                          setTimeout(() => {
+                            handleChange(event);
+                          }, 10);
                         }}
-                        error={errors.state}
-                        touched={touched.state}
+                        className={`form-control ${errors.country && isSubmitted ? " is-invalid" : ""}`}
+                        error={errors.country}
                       />
                     </div>
                   </div>
 
                   <div className="col-md-4">
                     <div className="form-group">
-                      <Select2
-                        options={renderOptions(cityOptions)}
-                        value={values.city}
-                        className={errors.city ? "is-invalid" : ""}
-                        style={{ padding: "0" }}
-                        placeholder={t("Settings.PersonalAccount.City")}
+                      <ProvinceList
                         isSearchable={true}
+                        value={values.state}
+                        countryId={values.country}
                         onChange={(value) => {
-                          let event = { target: { name: "city", value: value } };
+                          setFieldValue("city", "");
+                          let event = { target: { name: "state", value: value.value } };
+                          setTimeout(() => {
+                            handleChange(event);
+                          }, 10);
+                        }}
+                        className={errors.state && isSubmitted ? " is-invalid" : ""}
+                        error={errors.state}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <CityList
+                        isSearchable={true}
+                        value={values.city}
+                        stateId={values.state}
+                        onChange={(value) => {
+                          let event = { target: { name: "city", value: value.value } };
                           handleChange(event);
                         }}
+                        className={errors.city && isSubmitted ? " is-invalid" : ""}
                         error={errors.city}
-                        touched={touched.city}
                       />
                     </div>
                   </div>
@@ -343,76 +234,94 @@ const PersonalDetails = (props) => {
                 <div className="form-group">
                   <label>{t("Settings.PersonalAccount.PEPQuestion")}</label>
                   <div className="input-group input-group-sm-down-break">
-                    <div className="form-control radioBlock">
-                      <div className="custom-control custom-radio stopFloating">
-                        <input
-                          type="radio"
-                          className="custom-control-input"
-                          name="pep"
-                          defaultChecked={values.pep ? true : false}
-                          id="quesO1"
-                          value={true}
-                          onChange={handleChange}
-                        />
-                        <label className="custom-control-label" htmlFor="quesO1">
-                          {t("Settings.PersonalAccount.Yes")}
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio stopFloating">
-                        <input
-                          type="radio"
-                          className="custom-control-input"
-                          name="pep"
-                          defaultChecked={!values.pep ? true : false}
-                          id="quesO2"
-                          value={false}
-                          onChange={handleChange}
-                        />
-                        <label className="custom-control-label" htmlFor="quesO2">
-                          {t("Settings.PersonalAccount.No")}
-                        </label>
-                      </div>
-                    </div>
+                    <Field
+                      name="pep"
+                      render={({ field }) => (
+                        <div className="form-control radioBlock">
+                          <div className="custom-control custom-radio stopFloating">
+                            <input
+                              type="radio"
+                              className="custom-control-input"
+                              name="pepType"
+                              checked={field.value === true}
+                              id="quesO1"
+                              onChange={() => {
+                                let event = { target: { name: "pep", value: true } };
+                                handleChange(event);
+                              }}
+                            />
+                            <label className="custom-control-label" htmlFor="quesO1">
+                              {t("Settings.PersonalAccount.Yes")}
+                            </label>
+                          </div>
+                          <div className="custom-control custom-radio stopFloating">
+                            <input
+                              type="radio"
+                              className="custom-control-input"
+                              name="pepType"
+                              checked={field.value === false}
+                              id="quesO2"
+                              onChange={() => {
+                                let event = { target: { name: "pep", value: false } };
+                                handleChange(event);
+                              }}
+                            />
+                            <label className="custom-control-label" htmlFor="quesO2">
+                              {t("Settings.PersonalAccount.No")}
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                    />
                   </div>
                 </div>
                 <div className="form-group">
                   <label>{t("Settings.PersonalAccount.PEDQuestion")}</label>
                   <div className="input-group input-group-sm-down-break">
-                    <div className="form-control radioBlock">
-                      <div className="custom-control custom-radio stopFloating">
-                        <input
-                          type="radio"
-                          className="custom-control-input"
-                          name="dped"
-                          defaultChecked={values.dped ? true : false}
-                          id="quesT1"
-                          value={true}
-                          onChange={handleChange}
-                        />
-                        <label className="custom-control-label" htmlFor="quesT1">
-                          {t("Settings.PersonalAccount.Yes")}
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio stopFloating">
-                        <input
-                          type="radio"
-                          className="custom-control-input"
-                          name="dped"
-                          defaultChecked
-                          id="quesT2"
-                          defaultChecked={!values.dped ? true : false}
-                          onChange={handleChange}
-                        />
-                        <label className="custom-control-label" htmlFor="quesT2">
-                          {t("Settings.PersonalAccount.No")}
-                        </label>
-                      </div>
-                    </div>
+                    <Field
+                      name="dpep"
+                      render={({ field }) => (
+                        <div className="form-control radioBlock">
+                          <div className="custom-control custom-radio stopFloating">
+                            <input
+                              type="radio"
+                              className="custom-control-input"
+                              name="dpepType"
+                              checked={field.value === true}
+                              id="quesT1"
+                              onChange={() => {
+                                let event = { target: { name: "dpep", value: true } };
+                                handleChange(event);
+                              }}
+                            />
+                            <label className="custom-control-label" htmlFor="quesT1">
+                              {t("Settings.PersonalAccount.Yes")}
+                            </label>
+                          </div>
+                          <div className="custom-control custom-radio stopFloating">
+                            <input
+                              type="radio"
+                              className="custom-control-input"
+                              id="quesT2"
+                              name="dpepType"
+                              checked={field.value === false}
+                              onChange={() => {
+                                let event = { target: { name: "dpep", value: false } };
+                                handleChange(event);
+                              }}
+                            />
+                            <label className="custom-control-label" htmlFor="quesT2">
+                              {t("Settings.PersonalAccount.No")}
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                    />
                   </div>
                 </div>
               </div>
               <div className="card-footer d-flex justify-content-end align-items-center">
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary" onClick={() => setisSubmitted(true)}>
                   {t("Settings.Update")}
                 </button>
               </div>

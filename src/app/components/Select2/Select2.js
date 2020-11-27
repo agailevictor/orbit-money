@@ -57,7 +57,7 @@ const Select2 = (props) => {
         onChange={(event) => props.onChange(event)}
         autosize={false}
       />
-      {props.error && props.touched && <div className="invalid-feedback">{props.error}</div>}
+      {props.error && <div className="invalid-feedback">{props.error}</div>}
     </div>
   );
 };

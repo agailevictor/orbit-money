@@ -4,7 +4,7 @@ import { withTranslation } from "react-i18next";
 
 import { callApi } from "../../services/apiService";
 import ApiConstants from "../../shared/config/apiConstants";
-import { tostService } from "../../services/toastService";
+import { toastService } from "../../services/toastService";
 
 import "./DeleteMyAccount.scss";
 
@@ -17,21 +17,39 @@ class DeleteMyAccount extends React.Component {
     callApi("delete", ApiConstants.DELETE_ACCOUNT)
       .then((response) => {
         if (response.code === 200) {
-          tostService.success(response.message);
+          toastService.success(response.message);
           localStorage.removeItem("auth");
           localStorage.removeItem("authToken");
           this.props.history.replace("/signin");
         } else {
-          tostService.error(response.message);
+          toastService.error(response.message);
         }
       })
       .catch((e) => {
-        tostService.error(e.message);
+        toastService.error(e.message);
+      });
+  };
+
+  deleteBusinessAccount = () => {
+    callApi("delete", ApiConstants.DELETE_ACCOUNT, true)
+      .then((response) => {
+        if (response.code === 200) {
+          toastService.success(response.message);
+          localStorage.removeItem("selectedCustomerAccount");
+          localStorage.removeItem("CustomerAccountToken");
+          this.props.history.replace("/dashboard");
+        } else {
+          toastService.error(response.message);
+        }
+      })
+      .catch((e) => {
+        toastService.error(e.message);
       });
   };
 
   render() {
     const { t } = this.props;
+    const selectedBusinessAccount = localStorage.getItem("selectedCustomerAccount") ? JSON.parse(localStorage.getItem("selectedCustomerAccount")) : null
     return (
       <React.Fragment>
         <div className="content container-fluid">
@@ -50,6 +68,9 @@ class DeleteMyAccount extends React.Component {
             <div className="col-lg-5">
               <div id="PersonalDetails" className="card card-lg active">
                 <div className="card-body">
+                  { !selectedBusinessAccount && <h3 className="delete-title"> {t("Settings.DeleteMyAccount.DeleteAccount")}?</h3> }
+                  { selectedBusinessAccount && <h3 className="delete-title"> {t("Settings.DeleteMyAccount.DeleteLabel")}  {selectedBusinessAccount.title}?</h3> }
+
                   <div className="text-center">
                     <img className="img-fluid mb-3" src="./assets/svg/settings/warning.svg" alt="Image Description" style={{ maxWidth: "5rem" }} />
 
@@ -59,9 +80,17 @@ class DeleteMyAccount extends React.Component {
                     </div>
 
                     <div className="d-flex justify-content-center mt-3">
-                      <button type="button" className="btn btn-primary m-1" onClick={this.deleteAccount}>
-                        {t("Settings.DeleteMyAccount.DeleteAccount")}
-                      </button>
+                      { !selectedBusinessAccount && 
+                        <button type="button" className="btn btn-primary m-1" onClick={this.deleteAccount}>
+                          {t("Settings.DeleteMyAccount.DeleteAccount")}
+                        </button>
+                      }
+                      { selectedBusinessAccount && 
+                        <button type="button" className="btn btn-primary m-1" onClick={this.deleteBusinessAccount}>
+                          {t("Settings.DeleteMyAccount.DeleteBusinessAccount")}
+                        </button>
+                      }
+                      
                     </div>
                   </div>
                 </div>

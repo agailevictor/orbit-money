@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const SocialMediaLogin = (props) => {
+  const { t } = useTranslation();
   return (
     <React.Fragment>
       <div className="mb-4">
@@ -9,7 +11,7 @@ const SocialMediaLogin = (props) => {
             <a className="btn btn-lg btn-white btn-block f-13" href="#">
               <span className="d-flex justify-content-center align-items-center">
                 <img className="avatar avatar-xss mr-2" src="./assets/svg/brands/google.svg" alt="Login with google" />
-                Login with Google
+                {t("SocialMediaLogin.LoginwithGoogle")}
               </span>
             </a>
           </div>
@@ -17,7 +19,7 @@ const SocialMediaLogin = (props) => {
             <a className="btn btn-lg btn-white btn-block f-13" href="#">
               <span className="d-flex justify-content-center align-items-center">
                 <img className="avatar avatar-xss mr-2" src="./assets/svg/brands/facebook.svg" alt="Login with facebook" />
-                Login with facebook
+                {t("SocialMediaLogin.LoginwithFacebook")}
               </span>
             </a>
           </div>

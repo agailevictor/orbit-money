@@ -11,24 +11,9 @@ const countryOptions = [
     icon: "us",
   },
   {
-    value: "en_uk",
-    label: "English (UK)",
-    icon: "gb",
-  },
-  {
-    value: "de",
-    label: "Deutsch",
-    icon: "de",
-  },
-  {
-    value: "dk",
-    label: "Dansk",
-    icon: "dk",
-  },
-  {
-    value: "es",
-    label: "Español",
-    icon: "es",
+    value: "fr",
+    label: "French",
+    icon: "fr",
   },
 ];
 

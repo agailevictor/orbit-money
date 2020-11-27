@@ -54,13 +54,13 @@ const Sidebar = (props) => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="js-nav-tooltip-link nav-link" to="/dashboard" title="Recipients" data-placement="left">
+                  <Link className="js-nav-tooltip-link nav-link" to="#" title="Recipients" data-placement="left">
                     <i className="fas fa-user-friends nav-icon"></i>
                     <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{t("Sidebar.Recipients")}</span>
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="js-nav-tooltip-link nav-link" to="/dashboard" title="Reports" data-placement="left">
+                  <Link className="js-nav-tooltip-link nav-link" to="#" title="Reports" data-placement="left">
                     <i className="fas fa-file-invoice nav-icon"></i>
                     <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{t("Sidebar.Reports")}</span>
                   </Link>
@@ -72,17 +72,17 @@ const Sidebar = (props) => {
                 <li className="navbar-vertical-footer-list-item">
                   <ul className="navbar-nav navbar-nav-lg nav-tabs">
                     <li className="nav-item ">
-                      <Link className="js-nav-tooltip-link nav-link " to="/dashboard" title="Privacy Policy" data-placement="left">
+                      <Link className="js-nav-tooltip-link nav-link " to="#" title="Privacy Policy" data-placement="left">
                         <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{t("Sidebar.PrivacyPolicy")}</span>
                       </Link>
                     </li>
                     <li className="nav-item ">
-                      <Link className="js-nav-tooltip-link nav-link " to="/dashboard" title="Terms and Condition" data-placement="left">
+                      <Link className="js-nav-tooltip-link nav-link " to="#" title="Terms and Condition" data-placement="left">
                         <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{t("Sidebar.TermsAndConditions")}</span>
                       </Link>
                     </li>
                     <li className="nav-item ">
-                      <Link className="js-nav-tooltip-link nav-link " to="/dashboard" title="Support" data-placement="left">
+                      <Link className="js-nav-tooltip-link nav-link " to="#" title="Support" data-placement="left">
                         <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{t("Sidebar.Support")}</span>
                       </Link>
                     </li>

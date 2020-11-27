@@ -9,12 +9,11 @@ import Caption from "../../components/Caption/Caption";
 import SocialMediaLogin from "../../components/SocialMediaLogin/SocialMediaLogin";
 
 import { callApi } from "../../services/apiService";
-import { tostService } from "../../services/toastService";
+import { toastService } from "../../services/toastService";
 
 import ApiConstants from "../../shared/config/apiConstants";
-import * as signInActions from "../../actions/signInActions";
+import { ActionCreators } from "../../actions";
 
-import "react-toastify/dist/ReactToastify.css";
 import "./Signin.scss";
 
 let SignInSchema = null;
@@ -44,7 +43,7 @@ class Signin extends React.Component {
   render() {
     const { t } = this.props;
 
-    const { showPassword } = this.state;
+    const { showPassword, isSubmitted } = this.state;
     return (
       <React.Fragment>
         <div className="row">
@@ -65,17 +64,17 @@ class Signin extends React.Component {
                   callApi("post", ApiConstants.SIGN_IN, { email: values.email, password: values.password })
                     .then((response) => {
                       if (response.code === 200) {
-                        signInActions.signInResponse(response.data.token);
+                        this.props.userSignedIn(response.data.token);
                         localStorage.setItem("authToken", response.data.token);
                         localStorage.setItem("auth", true);
                         this.props.history.replace("/dashboard");
                       } else {
-                        tostService.error(response.message);
+                        toastService.error(response.message);
                       }
                       this.setState({ signinProgress: false });
                     })
                     .catch((error) => {
-                      tostService.error(error);
+                      toastService.error(error);
                       this.setState({ signinProgress: false });
                     });
                 }}>
@@ -92,7 +91,7 @@ class Signin extends React.Component {
                     <SocialMediaLogin />
 
                     <div className="text-center mb-4">
-                      <span className="divider text-muted">OR</span>
+                      <span className="divider text-muted">{t("SignIn.SocialMediaOr")}</span>
                     </div>
 
                     <div className="js-form-message form-group">
@@ -101,7 +100,7 @@ class Signin extends React.Component {
                       </label>
                       <Field
                         type="text"
-                        className={`form-control form-control-lg ${errors.email ? "is-invalid" : ""}`}
+                        className={`form-control form-control-lg ${errors.email && isSubmitted ? "is-invalid" : ""}`}
                         placeholder="Markwilliams@example.com"
                         name="email"
                         tabIndex={1}
@@ -121,7 +120,7 @@ class Signin extends React.Component {
                       <div className="input-group-merge">
                         <Field
                           type={showPassword ? "text" : "password"}
-                          className={`form-control form-control-lg ${errors.password ? "is-invalid" : ""}`}
+                          className={`form-control form-control-lg ${errors.password && isSubmitted ? "is-invalid" : ""}`}
                           name="password"
                           id="signupSrPassword"
                           placeholder="8+ characters required"
@@ -150,7 +149,8 @@ class Signin extends React.Component {
                       type="submit"
                       className="btn btn-lg btn-block btn-primary"
                       ref={(c) => (this.buttonSubmit = c)}
-                      disabled={this.state.signinProgress}>
+                      disabled={this.state.signinProgress}
+                      onClick={() => this.setState({ isSubmitted: true })}>
                       {this.state.signinProgress ? t("SignIn.SigningButtonLabel") : t("SignIn.SignInButtonLabel")}
                     </button>
                   </Form>
@@ -171,7 +171,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    signInResponse: (userToken) => dispatch(signInActions.signInResponse(userToken)),
+    userSignedIn: (userToken) => dispatch(ActionCreators.userSignedIn(userToken)),
   };
 };
 

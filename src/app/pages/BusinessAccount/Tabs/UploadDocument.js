@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { withTranslation } from "react-i18next";
-import { toast } from "react-toastify";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
@@ -8,6 +7,8 @@ import AppLoader from "../../../components/AppLoader/AppLoader";
 import Select2 from "../../../components/Select2/Select2";
 
 import { callApi } from "../../../services/apiService";
+import { toastService } from "../../../services/toastService";
+
 import ApiConstants from "../../../shared/config/apiConstants";
 import AppConfig from "../../../shared/config/appConfig";
 
@@ -30,21 +31,25 @@ const UploadedDocument = (props) => {
     docType: Yup.string().required(t("Settings.BusinessAccount.DocumentTypeRequiredValidationLabel")),
     custom_file_boxed: Yup.mixed()
       .required(t("Settings.BusinessAccount.FileRequiredValidationLabel"))
-      .test("fileSize", t("Settings.BusinessAccount.FileSizeValidationLabel"), (value) => value && value.size <= 10000000)
+      .test("fileSize", t("Settings.BusinessAccount.FileSizeValidationLabel"), (value) => value && value.size <= 1000000) //in bytes , 10mb
       .test("fileType", t("Settings.BusinessAccount.FileTypeValidationLabel"), (value) => value && ["application/pdf"].includes(value.type)),
   });
 
   const fetchDocuments = () => {
     setShowLoader(true);
-    callApi("get", ApiConstants.FETCH_DOCUMENTS)
+    callApi("get", ApiConstants.FETCH_DOCUMENTS, null, true)
       .then((response) => {
         if (response.code === 200) {
-          setUploadedDocument(response.data);
+          setUploadedDocument(response.dataList);
           setShowLoader(false);
+        } else {
+          toastService.error(response.message, {
+            position: "top-right",
+          });
         }
       })
       .catch((error) => {
-        toast.error(error.message, {
+        toastService.error(error.message, {
           position: "top-right",
         });
         setShowLoader(false);
@@ -56,50 +61,64 @@ const UploadedDocument = (props) => {
   }, []);
 
   const documentStatus = uploadedDocument.map((document, index) => {
-    return (
-      <p key={index}>
-        <i className={document.verified ? "fas fa-check-circle" : "fas fa-times"}></i>
-        <a href={AppConfig.API_BASE_URL + ApiConstants.FETCH_DOCUMENT + document.id} target="_blank" style={{ color: "#009fff" }}>
-          {document.documentTypes}
-        </a>
-      </p>
-    );
+    let selectedItem = documents.find((item) => item.value === document.documentTypes);
+    if (selectedItem) {
+      return (
+        <p key={index}>
+          <i className={document.verified ? "fas fa-check-circle" : "fas fa-times"}></i>
+          <a href={AppConfig.API_BASE_URL + ApiConstants.FETCH_DOCUMENT + document.id} target="_blank" style={{ color: "#009fff" }}>
+            {selectedItem.label}
+          </a>
+        </p>
+      );
+    }
   });
 
   const uploadDocuments = () => {
-    let typeIndex = uploadedDocument.findIndex((item) => {
-      return item.documentTypes.toLowerCase() === selectedDocumentType.value.toLowerCase();
-    });
-    if (typeIndex > -1) {
-      pushDocuments("patch", ApiConstants.UPDATE_DOCUMENT);
-    } else {
-      pushDocuments("post", ApiConstants.PUSH_DOCUMENT);
-    }
-  };
-
-  const pushDocuments = (method, apiUrl) => {
     setShowLoader(true);
-    const data = new FormData();
-    data.append("file", fileData);
-    data.append("type", selectedDocumentType.value);
-
-    callApi(method, apiUrl, data, {
-      "Content-Type": "multipart/form-data",
-    })
-      .then((response) => {
-        if (response.code === 200) {
-          toast.success(response.message, {
+    getBase64(fileData, (result) => {
+      callApi(
+        "post",
+        ApiConstants.PUSH_BUSINESS_DOCUMENT,
+        {
+          base64: result,
+          businessAccountId: JSON.parse(localStorage.getItem("selectedCustomerAccount")).id,
+          documentTypes: selectedDocumentType,
+          fileName: fileData.name,
+        },
+        true
+      )
+        .then((response) => {
+          setShowLoader(false);
+          if (response.code === 200) {
+            toastService.success(response.message, {
+              position: "top-right",
+            });
+            fetchDocuments();
+          } else {
+            toastService.error(response.message, {
+              position: "top-right",
+            });
+          }
+        })
+        .catch((error) => {
+          toastService.error(error.message, {
             position: "top-right",
           });
           setShowLoader(false);
-        }
-      })
-      .catch((error) => {
-        toast.error(error.message, {
-          position: "top-right",
         });
-        setShowLoader(false);
-      });
+    });
+  };
+
+  const getBase64 = (file, cb) => {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      cb(reader.result.split(",")[1]);
+    };
+    reader.onerror = function (error) {
+      console.log("Error: ", error);
+    };
   };
 
   const onDocumentTypeSelection = (event) => {

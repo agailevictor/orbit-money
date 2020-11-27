@@ -4,7 +4,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import queryString from "query-string";
 
 import { callApi } from "../../services/apiService";
-import { tostService } from "../../services/toastService";
+import { toastService } from "../../services/toastService";
 
 import ApiConstants from "../../shared/config/apiConstants";
 
@@ -26,12 +26,12 @@ class Verify extends React.Component {
       token: token,
     })
       .then((response) => {
-        if (response.code == 200) tostService.success("You have successfully verified your Email. Please sign in to Orbit Money", 10000);
-        else tostService.error(response.message);
+        if (response.code == 200) toastService.success("You have successfully verified your Email. Please sign in to Orbit Money", 10000);
+        else toastService.error(response.message);
         this.props.history.push("/signin");
       })
       .catch((error) => {
-        tostService.error(error);
+        toastService.error(error);
       });
   }
 

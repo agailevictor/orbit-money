@@ -6,17 +6,21 @@
     "SubHeading2": "Easily add & manage your services",
     "SubDesc2": "It brings together your tasks, projects, timelines, files and more"
   },
+  "SocialMediaLogin": {
+    "LoginwithGoogle": "Login with Google",
+    "LoginwithFacebook": "Login with Facebook"
+  },
   "SignIn": {
     "SignInLabel": "Sign in",
     "HaveAccntLabel": "Don't have an account yet?",
     "SignuphereLabel": "Sign up here",
+    "SocialMediaOr": "OR",
     "YourEmailLabel": "Your email",
     "PasswordLabel": "Password",
     "ForgotPasswordLabel": "Forgot Password?",
     "RememberMeLabel": "Remember me",
     "SignInButtonLabel": "Sign in",
     "SigningButtonLabel": "Signing in...",
-
     "EmailRequiredValidationLabel": "Please enter email address.",
     "EmailPatternValidationLabel": "Please enter a valid email address.",
     "PasswordRequiredValidationLabel": "Your password is invalid. Please try again.",
@@ -26,14 +30,17 @@
     "SignUpLabel": "Create your account",
     "HaveAccntLabel": "Already have an account?",
     "SignuphereLabel": "Sign in here",
+    "SocialMediaOr": "OR",
     "FullNameLabel": "Full name",
     "YourEmailLabel": "Your email",
+    "YourPhoneLabel": "Phone Number",
+    "YourCountryLabel": "Country",
     "PasswordLabel": "Password",
     "ConfirmPasswordLabel": "Confirm password",
     "CheckboxLabel": "I accept the",
     "TermsLabel": "Terms and Conditions",
     "SignUpButtonLabel": "Create an account",
-
+    "SigningUpButtonLabel": "Please wait...",
     "FirstNameRequiredValidationLabel": "Please enter your first name.",
     "LastNameRequiredValidationLabel": "Please enter your last name.",
     "EmailRequiredValidationLabel": "Please enter email address.",
@@ -46,7 +53,6 @@
     "PasswordMinValidationLabel": "Minimum 8 characters required.",
     "PasswordMatchValidationLabel": "Password does not match the confirm password.",
     "TermsConditionRequiredLabel": "Please accept our Terms and Conditions.",
-
     "SuccessMsg": "User Registration completed successfully. Please login to application.",
     "ErrorMsg": "Something went wrong. Please try again."
   },
@@ -83,12 +89,18 @@
     "All": "All",
     "Sent": "Sent",
     "Received": "Received",
-    "SearchUsers": "Search users",
+    "SearchUsers": "Search",
     "Selected": "Selected",
     "TransactionID": "Transaction ID:",
     "From": "From:",
     "TransactionsasPDF": "Transactions as PDF",
-    "DownloadTransactions": "Download Transactions"
+    "DownloadTransactions": "Download Transactions",
+    "NoTransaction": "You don’t have any transaction yet.",
+    "SendOrAddMoneytoWallet": "Send money or add money into your wallet",
+    "Add": "Add",
+    "Receive": "Receive",
+    "Convert": "Convert",
+    "Send": "Send"
   },
   "Settings": {
     "SettingsHeading": "Settings",
@@ -111,7 +123,6 @@
     "PersonalAccount": {
       "PersonalDetailsTabTitle": "Personal Details",
       "UploadedDocumentTabTitle": "Uploaded Document",
-
       "FirstName": "First Name",
       "MiddleName": "Middle Name",
       "LastName": "Last Name",
@@ -122,20 +133,17 @@
       "PEDQuestion": "Are you directly related to a political exposed person(PED)?",
       "Yes": "Yes",
       "No": "No",
-
       "FirstNameRequiredValidationLabel": "Please enter your first name.",
       "MiddleNameRequiredValidationLabel": "Please enter your middle name.",
       "LastNameRequiredValidationLabel": "Please enter your last name.",
       "AddressRequiredValidationLabel": "Please enter your address.",
       "CityRequiredValidationLabel": "Please select a city.",
       "ProvinceRequiredValidationLabel": "Please select a province.",
-
       "UploadDocument": "Upload Document",
       "Select": "Select",
       "BrowseDocuments": "Browse your device and upload documents",
       "MaximumFileSize": "Maximum file size 10MB",
       "UploadedDocuments": "Uploaded Documents",
-
       "DocumentTypeRequiredValidationLabel": "Please select a valid document type",
       "FileRequiredValidationLabel": "Please select a file to upload",
       "FileSizeValidationLabel": "File size is too large",
@@ -144,8 +152,7 @@
     "BusinessAccount": {
       "BusinessDetails": "Business Details",
       "UploadedDocument": "Uploaded Document",
-
-      "OrbitInvestmentInc": "Orbit Investment Inc.",
+      "CompanyNameLabel": "Company Name",
       "Director": "Director:",
       "FirstName": "First Name",
       "LastName": "Last Name",
@@ -157,8 +164,7 @@
       "Province": "Province",
       "PEPQuestion": "Are you a political exposed person(PEP)?",
       "PEDQuestion": "Are you directly related to a political exposed person(PED)?",
-
-      "OrbitInvestmentRequiredValidationLabel": "Please enter Orbit Investment Inc.",
+      "ComapnyNameRequiredValidationLabel": "Please enter Company Name.",
       "FirstNameRequiredValidationLabel": "Please enter the first name.",
       "LastNameRequiredValidationLabel": "Please enter the last name.",
       "RegistrationNoRequiredValidationLabel": "Please enter the registration no.",
@@ -166,13 +172,11 @@
       "AddressRequiredValidationLabel": "Please enter the address.",
       "CityRequiredValidationLabel": "Please select a city.",
       "ProvinceRequiredValidationLabel": "Please select a province.",
-
       "UploadDocument": "Upload Document",
       "Select": "Select",
       "BrowseDocuments": "Browse your device and upload documents",
       "MaximumFileSize": "Maximum file size 10MB",
       "UploadedDocuments": "Uploaded Documents",
-
       "DocumentTypeRequiredValidationLabel": "Please select a valid document type",
       "FileRequiredValidationLabel": "Please select a file to upload",
       "FileSizeValidationLabel": "File size is too large",
@@ -183,7 +187,6 @@
       "EmailPlaceholder": "Your Registered Email",
       "Verified": "Verified",
       "ChangeEmail": "Change Email",
-
       "EmailRequiredValidationLabel": "Please enter email address.",
       "EmailPatternValidationLabel": "Please enter a valid email address."
     },
@@ -198,16 +201,16 @@
       "CurrentPassword": "Current Password",
       "NewPassword": "Enter New Password",
       "ConfirmPassword": "Confirm New Password",
-
       "CurrentPasswordRequiredValidationLabel": "Please enter the current password",
       "NewPasswordRequiredValidationLabel": "Please enter the new password",
       "ConfirmPasswordRequiredValidationLabel": "Please confirm the new password"
     },
-
     "DeleteMyAccount": {
       "Warning": "Warning",
       "WarningAlert": "Once you will delete your account, you can not restore it.",
-      "DeleteAccount": "Delete Account"
+      "DeleteAccount": "Delete Account",
+      "DeleteBusinessAccount": "Delete Business Account",
+      "DeleteLabel": "Delete"
     }
   }
 }

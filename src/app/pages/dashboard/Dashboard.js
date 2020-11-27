@@ -1,10 +1,10 @@
 import React from "react";
 import CountUp from "react-countup";
 import { withTranslation } from "react-i18next";
-import { toast } from "react-toastify";
 import { connect } from "react-redux";
 
 import { callApi } from "../../services/apiService";
+import { toastService } from "../../services/toastService";
 import ApiConstants from "../../shared/config/apiConstants";
 
 import DataGrid from "./DataGrid/DataGrid";
@@ -35,9 +35,7 @@ class Dashboard extends React.Component {
         }
       })
       .catch((error) => {
-        toast.error(error.message, {
-          position: "top-right",
-        });
+        toastService.error(error.message);
         this.setState({ showLoader: false });
       });
   }

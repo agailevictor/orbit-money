@@ -15,6 +15,9 @@ import NotificationSettings from "./pages/NotificationSettings/NotificationSetti
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import DeleteMyAccount from "./pages/DeleteMyAccount/DeleteMyAccount";
 import Verify from "./pages/Verify/Verify";
+import CreateBusinessAccount from "./pages/CreateBusinessAccount/CreateBusinessAccount";
+import CustomerDashboard from "./pages/CustomerDashboard/CustomerDashboard";
+
 
 const RouteWithLayout = ({ layout, component, ...rest }) => {
   return <Route {...rest} render={(props) => React.createElement(layout, props, React.createElement(component, props))} />;
@@ -48,6 +51,8 @@ export default function AppRouter() {
         <GuardedRoute layout={MainLayout} path="/notification-settings" component={NotificationSettings} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/change-password" component={ChangePassword} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/delete-my-account" component={DeleteMyAccount} auth={true}></GuardedRoute>
+        <GuardedRoute layout={MainLayout} path="/create-business-account" component={CreateBusinessAccount} auth={true}></GuardedRoute>
+        <GuardedRoute layout={MainLayout} path="/customer-dashboard" component={CustomerDashboard} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/" component={Dashboard} exact auth={true}></GuardedRoute>
       </Switch>
     </Router>

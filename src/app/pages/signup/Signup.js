@@ -4,7 +4,7 @@ import { withTranslation } from "react-i18next";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import { tostService } from "../../services/toastService";
+import { toastService } from "../../services/toastService";
 import SocialMediaLogin from "../../components/SocialMediaLogin/SocialMediaLogin";
 import Caption from "../../components/Caption/Caption";
 import { callApi } from "../../services/apiService";
@@ -20,10 +20,11 @@ class Signup extends React.Component {
     super(props);
 
     this.state = {
+      isSubmitted: false,
+      signupProgress: false,
       showPassword: false,
       showConfirmPassword: false,
       showTermsErrorMsg: false,
-      countryOptions: [],
     };
 
     const { t } = this.props;
@@ -56,25 +57,9 @@ class Signup extends React.Component {
     this.setState({ showConfirmPassword: !showConfirmPassword });
   };
 
-  fetchCountries = () => {
-    callApi("get", ApiConstants.FETCH_COUNTRIES)
-      .then((response) => {
-        if (response.code === 200) {
-          this.setState({ countryOptions: response.dataList });
-        }
-      })
-      .catch((e) => {
-        tostService.error(e.message);
-      });
-  };
-
-  componentDidMount() {
-    this.fetchCountries();
-  }
-
   render() {
     const { t } = this.props;
-    const { showPassword, showConfirmPassword } = this.state;
+    const { showPassword, showConfirmPassword, isSubmitted } = this.state;
 
     return (
       <React.Fragment>
@@ -98,6 +83,7 @@ class Signup extends React.Component {
                 }}
                 validationSchema={SignUpSchema}
                 onSubmit={(values) => {
+                  this.setState({ signupProgress: true });
                   callApi("post", ApiConstants.SIGN_UP, {
                     countryId: values.country,
                     email: values.email,
@@ -108,18 +94,19 @@ class Signup extends React.Component {
                   })
                     .then((response) => {
                       if (response.code === 200) {
-                        tostService.success(response.message);
+                        toastService.success(response.message);
                         this.props.history.push("/signin");
                       } else {
-                        tostService.error(response.message);
+                        toastService.error(response.message);
                       }
+                      this.setState({ signupProgress: false });
                     })
                     .catch((e) => {
-                      tostService.error(e.message);
+                      toastService.error(e.message);
+                      this.setState({ signupProgress: false });
                     });
-                }}
-              >
-                {({ errors, handleChange, touched, onSubmit }) => (
+                }}>
+                {({ errors, handleChange, touched, values }) => (
                   <Form>
                     <div className="text-center mb-5">
                       <h1 className="display-4">{t("SignUp.SignUpLabel")}</h1>
@@ -131,7 +118,7 @@ class Signup extends React.Component {
                     <SocialMediaLogin />
 
                     <div className="text-center mb-4">
-                      <span className="divider text-muted">OR</span>
+                      <span className="divider text-muted">{t("SignUp.SocialMediaOr")}</span>
                     </div>
 
                     <label className="input-label" htmlFor="fullNameSrEmail">
@@ -143,7 +130,7 @@ class Signup extends React.Component {
                         <div className="js-form-message form-group">
                           <Field
                             type="text"
-                            className={`form-control form-control-lg ${errors.firstName ? "is-invalid" : ""}`}
+                            className={`form-control form-control-lg ${errors.firstName && isSubmitted ? "is-invalid" : ""}`}
                             name="firstName"
                             id="fullNameSrEmail"
                             placeholder="Mark"
@@ -157,7 +144,7 @@ class Signup extends React.Component {
                           <Field
                             type="text"
                             name="lastName"
-                            className={`form-control form-control-lg ${errors.lastName ? "is-invalid" : ""}`}
+                            className={`form-control form-control-lg ${errors.lastName && isSubmitted ? "is-invalid" : ""}`}
                             placeholder="Williams"
                           />
                           <ErrorMessage name="lastName">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
@@ -171,7 +158,7 @@ class Signup extends React.Component {
 
                       <Field
                         type="email"
-                        className={`form-control form-control-lg ${errors.email ? "is-invalid" : ""}`}
+                        className={`form-control form-control-lg ${errors.email && isSubmitted ? "is-invalid" : ""}`}
                         name="email"
                         id="signupSrEmail"
                         placeholder="Markwilliams@example.com"
@@ -181,12 +168,12 @@ class Signup extends React.Component {
 
                     <div className="js-form-message form-group">
                       <label className="input-label" htmlFor="phonenubmer">
-                        Phone Number
+                        {t("SignUp.YourPhoneLabel")}
                       </label>
 
                       <Field
                         type="number"
-                        className={`form-control form-control-lg ${errors.phone ? "is-invalid" : ""}`}
+                        className={`form-control form-control-lg ${errors.phone && isSubmitted ? "is-invalid" : ""}`}
                         name="phone"
                         id="phonenubmer"
                         placeholder="(321) 325 0042"
@@ -195,16 +182,19 @@ class Signup extends React.Component {
                     </div>
 
                     <div className="js-form-message form-group">
+                      <label className="input-label" htmlFor="phonenubmer">
+                        {t("SignUp.YourCountryLabel")}
+                      </label>
+
                       <CountryList
-                        options={this.state.countryOptions}
                         isSearchable={true}
+                        value={values.country}
                         onChange={(value) => {
                           let event = { target: { name: "country", value: value.value } };
                           handleChange(event);
                         }}
-                        className={`form-control-lg ${errors.country ? " is-invalid" : ""}`}
+                        className={`form-control-lg ${errors.country && isSubmitted ? " is-invalid" : ""}`}
                         error={errors.country}
-                        touched={touched.country}
                       />
                     </div>
 
@@ -216,7 +206,7 @@ class Signup extends React.Component {
                       <div className="input-group-merge">
                         <Field
                           type={showPassword ? "text" : "password"}
-                          className={`form-control form-control-lg ${errors.password ? "is-invalid" : ""}`}
+                          className={`form-control form-control-lg ${errors.password && isSubmitted ? "is-invalid" : ""}`}
                           name="password"
                           id="signupSrPassword"
                           placeholder="8+ characters required"
@@ -237,7 +227,7 @@ class Signup extends React.Component {
                       <div className="input-group-merge">
                         <Field
                           type={showConfirmPassword ? "text" : "password"}
-                          className={`form-control form-control-lg ${errors.confirmPassword ? "is-invalid" : ""}`}
+                          className={`form-control form-control-lg ${errors.confirmPassword && isSubmitted ? "is-invalid" : ""}`}
                           name="confirmPassword"
                           id="signupSrConfirmPassword"
                           placeholder="8+ characters required"
@@ -266,8 +256,13 @@ class Signup extends React.Component {
                       </ErrorMessage>
                     </div>
 
-                    <button type="submit" className="btn btn-lg btn-block btn-primary mb-2">
+                    <button
+                      type="submit"
+                      className="btn btn-lg btn-block btn-primary mb-2"
+                      disabled={this.state.signinProgress}
+                      onClick={() => this.setState({ isSubmitted: true })}>
                       {t("SignUp.SignUpButtonLabel")}
+                      {this.state.signinProgress ? t("SignUP.SigningUpButtonLabel") : t("SignUp.SignUpButtonLabel")}
                     </button>
                   </Form>
                 )}

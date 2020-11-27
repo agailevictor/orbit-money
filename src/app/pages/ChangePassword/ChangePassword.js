@@ -6,7 +6,7 @@ import * as Yup from "yup";
 
 import { callApi } from "../../services/apiService";
 import ApiConstants from "../../shared/config/apiConstants";
-import { tostService } from "../../services/toastService";
+import { toastService } from "../../services/toastService";
 
 import AppLoader from "../../components/AppLoader/AppLoader";
 
@@ -32,14 +32,14 @@ class ChangePassword extends React.Component {
       .then((response) => {
         this.setState({ showLoader: false });
         if (response.code === 200) {
-          tostService.success(response.message);
+          toastService.success(response.message);
         } else {
-          tostService.error(response.message);
+          toastService.error(response.message);
         }
       })
       .catch((e) => {
         this.setState({ showLoader: false });
-        tostService.error(e.message);
+        toastService.error(e.message);
       });
   };
 
