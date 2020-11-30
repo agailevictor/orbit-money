@@ -32,6 +32,11 @@
   right: -15px;
 }
 
+.custom-checkbox .custom-control-input:disabled:checked~.custom-control-label::before {
+  background-color: #f76c53;
+  border-color: #f76449;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

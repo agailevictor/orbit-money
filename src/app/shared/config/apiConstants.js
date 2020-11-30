@@ -3,17 +3,17 @@ const ApiConstants = {
   ACTIVATE_USER: "/orbit-user-authentication/activate",
   SIGN_IN: "/orbit-user-authentication/login",
 
-  FETCH_BALANCE: "/orbit-user-dashboard/fetchBalance",
-  FETCH_TRANSACTIONS: "/orbit-user-dashboard/fetchTransactions?",
-  SEARCH_TRANSACTIONS: "/orbit-user-dashboard/searchTransactions?",
-  EXPORT_AS_PDF: "/orbit-user-dashboard/exportTransactionsAsPdf",
+  FETCH_BALANCE: "/orbit-user-dashboard/api/balance",
+  FETCH_TRANSACTIONS: "/orbit-user-dashboard/api/dashboard/fetchTransactions",
+  SEARCH_TRANSACTIONS: "/orbit-user-dashboard/api/dashboard/fetchTransactions",
+  EXPORT_AS_PDF: "/orbit-user-dashboard/api/dashboard/exportTransactionsAsPdf",
   FETCH_DOCUMENTS: "/orbit-user-documents/api/document/fetchDocuments",
   FETCH_DOCUMENT: "/orbit-user-documents/api/document/fetchDocument/",
   PUSH_DOCUMENT: "/orbit-user-documents/api/document/pushDocument",
   UPDATE_DOCUMENT: "/orbit-user-documents/updateUserDocument",
 
   FETCH_COUNTRIES: "/orbit-lookups/fetchCountries",
-  FETCH_PROVINCES: "/orbit-lookups/fetchStates?",
+  FETCH_PROVINCES: "/orbit-lookups/fetchStates",
   FETCH_CITIES: "/orbit-lookups/fetchCities",
   FETCH_CATEGORIES: "/orbit-lookups/fetchCategories",
   FETCH_SUB_CATEGORIES: "/orbit-lookups/fetchSubCategories",
@@ -26,10 +26,11 @@ const ApiConstants = {
   DELETE_ACCOUNT: "/orbit-user-management/api/account",
 
   GET_CUSTOMER_ACCOUNTS: "/orbit-user-management/api/account",
-  SWITCH_CUSTOMER_ACCOUNTS: "/orbit-user-management/api/account",
+  SWITCH_CUSTOMER_ACCOUNTS: "/orbit-user-management/api/account/switchBusinessAccount",
 
   CREATE_BUSINESS_ACCOUNT: "/orbit-user-management/api/businessAccount",
   GET_BUSINESS_ACCOUNT_DETAILS: "/orbit-user-management/api/businessAccount",
+  UPDATE_BUSINESS_ACCOUNT: "/orbit-user-management/api/businessAccount",
   PUSH_BUSINESS_DOCUMENT: "/orbit-user-documents/api/document/pushBusinessDocument",
 };
 

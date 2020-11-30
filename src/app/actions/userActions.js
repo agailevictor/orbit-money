@@ -13,3 +13,11 @@ export function userSignedOut() {
     type: types.USER_SIGNED_OUT,
   };
 }
+
+export function refreshAccount(refresh) {
+  return {
+    type: types.REFRESH_ACCOUNT,
+    refresh
+  };
+}
+

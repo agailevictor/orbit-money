@@ -9,7 +9,7 @@ class Settings extends React.Component {
 
   render() {
     const { t } = this.props;
-    let selectedBusinessAccount = localStorage.getItem("selectedCustomerAccount")
+    let selectedBusinessAccount = localStorage.getItem("selectedCustomerAccount");
     return (
       <React.Fragment>
         <div className="content container-fluid dashboard-container">
@@ -32,7 +32,7 @@ class Settings extends React.Component {
                   <i className="tio-chevron-right"></i>
                 </Link>
               </div>
-              { selectedBusinessAccount && 
+              {selectedBusinessAccount && (
                 <div className="col-md-4">
                   <Link className="d-flex align-items-center" to="/business-account">
                     <img className="avatar" src="./assets/svg/settings/briefcase.svg" alt="" />
@@ -43,8 +43,8 @@ class Settings extends React.Component {
                     <i className="tio-chevron-right"></i>
                   </Link>
                 </div>
-              }
-              
+              )}
+
               {/* <div className="col-md-4">
                 <Link className="d-flex align-items-center" to="/email-setting">
                   <img className="avatar" src="./assets/svg/settings/mail.svg" alt="" />

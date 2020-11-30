@@ -1,5 +1,7 @@
 export const USER_SIGNED_IN = "USER_SIGNED_IN";
 export const USER_SIGNED_OUT = "USER_SIGNED_OUT";
+export const REFRESH_ACCOUNT = "REFRESH_ACCOUNT";
+
 
 // Lookup data
 export const UPDATE_COUNTRY_LIST = "UPDATE_COUNTRY_LIST";

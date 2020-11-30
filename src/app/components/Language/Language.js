@@ -11,10 +11,10 @@ const countryOptions = [
     icon: "us",
   },
   {
-    value: "fr",
-    label: "French",
+    value: "fr_ca",
+    label: "French (CA)",
     icon: "fr",
-  },
+  }
 ];
 
 const renderOptions = (options) => {

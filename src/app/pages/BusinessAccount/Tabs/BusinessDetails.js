@@ -40,24 +40,26 @@ const BusinessDetails = (props) => {
     state: "",
     pep: false,
     dpep: false,
-    categoryId: "2",
+    category: "",
     subCategory: "",
     website: "",
-    transactionNumberPm: "",
-    transactionValuePm: "",
+    numberOfTransactionPerMonth: "",
+    valueOfTransactionPerMonth: "",
   });
 
   const validationSchema = Yup.object().shape({
     companyName: Yup.string().required(t("Settings.BusinessAccount.ComapnyNameRequiredValidationLabel")),
     businessAccountShareHoldersDirectorsList: Yup.array().of(
       Yup.object().shape({
-        firstName: Yup.string().required("Required"),
-        lastName: Yup.string().required("Required"),
-        email: Yup.string().required("Required"),
+        firstName: Yup.string().required(t("Settings.BusinessAccount.FirstNameRequiredValidationLabel")),
+        lastName: Yup.string().required(t("Settings.BusinessAccount.LastNameRequiredValidationLabel")),
+        email: Yup.string()
+          .required(t("Settings.BusinessAccount.EmailRequiredValidationLabel"))
+          .email(t("Settings.BusinessAccount.EmailPatternValidationLabel")),
         isShareHolder: Yup.boolean(),
         sharePercentage: Yup.string().when("isShareHolder", {
           is: true,
-          then: Yup.string().required("Required"),
+          then: Yup.string().required(t("Settings.BusinessAccount.SharePercentageRequiredValidationLabel")),
         }),
       })
     ),
@@ -67,16 +69,37 @@ const BusinessDetails = (props) => {
     country: Yup.string().required(t("SignUp.CountryRequiredValidationLabel")),
     city: Yup.mixed().required(t("Settings.BusinessAccount.CityRequiredValidationLabel")),
     state: Yup.mixed().required(t("Settings.BusinessAccount.ProvinceRequiredValidationLabel")),
-    categoryId: Yup.string().required("Required"),
-    subCategory: Yup.string().required("Required"),
-    website: Yup.string().required("Required"),
-    transactionValuePm: Yup.string().required("Required"),
-    transactionNumberPm: Yup.string().required("Required"),
+    category: Yup.string().required(t("Settings.BusinessAccount.CategoryRequiredValidationLabel")),
+    subCategory: Yup.string().required(t("Settings.BusinessAccount.SubCategoryRequiredValidationLabel")),
+    website: Yup.string().required(t("Settings.BusinessAccount.WebsiteRequiredValidationLabel")),
+    valueOfTransactionPerMonth: Yup.string().required(t("Settings.BusinessAccount.ValueofTransactionRequiredValidationLabel")),
+    numberOfTransactionPerMonth: Yup.string().required(t("Settings.BusinessAccount.NumberofTransactionRequiredValidationLabel")),
   });
 
   useEffect(() => {
     fetchBusinesstDetails();
   }, []);
+
+  const updateBusinessAccount = (values) => {
+    setShowLoader(true);
+    
+    values.businessAccountShareHoldersDirectorsList.forEach(item => {
+      item.sharePercentage = item.isShareHolder ? item.sharePercentage : 0
+    });
+    values.transactionNumberPm = values.valueOfTransactionPerMonth;
+    values.transactionValuePm = values.numberOfTransactionPerMonth;
+    callApi("put", ApiConstants.UPDATE_BUSINESS_ACCOUNT, values, true)
+      .then((response) => {
+        setShowLoader(false);
+        if (response.code === 200) {
+          toastService.success(response.message);
+        }
+      })
+      .catch((e) => {
+        setShowLoader(false);
+        toastService.error(e.message);
+      });
+  }
 
   const fetchBusinesstDetails = () => {
     setShowLoader(true);
@@ -86,12 +109,12 @@ const BusinessDetails = (props) => {
         if (response.code === 200) {
           setBusinessDetailsData(response.data);
         } else {
-          toastService.error(response.message, { autoClose: true });
+          toastService.error(response.message);
         }
       })
       .catch((e) => {
         setShowLoader(false);
-        toastService.error(e.message, { autoClose: true });
+        toastService.error(e.message);
       });
   };
 
@@ -104,7 +127,7 @@ const BusinessDetails = (props) => {
           initialValues={businessDetailsData}
           validationSchema={validationSchema}
           onSubmit={(values) => {
-            alert(JSON.stringify(values));
+            updateBusinessAccount(values)
           }}>
           {({ errors, handleChange, values, setFieldValue }) => (
             <Form>
@@ -137,11 +160,13 @@ const BusinessDetails = (props) => {
                         name="companyName"
                         id=""
                         placeholder={t("Settings.BusinessAccount.CompanyNameLabel")}
+                        disabled= {true}
                       />
                       <ErrorMessage name="companyName">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
                     </div>
                   </div>
                 </div>
+
                 <FieldArray
                   name="businessAccountShareHoldersDirectorsList"
                   render={(arrayHelpers) => (
@@ -163,9 +188,9 @@ const BusinessDetails = (props) => {
                         </div>
                       </div>
                       {values.businessAccountShareHoldersDirectorsList.map((item, index) => (
-                        <div key={index}>
+                        <div key={index} className="custom-memberBlock">
                           <div className="row">
-                            <div className="col-sm-6">
+                            <div className="col-sm-4">
                               <div className="form-group">
                                 <Field
                                   name={`businessAccountShareHoldersDirectorsList.${index}.firstName`}
@@ -180,34 +205,57 @@ const BusinessDetails = (props) => {
                                   }`}
                                   id="firstName"
                                   placeholder="First Name"
+                                  disabled={values.businessAccountShareHoldersDirectorsList[index].id ? true : false}
                                 />
                                 <ErrorMessage name={`businessAccountShareHoldersDirectorsList.${index}.firstName`}>
                                   {(msg) => <div className="invalid-feedback">{msg}</div>}
                                 </ErrorMessage>
                               </div>
                             </div>
-                            <div className="col-sm-6">
+                            <div className="col-sm-4">
+                              <div className="form-group">
+                                <Field
+                                  name={`businessAccountShareHoldersDirectorsList.${index}.lastName`}
+                                  type="text"
+                                  className={`form-control ${
+                                    errors.businessAccountShareHoldersDirectorsList &&
+                                    errors.businessAccountShareHoldersDirectorsList[index] &&
+                                    errors.businessAccountShareHoldersDirectorsList[index].lastName &&
+                                    isSubmitted
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
+                                  id="lastName"
+                                  placeholder="Last Name"
+                                  disabled={values.businessAccountShareHoldersDirectorsList[index].id ? true : false}
+                                />
+                                <ErrorMessage name={`businessAccountShareHoldersDirectorsList.${index}.lastName`}>
+                                  {(msg) => <div className="invalid-feedback">{msg}</div>}
+                                </ErrorMessage>
+                              </div>
+                            </div>
+                            <div className="col-sm-4">
                               <div className="form-group">
                                 <div className="input-group-add-field mt-0">
                                   <Field
-                                    name={`businessAccountShareHoldersDirectorsList.${index}.lastName`}
+                                    name={`businessAccountShareHoldersDirectorsList.${index}.email`}
                                     type="text"
                                     className={`form-control ${
                                       errors.businessAccountShareHoldersDirectorsList &&
                                       errors.businessAccountShareHoldersDirectorsList[index] &&
-                                      errors.businessAccountShareHoldersDirectorsList[index].lastName &&
+                                      errors.businessAccountShareHoldersDirectorsList[index].email &&
                                       isSubmitted
                                         ? "is-invalid"
                                         : ""
                                     }`}
-                                    id="lastName"
-                                    placeholder="Last Name"
+                                    id="email"
+                                    placeholder="Email"
+                                    disabled={values.businessAccountShareHoldersDirectorsList[index].id ? true : false}
                                   />
-                                  <ErrorMessage name={`businessAccountShareHoldersDirectorsList.${index}.lastName`}>
+                                  <ErrorMessage name={`businessAccountShareHoldersDirectorsList.${index}.email`}>
                                     {(msg) => <div className="invalid-feedback">{msg}</div>}
                                   </ErrorMessage>
-
-                                  {values.businessAccountShareHoldersDirectorsList.length > 1 && (
+                                  {values.businessAccountShareHoldersDirectorsList.length > 1 && !values.businessAccountShareHoldersDirectorsList[index].id && (
                                     <a
                                       className="input-group-add-field-delete"
                                       href="#"
@@ -215,35 +263,49 @@ const BusinessDetails = (props) => {
                                         event.preventDefault();
                                         arrayHelpers.remove(index);
                                       }}>
-                                      <i class="tio-clear"></i>
+                                      <i className="tio-clear"></i>
                                     </a>
                                   )}
                                 </div>
                               </div>
                             </div>
-                            <div className="col-sm-6">
+
+                            <div className="col-sm-4">
                               <div className="form-group">
-                                <Field
-                                  name={`businessAccountShareHoldersDirectorsList.${index}.email`}
-                                  type="text"
-                                  className={`form-control ${
-                                    errors.businessAccountShareHoldersDirectorsList &&
-                                    errors.businessAccountShareHoldersDirectorsList[index] &&
-                                    errors.businessAccountShareHoldersDirectorsList[index].email &&
-                                    isSubmitted
-                                      ? "is-invalid"
-                                      : ""
-                                  }`}
-                                  id="email"
-                                  placeholder="Email"
-                                />
-                                <ErrorMessage name={`businessAccountShareHoldersDirectorsList.${index}.email`}>
-                                  {(msg) => <div className="invalid-feedback">{msg}</div>}
-                                </ErrorMessage>
+                                <div className="custom-control custom-checkbox">
+                                  <Field
+                                    name={`businessAccountShareHoldersDirectorsList.${index}.isDirector`}
+                                    type="checkbox"
+                                    className="custom-control-input"
+                                    id={`isDirector${index}`}
+                                    disabled={values.businessAccountShareHoldersDirectorsList[index].id ? true : false}
+                                  />
+                                  <label className="custom-control-label font-size-sm text-muted" htmlFor={`isDirector${index}`}>
+                                    Director
+                                  </label>
+                                </div>
                               </div>
                             </div>
-                            <div className="col-sm-6">
+
+                            <div className="col-sm-4">
                               <div className="form-group">
+                                <div className="custom-control custom-checkbox">
+                                  <Field
+                                    name={`businessAccountShareHoldersDirectorsList.${index}.isShareHolder`}
+                                    type="checkbox"
+                                    className="custom-control-input"
+                                    id={`isShareholder${index}`}
+                                    disabled={values.businessAccountShareHoldersDirectorsList[index].id ? true : false}
+                                  />
+                                  <label className="custom-control-label font-size-sm text-muted" htmlFor={`isShareholder${index}`}>
+                                    Shareholder
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="col-sm-4">
+                              <div className="form-group" style={{ height: "32px" }}>
                                 {values.businessAccountShareHoldersDirectorsList[index].isShareHolder && (
                                   <Field
                                     name={`businessAccountShareHoldersDirectorsList.${index}.sharePercentage`}
@@ -262,42 +324,13 @@ const BusinessDetails = (props) => {
                                         : ""
                                     }
                                     id="sharePercentage"
-                                    placeholder="Percentage of Share"
-                                    disabled={!values.businessAccountShareHoldersDirectorsList[index].isShareHolder}
+                                    placeholder="Percentage of share"
+                                    disabled={values.businessAccountShareHoldersDirectorsList[index].id ? true : false}
                                   />
                                 )}
                                 <ErrorMessage name={`businessAccountShareHoldersDirectorsList.${index}.sharePercentage`}>
                                   {(msg) => <div className="invalid-feedback">{msg}</div>}
                                 </ErrorMessage>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="row chkbox-container">
-                            <div className="col-sm-12">
-                              <div className="form-group">
-                                <div className="custom-control custom-checkbox" style={{ float: "left", marginRight: "15px" }}>
-                                  <Field
-                                    name={`businessAccountShareHoldersDirectorsList.${index}.isShareHolder`}
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id={`isShareholder${index}`}
-                                  />
-                                  <label className="custom-control-label font-size-sm text-muted" htmlFor={`isShareholder${index}`}>
-                                    Is Shareholder?
-                                  </label>
-                                </div>
-                                <div className="custom-control custom-checkbox" style={{ float: "left" }}>
-                                  <Field
-                                    name={`businessAccountShareHoldersDirectorsList.${index}.isDirector`}
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id={`isDirector${index}`}
-                                  />
-                                  <label className="custom-control-label font-size-sm text-muted" htmlFor={`isDirector${index}`}>
-                                    Is Director?
-                                  </label>
-                                </div>
                               </div>
                             </div>
                           </div>
@@ -316,6 +349,7 @@ const BusinessDetails = (props) => {
                         name="registrationNo"
                         id=""
                         placeholder={t("Settings.BusinessAccount.RegistrationNo")}
+                        disabled= {true}
                       />
                       <ErrorMessage name="registrationNo">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
                     </div>
@@ -328,6 +362,7 @@ const BusinessDetails = (props) => {
                         name="taxNumber"
                         id=""
                         placeholder={t("Settings.BusinessAccount.TaxNumber")}
+                        disabled= {true}
                       />
                       <ErrorMessage name="taxNumber">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
                     </div>
@@ -497,87 +532,85 @@ const BusinessDetails = (props) => {
                 <div className="row">
                   <div className="col-md-4">
                     <div className="form-group">
-                    <CategoryList
-                      value={values.categoryId}
-                      isSearchable={true}
-                      placeholder="Select Category"
-                      onChange={(value) => {
-                        setFieldValue("subCategory", "");
-                        let event = { target: { name: "categoryId", value: value.value } };
-                        handleChange(event);
-                      }}
-                      className={`form-control ${errors.categoryId && isSubmitted ? " is-invalid" : ""}`}
-                      error={errors.categoryId}
-                    />
+                      <CategoryList
+                        value={values.category}
+                        isSearchable={true}
+                        placeholder="Select Category"
+                        onChange={(value) => {
+                          setFieldValue("subCategory", "");
+                          let event = { target: { name: "category", value: value.value } };
+                          handleChange(event);
+                        }}
+                        className={`form-control ${errors.category && isSubmitted ? " is-invalid" : ""}`}
+                        error={errors.category}
+                      />
                     </div>
                   </div>
 
                   <div className="col-md-4">
                     <div className="form-group">
-                    <SubCategoryList
-                      value={values.subCategory}
-                      categoryId={values.categoryId}
-                      isSearchable={true}
-                      placeholder="Select Subcategory"
-                      onChange={(value) => {
-                        let event = { target: { name: "subCategory", value: value.value } };
-                        handleChange(event);
-                      }}
-                      className={`form-control ${errors.subCategory && isSubmitted ? " is-invalid" : ""}`}
-                      error={errors.subCategory}
-                    />
+                      <SubCategoryList
+                        value={values.subCategory}
+                        categoryId={values.category}
+                        isSearchable={true}
+                        placeholder="Select Subcategory"
+                        onChange={(value) => {
+                          let event = { target: { name: "subCategory", value: value.value } };
+                          handleChange(event);
+                        }}
+                        className={`form-control ${errors.subCategory && isSubmitted ? " is-invalid" : ""}`}
+                        error={errors.subCategory}
+                      />
                     </div>
                   </div>
 
                   <div className="col-md-4">
                     <div className="form-group">
-                    <Field
-                      type="text"
-                      className={`form-control ${errors.website && isSubmitted ? "is-invalid" : ""}`}
-                      name="website"
-                      id="website"
-                      placeholder="Website or social media link"
-                    />
-                    <ErrorMessage name="website">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
+                      <Field
+                        type="text"
+                        className={`form-control ${errors.website && isSubmitted ? "is-invalid" : ""}`}
+                        name="website"
+                        id="website"
+                        placeholder="Website or social media link"
+                      />
+                      <ErrorMessage name="website">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
                     </div>
                   </div>
                 </div>
 
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-12">
                     <div className="form-group">
                       <TransactionValueList
-                        value={values.transactionValuePm}
+                        value={values.valueOfTransactionPerMonth}
                         isSearchable={true}
                         placeholder="Value of Transaction per Month"
                         onChange={(value) => {
-                          let event = { target: { name: "transactionValuePm", value: value.value } };
+                          let event = { target: { name: "valueOfTransactionPerMonth", value: value.value } };
                           handleChange(event);
                         }}
-                        className={`form-control ${errors.transactionValuePm && isSubmitted ? " is-invalid" : ""}`}
-                        error={errors.transactionValuePm}
+                        className={`form-control ${errors.valueOfTransactionPerMonth && isSubmitted ? " is-invalid" : ""}`}
+                        error={errors.valueOfTransactionPerMonth}
                       />
                     </div>
                   </div>
 
-                  <div className="col-md-6">
+                  <div className="col-md-12">
                     <div className="form-group">
                       <TransactionNumberList
-                        value={values.transactionNumberPm}
+                        value={values.numberOfTransactionPerMonth}
                         isSearchable={true}
                         placeholder="Number of Transaction per Month"
                         onChange={(value) => {
-                          let event = { target: { name: "transactionNumberPm", value: value.value } };
+                          let event = { target: { name: "numberOfTransactionPerMonth", value: value.value } };
                           handleChange(event);
                         }}
-                        className={`form-control ${errors.transactionNumberPm && isSubmitted ? " is-invalid" : ""}`}
-                        error={errors.transactionNumberPm}
+                        className={`form-control ${errors.numberOfTransactionPerMonth && isSubmitted ? " is-invalid" : ""}`}
+                        error={errors.numberOfTransactionPerMonth}
                       />
                     </div>
                   </div>
                 </div>
-
-
               </div>
               <div className="card-footer d-flex justify-content-end align-items-center">
                 <button type="submit" className="btn btn-primary" onClick={() => setisSubmitted(true)}>

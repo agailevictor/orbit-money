@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { withTranslation } from "react-i18next";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 
 import AppLoader from "../../../components/AppLoader/AppLoader";
@@ -22,6 +23,7 @@ const Verification = (props) => {
   ]);
   const [selectedDocumentType, setSelectedDocumentType] = useState("");
   const [fileData, setFileData] = useState([]);
+  const [activeUploadList, setActiveUploadList] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
 
   const validationSchema = Yup.object().shape({
@@ -42,32 +44,42 @@ const Verification = (props) => {
         <td>{index + 1}</td>
         <td>{file.type.label}</td>
         <td>
-          <button type="button" className="btn btn-info btn-xs" onClick={(e) => uploadDocument(file)}>
-            Upload
-          </button>
+          { !file.uploadStatus &&  
+            <button type="button" className="btn btn-info btn-xs" onClick={(e) => uploadDocument(file)}>
+              Upload
+            </button>
+          }
+         
         </td>
       </tr>
     );
   });
 
-  const uploadDocument = (fileData) => {
+  const uploadDocument = (selectedFile) => {
     setShowLoader(true);
-    getBase64(fileData.file, (result) => {
-      callApi(
-        "post",
-        ApiConstants.PUSH_BUSINESS_DOCUMENT,
-        {
-          base64: result,
-          businessAccountId: JSON.parse(localStorage.getItem("selectedCustomerAccount")).id,
-          documentTypes: fileData.type.value,
-          fileName: fileData.file.name,
-        },
-        true
-      )
+    getBase64(selectedFile.file, (result) => {
+      const businessAccount = localStorage.getItem("selectedCustomerAccount") ?JSON.parse(localStorage.getItem("selectedCustomerAccount")) : null
+      let params =  {
+        base64: result,
+        businessAccountId: businessAccount ? businessAccount.id : null,
+        documentTypes: selectedFile.type.value,
+        fileName: selectedFile.file.name,
+      }
+      callApi( "post", ApiConstants.PUSH_BUSINESS_DOCUMENT, params, true)
         .then((response) => {
           setShowLoader(false);
           if (response.code === 200) {
             toastService.success(response.message);
+            let updatedData = fileData.map(file => {
+              if(file.type.value === selectedFile.type.value) {
+                return { ...file, uploadStatus: true}
+              } else {
+                return {...file}
+              }
+            })
+            setFileData(updatedData)
+            let updatedUploadList = updatedData.filter(file => file.uploadStatus === false)
+            setActiveUploadList(updatedUploadList)
           } else {
             toastService.error(response.message);
           }
@@ -89,6 +101,20 @@ const Verification = (props) => {
       console.log("Error: ", error);
     };
   };
+
+  const onSelectFile = (event) => {
+    let updatedFileData = fileData;
+    let index = updatedFileData.findIndex(item => item.type === selectedDocumentType)
+    if(index === -1) {
+      updatedFileData.push({ file: event.target.files[0], type: selectedDocumentType, uploadStatus: false });
+    } else {
+      updatedFileData[index].file = event.target.files[0]
+    }
+    setFileData(updatedFileData.map((item) => item));
+    let updatedUploadList = fileData.filter(file => file.uploadStatus === false)
+    setActiveUploadList(updatedUploadList)
+    
+  }
 
   return (
     <React.Fragment>
@@ -141,9 +167,7 @@ const Verification = (props) => {
                               onChange={(event) => {
                                 let eventData = { target: { name: "custom_file_boxed", value: event.target.files[0] } };
                                 handleChange(eventData);
-                                let updatedFileData = fileData;
-                                updatedFileData.push({ file: event.target.files[0], type: selectedDocumentType });
-                                setFileData(updatedFileData.map((item) => item));
+                                onSelectFile(event)
                               }}
                               onClick={(event) => {
                                 event.target.value = null;
@@ -173,9 +197,11 @@ const Verification = (props) => {
                 </div>
                 <div className="card-footer d-sm-flex align-items-sm-center">
                   <div className="ml-auto">
-                    <button id="" type="button" className="btn btn-primary">
+                    <Link to="/customer-dashboard">
+                    <button id="" type="button" className="btn btn-primary" disabled={activeUploadList.length}>
                       Continue
                     </button>
+                    </Link>
                   </div>
                 </div>
               </div>

@@ -51,18 +51,26 @@ const Account = (props) => {
         closePopup();
       }
     });
-    getCustomerAccountsList();
-    if (localStorage.getItem("selectedCustomerAccount")) {
-      setSelectedAccount(JSON.parse(localStorage.getItem("selectedCustomerAccount")));
-    }
+    props.setRefreshAccount(true)
     return () => {};
   }, []);
+
+  useEffect(() => {
+    if(props.refreshAccount) {
+      getCustomerAccountsList();
+      if (localStorage.getItem("selectedCustomerAccount")) {
+        setSelectedAccount(JSON.parse(localStorage.getItem("selectedCustomerAccount")));
+      }
+      props.setRefreshAccount(false)
+    }
+    return () => {};
+  }, [props.refreshAccount]);
 
   const getCustomerAccountsList = () => {
     callApi("get", ApiConstants.GET_CUSTOMER_ACCOUNTS)
       .then((response) => {
         if (response.code === 200) {
-          setCustomerAccounts(response.data);
+          setCustomerAccounts(response.dataList);
         }
       })
       .catch((error) => {
@@ -74,7 +82,8 @@ const Account = (props) => {
     event.preventDefault();
     localStorage.setItem("selectedCustomerAccount", JSON.stringify(account));
     setSelectedAccount(account);
-    props.history.replace("/customer-dashboard");
+    props.history.push("/");
+    setTimeout(()=> { props.history.replace("/customer-dashboard"); },50)
     closePopup();
   };
 
@@ -157,12 +166,14 @@ const mapStateToProps = (state) => {
   return {
     userToken: state.userReducer.userToken,
     isAuthenticated: state.userReducer.isAuthenticated,
+    refreshAccount: state.userReducer.refreshAccount,
   };
 };
 
 const mapDispatchToProps = (dispatch, getState) => {
   return {
     renewLogin: (token) => dispatch(ActionCreators.userSignedIn(token)),
+    setRefreshAccount: (refresh) => dispatch(ActionCreators.refreshAccount(refresh)),
     signout: () => dispatch(ActionCreators.userSignedOut()),
   };
 };

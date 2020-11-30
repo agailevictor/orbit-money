@@ -28,9 +28,9 @@ export const callApi = (method, url, params, hasCustomerAccountToken) => {
         resolve(response.data);
       })
       .catch((e) => {
-        if (e.response.status === 401) {
-          localStorage.removeItem("auth");
-        }
+        // if (e.response.status === 401) {
+        //   localStorage.removeItem("auth");
+        // }
         reject(e);
       });
   });

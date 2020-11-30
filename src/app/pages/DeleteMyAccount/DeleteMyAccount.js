@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import { withTranslation } from "react-i18next";
 
+import AppLoader from "../../components/AppLoader/AppLoader";
+import { ActionCreators } from "../../actions";
 import { callApi } from "../../services/apiService";
 import ApiConstants from "../../shared/config/apiConstants";
 import { toastService } from "../../services/toastService";
@@ -11,47 +14,55 @@ import "./DeleteMyAccount.scss";
 class DeleteMyAccount extends React.Component {
   constructor(props) {
     super(props);
+    this.state =  {
+      showLoader: false
+    }
   }
 
   deleteAccount = () => {
+    this.setState({showLoader: true});
     callApi("delete", ApiConstants.DELETE_ACCOUNT)
       .then((response) => {
         if (response.code === 200) {
+          this.setState({showLoader: false});
           toastService.success(response.message);
           localStorage.removeItem("auth");
           localStorage.removeItem("authToken");
           this.props.history.replace("/signin");
-        } else {
-          toastService.error(response.message);
         }
       })
       .catch((e) => {
         toastService.error(e.message);
+        this.setState({showLoader: false});
       });
   };
 
   deleteBusinessAccount = () => {
-    callApi("delete", ApiConstants.DELETE_ACCOUNT, true)
+    this.setState({showLoader: true});
+    callApi("delete", ApiConstants.DELETE_ACCOUNT, null, true)
       .then((response) => {
         if (response.code === 200) {
           toastService.success(response.message);
           localStorage.removeItem("selectedCustomerAccount");
           localStorage.removeItem("CustomerAccountToken");
+          this.props.setRefreshAccount(true);
+          this.setState({showLoader: false});
           this.props.history.replace("/dashboard");
-        } else {
-          toastService.error(response.message);
         }
       })
       .catch((e) => {
         toastService.error(e.message);
+        this.setState({showLoader: false});
       });
   };
 
   render() {
     const { t } = this.props;
+    let {showLoader} = this.state
     const selectedBusinessAccount = localStorage.getItem("selectedCustomerAccount") ? JSON.parse(localStorage.getItem("selectedCustomerAccount")) : null
     return (
       <React.Fragment>
+        <AppLoader show={showLoader} />
         <div className="content container-fluid">
           <div className="page-header">
             <div className="row align-items-end">
@@ -103,4 +114,15 @@ class DeleteMyAccount extends React.Component {
   }
 }
 
-export default withTranslation()(DeleteMyAccount);
+const mapStateToProps = (state) => {
+  return {
+    refreshAccount: state.userReducer.refreshAccount,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setRefreshAccount: (refresh) => dispatch(ActionCreators.refreshAccount(refresh)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(DeleteMyAccount));

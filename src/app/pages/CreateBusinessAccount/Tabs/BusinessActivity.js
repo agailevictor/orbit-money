@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useTranslation } from "react-i18next";
 
 import AppLoader from "../../../components/AppLoader/AppLoader";
 import { ActionCreators } from "../../../actions";
@@ -14,6 +15,7 @@ import TransactionValueList from "../../../components/TransactionValueList/Trans
 import TransactionNumberList from "../../../components/TransactionNumberList/TransactionNumberList";
 
 const BusinessActivity = (props) => {
+  const { t } = useTranslation();
   const initValues = {
     categoryId: "",
     subCategory: "",
@@ -26,30 +28,26 @@ const BusinessActivity = (props) => {
   const [isSubmitted, setisSubmitted] = useState(false);
 
   const validationSchema = Yup.object().shape({
-    categoryId: Yup.string().required("Required"),
-    subCategory: Yup.string().required("Required"),
-    website: Yup.string().required("Required"),
-    valueOfTransactionPerMonth: Yup.string().required("Required"),
-    numberOfTransactionPerMonth: Yup.string().required("Required"),
+    categoryId: Yup.string().required(t("Settings.BusinessAccount.CategoryRequiredValidationLabel")),
+    subCategory: Yup.string().required(t("Settings.BusinessAccount.SubCategoryRequiredValidationLabel")),
+    website: Yup.string().required(t("Settings.BusinessAccount.WebsiteRequiredValidationLabel")),
+    valueOfTransactionPerMonth: Yup.string().required(t("Settings.BusinessAccount.ValueofTransactionRequiredValidationLabel")),
+    numberOfTransactionPerMonth: Yup.string().required(t("Settings.BusinessAccount.NumberofTransactionRequiredValidationLabel")),
   });
 
   const setCustomerAccounts = (id, type) => {
-    const selectedAccount = { businessId: "", id: id, title: props.registrationData.companyName, type: type }
+    const selectedAccount = { businessId: "", id: id, title: props.registrationData.companyName, type: type };
     localStorage.setItem("selectedCustomerAccount", JSON.stringify(selectedAccount));
-    callApi(
-      "post",
-      ApiConstants.SWITCH_CUSTOMER_ACCOUNTS, { id: id, type: type },
-      false
-    )
+    callApi("post", ApiConstants.SWITCH_CUSTOMER_ACCOUNTS, { id: id, type: type }, false)
       .then((response) => {
         if (response.code === 200) {
           localStorage.setItem("CustomerAccountToken", response.data.token);
         }
       })
       .catch((error) => {
-        toastService.error(error.message, { position: "top-right",});
+        toastService.error(error.message, { position: "top-right" });
       });
-  }
+  };
 
   const createBusinessAccount = (businessData) => {
     setShowLoader(true);
@@ -57,9 +55,10 @@ const BusinessActivity = (props) => {
     callApi("post", ApiConstants.CREATE_BUSINESS_ACCOUNT, params)
       .then((response) => {
         if (response.code === 200) {
-          setCustomerAccounts(response.data.businessAccountId, "BUSINESS")
+          setCustomerAccounts(response.data.businessAccountId, "BUSINESS");
           toastService.success(response.message);
           setShowLoader(false);
+          props.setRefreshAccount(true)
           props.onSetTabs(null, "tab3");
         }
       })
@@ -185,6 +184,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, getState) => {
   return {
     setData: (data) => dispatch(ActionCreators.updateBusinessAccountAction(data)),
+    setRefreshAccount: (refresh) => dispatch(ActionCreators.refreshAccount(refresh)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BusinessActivity);

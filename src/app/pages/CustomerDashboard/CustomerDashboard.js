@@ -60,7 +60,7 @@ class CustomerDashboard extends React.Component {
     callApi("get", ApiConstants.FETCH_BALANCE, null, true)
       .then((response) => {
         if (response.code === 200) {
-          this.setState({ showLoader: false, balance: response.data.balance, currency: response.data.currency, imgFlag: response.data.url });
+          this.setState({ showLoader: false, balance: response.data.balance? response.data.balance : 0, currency: response.data.currency, imgFlag: response.data.url });
         } else {
           this.setState({ showLoader: false });
           toastService.error(response.message);
@@ -81,12 +81,12 @@ class CustomerDashboard extends React.Component {
           <div className="page-header">
             <div className="row align-items-end">
               <div className="col-sm mb-2 mb-sm-0">
-                <h1 class="page-title">
+                <h1 className="page-title">
                   {this.accountData.title}&nbsp;
                   <small>
                     {this.accountData.businessId}&nbsp;
-                    <a class="js-clipboard" href="javascript:;" title="" data-tip="Copy Code Number">
-                      <i id="apiKeyCodeIcon1" class="tio-copy"></i>
+                    <a className="js-clipboard" href="#" title="" data-tip="Copy Code Number">
+                      <i id="apiKeyCodeIcon1" className="tio-copy"></i>
                     </a>
                   </small>
                 </h1>

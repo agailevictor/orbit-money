@@ -50,12 +50,12 @@ const PersonalDetails = (props) => {
         if (response.code === 200) {
           setPersonalData(response.data);
         } else {
-          toastService.error(response.message, { autoClose: true });
+          toastService.error(response.message);
         }
       })
       .catch((e) => {
         setShowLoader(false);
-        toastService.error(e.message, { autoClose: true });
+        toastService.error(e.message);
       });
   };
 
@@ -76,14 +76,14 @@ const PersonalDetails = (props) => {
       .then((response) => {
         setShowLoader(false);
         if (response.code === 200) {
-          toastService.success(response.message, { autoClose: true });
+          toastService.success(response.message);
         } else {
-          toastService.error(response.message, { autoClose: true });
+          toastService.error(response.message);
         }
       })
       .catch((e) => {
         setShowLoader(false);
-        toastService.error(e.message, { autoClose: true });
+        toastService.error(e.message);
       });
   };
 

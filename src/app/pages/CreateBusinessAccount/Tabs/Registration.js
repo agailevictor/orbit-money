@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useTranslation } from "react-i18next";
 
 import AppLoader from "../../../components/AppLoader/AppLoader";
 import CountryList from "../../../components/CountryList/CountryList";
@@ -10,6 +11,7 @@ import CityList from "../../../components/CityList/CityList";
 import { ActionCreators } from "../../../actions";
 
 const Registration = (props) => {
+  const { t } = useTranslation();
   const initValues = {
     companyName: "",
     businessAccountShareHoldersDirectorsList: [
@@ -36,25 +38,27 @@ const Registration = (props) => {
   const [registerData, setregisterData] = useState(initValues);
 
   const validationSchema = Yup.object().shape({
-    companyName: Yup.string().required("Required"),
+    companyName: Yup.string().required(t("Settings.BusinessAccount.ComapnyNameRequiredValidationLabel")),
     businessAccountShareHoldersDirectorsList: Yup.array().of(
       Yup.object().shape({
-        firstName: Yup.string().required("Required"),
-        lastName: Yup.string().required("Required"),
-        email: Yup.string().required("Required"),
+        firstName: Yup.string().required(t("Settings.BusinessAccount.FirstNameRequiredValidationLabel")),
+        lastName: Yup.string().required(t("Settings.BusinessAccount.LastNameRequiredValidationLabel")),
+        email: Yup.string()
+          .required(t("Settings.BusinessAccount.EmailRequiredValidationLabel"))
+          .email(t("Settings.BusinessAccount.EmailPatternValidationLabel")),
         isShareHolder: Yup.boolean(),
         sharePercentage: Yup.string().when("isShareHolder", {
           is: true,
-          then: Yup.string().required("Required"),
+          then: Yup.string().required(t("Settings.BusinessAccount.SharePercentageRequiredValidationLabel")),
         }),
       })
     ),
-    registrationNo: Yup.string().required("Required"),
-    taxNumber: Yup.string().required("Required"),
-    address: Yup.string().required("Required"),
-    country: Yup.string().required("Required"),
-    city: Yup.mixed().required("Required"),
-    state: Yup.mixed().required("Required"),
+    registrationNo: Yup.string().required(t("Settings.BusinessAccount.RegistrationNoRequiredValidationLabel")),
+    taxNumber: Yup.string().required(t("Settings.BusinessAccount.TaxNoRequiredValidationLabel")),
+    address: Yup.string().required(t("Settings.BusinessAccount.AddressRequiredValidationLabel")),
+    country: Yup.string().required(t("SignUp.CountryRequiredValidationLabel")),
+    city: Yup.mixed().required(t("Settings.BusinessAccount.CityRequiredValidationLabel")),
+    state: Yup.mixed().required(t("Settings.BusinessAccount.ProvinceRequiredValidationLabel")),
   });
 
   return (
@@ -72,13 +76,13 @@ const Registration = (props) => {
                 item.id = 0;
                 item.isDeleted = true;
                 item.sharePercentage = item.sharePercentage ? parseInt(item.sharePercentage) : 0;
-              });    
+              });
               setShowLoader(true);
               props.setData(values);
-              setTimeout(()=> {
+              setTimeout(() => {
                 props.onSetTabs(null, "tab2");
                 setShowLoader(false);
-              },500)
+              }, 500);
             }}
             render={({ errors, handleChange, values, setFieldValue }) => (
               <Form>

@@ -31,7 +31,7 @@ class Dashboard extends React.Component {
     callApi("get", ApiConstants.FETCH_BALANCE)
       .then((response) => {
         if (response.code === 200) {
-          this.setState({ showLoader: false, balance: response.data.balance, currency: response.data.currency, imgFlag: response.data.url });
+          this.setState({ showLoader: false, balance: response.data.balance ? response.data.balance : 0, currency: response.data.currency, imgFlag: response.data.url });
         }
       })
       .catch((error) => {
@@ -61,7 +61,7 @@ class Dashboard extends React.Component {
                   </p>
                   <p className="currency">
                     <span className="display-4 text-dark">
-                      <CountUp start={0} end={this.state.balance} duration={1.5} />
+                      <CountUp start={0} end={this.state.balance } duration={1.5} />
                     </span>
                     <small className="balance_currency">{this.state.currency}</small>
                   </p>
