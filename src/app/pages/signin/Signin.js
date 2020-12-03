@@ -67,7 +67,11 @@ class Signin extends React.Component {
                         this.props.userSignedIn(response.data.token);
                         localStorage.setItem("authToken", response.data.token);
                         localStorage.setItem("auth", true);
-                        this.props.history.replace("/dashboard");
+                        if (response.data.orbitAccountValid === true) {
+                          this.props.history.replace("/dashboard");
+                        } else {
+                          this.props.history.replace("/personal-account");
+                        }
                       } else {
                         toastService.error(response.message);
                       }

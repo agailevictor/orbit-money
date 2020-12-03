@@ -11,6 +11,8 @@ import AppLoader from "../../../components/AppLoader/AppLoader";
 import CountryList from "../../../components/CountryList/CountryList";
 import ProvinceList from "../../../components/ProvinceList/ProvinceList";
 import CityList from "../../../components/CityList/CityList";
+import OccupationGroupList from "../../../components/OccupationGroup/OccupationGroup";
+import OccupationList from "../../../components/Occupation/Occupation";
 
 const PersonalDetails = (props) => {
   const { t } = props;
@@ -18,6 +20,11 @@ const PersonalDetails = (props) => {
     firstName: Yup.string().required(t("Settings.PersonalAccount.FirstNameRequiredValidationLabel")),
     middleName: Yup.string().required(t("Settings.PersonalAccount.MiddleNameRequiredValidationLabel")),
     lastName: Yup.string().required(t("Settings.PersonalAccount.LastNameRequiredValidationLabel")),
+    dateOfBirth: Yup.string()
+      .required(t("Settings.PersonalAccount.DateOfBirthRequiredValidationLabel"))
+      .matches(/^(19|20)\d{2}\-(0[1-9]|1[0-2])\-(0[1-9]|1\d|2\d|3[01])$/, t("Settings.PersonalAccount.DateOfBirthPatternValidationLabel")),
+    postalCode: Yup.mixed().required(t("Settings.PersonalAccount.PostalCodeRequiredValidationLabel")),
+    occupationId: Yup.string().required(t("Settings.PersonalAccount.OccupationRequiredValidationLabel")),
     address: Yup.string().required(t("Settings.PersonalAccount.AddressRequiredValidationLabel")),
     country: Yup.string().required(t("SignUp.CountryRequiredValidationLabel")),
     city: Yup.mixed().required(t("Settings.PersonalAccount.CityRequiredValidationLabel")),
@@ -30,12 +37,16 @@ const PersonalDetails = (props) => {
     firstName: "",
     middleName: "",
     lastName: "",
+    dateOfBirth: "",
+    postalCode: "",
+    occupationId: "",
     address: "",
     country: "",
     city: "",
     state: "",
     pep: "false",
     dped: "false",
+    occupationGroupId: "",
   });
 
   useEffect(() => {
@@ -65,6 +76,9 @@ const PersonalDetails = (props) => {
       firstName: values.firstName,
       lastName: values.lastName,
       middleName: values.middleName,
+      dateOfBirth: values.dateOfBirth,
+      postalCode: values.postalCode,
+      occupationId: values.occupationId,
       address: values.address,
       country: values.country,
       state: values.state,
@@ -156,6 +170,67 @@ const PersonalDetails = (props) => {
                         placeholder={t("Settings.PersonalAccount.LastName")}
                       />
                       <ErrorMessage name="lastName">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        className={`form-control ${errors.dateOfBirth && isSubmitted ? "is-invalid" : ""}`}
+                        name="dateOfBirth"
+                        id="dateOfBirth"
+                        placeholder={t("Settings.PersonalAccount.DateOfBirth")}
+                      />
+                      <ErrorMessage name="dateOfBirth">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        className={`form-control ${errors.postalCode && isSubmitted ? "is-invalid" : ""}`}
+                        name="postalCode"
+                        id="postalCode"
+                        placeholder={t("Settings.PersonalAccount.PostalCode")}
+                      />
+                      <ErrorMessage name="postalCode">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <OccupationGroupList
+                        value={values.occupationGroupId}
+                        isSearchable={true}
+                        placeholder="Select occupation group"
+                        onChange={(value) => {
+                          setFieldValue("occupationId", "");
+                          let event = { target: { name: "occupationGroupId", value: value.value } };
+                          setTimeout(() => {
+                            handleChange(event);
+                          }, 10);
+                        }}
+                        className={`form-control`}
+                        error={`test`}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <OccupationList
+                        value={values.occupationId}
+                        groupId={values.occupationGroupId}
+                        isSearchable={true}
+                        placeholder="Select occupation"
+                        onChange={(value) => {
+                          let event = { target: { name: "occupationId", value: value.value } };
+                          handleChange(event);
+                        }}
+                        className={`form-control`}
+                        error={`test`}
+                      />
                     </div>
                   </div>
                 </div>

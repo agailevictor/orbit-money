@@ -19,6 +19,8 @@ const ApiConstants = {
   FETCH_SUB_CATEGORIES: "/orbit-lookups/fetchSubCategories",
   FETCH_NUMBER_OF_TRANSACTIONS: "/orbit-lookups/fetchNumberOfTransactionPerMonth",
   FETCH_VALUE_OF_TRANSACTIONS: "/orbit-lookups/fetchValueTransactionPerMonth",
+  FETCH_OCCUPATION_GROUPS: "/orbit-lookups/fetchOccupationGroups",
+  FETCH_OCCUPATIONS: "/orbit-lookups/fetchOccupation",
 
   FETCH_PERSONAL_ACCOUNT_DETAILS: "/orbit-user-management/api/personalAccount",
   UPDATE_PERSONAL_ACCOUNT_DETAILS: "/orbit-user-management/api/personalAccount",
