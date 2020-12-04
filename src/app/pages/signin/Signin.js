@@ -67,6 +67,9 @@ class Signin extends React.Component {
                         this.props.userSignedIn(response.data.token);
                         localStorage.setItem("authToken", response.data.token);
                         localStorage.setItem("auth", true);
+                        localStorage.setItem("fullName", response.data.fullName);
+                        localStorage.setItem("accountNumber", response.data.accountNo);
+                        localStorage.setItem("profilePicture", response.data.profilePicture);
                         this.props.history.replace("/dashboard");
                       } else {
                         toastService.error(response.message);

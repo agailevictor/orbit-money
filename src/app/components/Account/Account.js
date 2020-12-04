@@ -31,6 +31,9 @@ const Account = (props) => {
     localStorage.removeItem("selectedCustomerAccount");
     localStorage.removeItem("CustomerAccountToken");
     localStorage.removeItem("authToken");
+    localStorage.removeItem("fullName");
+    localStorage.removeItem("accountNumber");
+    localStorage.removeItem("profilePicture");
     props.history.replace("/signin");
   };
 
@@ -52,18 +55,18 @@ const Account = (props) => {
       }
     });
     props.setRefreshAccount(true)
-    return () => {};
+    return () => { };
   }, []);
 
   useEffect(() => {
-    if(props.refreshAccount) {
+    if (props.refreshAccount) {
       getCustomerAccountsList();
       if (localStorage.getItem("selectedCustomerAccount")) {
         setSelectedAccount(JSON.parse(localStorage.getItem("selectedCustomerAccount")));
       }
       props.setRefreshAccount(false)
     }
-    return () => {};
+    return () => { };
   }, [props.refreshAccount]);
 
   const getCustomerAccountsList = () => {
@@ -83,7 +86,7 @@ const Account = (props) => {
     localStorage.setItem("selectedCustomerAccount", JSON.stringify(account));
     setSelectedAccount(account);
     props.history.push("/");
-    setTimeout(()=> { props.history.replace("/customer-dashboard"); },50)
+    setTimeout(() => { props.history.replace("/customer-dashboard"); }, 50)
     closePopup();
   };
 
@@ -122,7 +125,7 @@ const Account = (props) => {
           setIsOpened(!isOpened);
         }}>
         <div className="avatar avatar-sm avatar-circle">
-          <img className="avatar-img" src="./assets/img/160x160/img6.jpg" alt="Image Description" />
+          <img className="avatar-img" src={localStorage.getItem("profilePicture")} alt="Image Description" />
           <span className="avatar-status avatar-sm-status avatar-status-success"></span>
         </div>
       </a>
@@ -130,11 +133,11 @@ const Account = (props) => {
         <div className="dropdown-item">
           <div className="media align-items-center">
             <div className="avatar avatar-sm avatar-circle mr-2">
-              <img className="avatar-img" src="./assets/img/160x160/img6.jpg" alt="Image Description" />
+              <img className="avatar-img" src={localStorage.getItem("profilePicture")} alt="Image Description" />
             </div>
             <div className="media-body">
-              <span className="card-title h5">Albert Bristol</span>
-              <span className="card-text text-danger">{t("Account.MembershipNo")}: P21928534</span>
+              <span className="card-title h5">{localStorage.getItem("fullName")}</span>
+              <span className="card-text text-danger">{t("Account.MembershipNo")}: {localStorage.getItem("accountNumber")}</span>
             </div>
           </div>
         </div>
