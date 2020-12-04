@@ -7,7 +7,9 @@ const initialState = {
   categoryList: [],
   subCategoryList: {},
   transactionValueList: [],
-  transactionNumberList: []
+  transactionNumberList: [],
+  occupationGroupList: [],
+  occupationList: {},
 };
 
 const lookupsReducer = (state = initialState, action) => {
@@ -26,6 +28,10 @@ const lookupsReducer = (state = initialState, action) => {
       return { ...state, transactionValueList: action.data };
     case types.TRANSACTION_NUMBER_LIST:
       return { ...state, transactionNumberList: action.data };
+    case types.OCCUPATION_GROUP_LIST:
+      return { ...state, occupationGroupList: action.data };
+    case types.OCCUPATION_LIST:
+      return { ...state, occupationList: action.data };
     default:
       return state;
   }

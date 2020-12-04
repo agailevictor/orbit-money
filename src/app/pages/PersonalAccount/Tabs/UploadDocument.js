@@ -41,9 +41,6 @@ const UploadedDocument = (props) => {
         if (response.code === 200) {
           setUploadedDocument(response.dataList);
           setShowLoader(false);
-        } else {
-          toastService.error(response.message);
-          setShowLoader(false);
         }
       })
       .catch((error) => {

@@ -12,8 +12,6 @@ import { toastService } from "../../../services/toastService";
 import ApiConstants from "../../../shared/config/apiConstants";
 import GridPager from "./GridPager";
 
-import "bootstrap-daterangepicker/daterangepicker.css";
-import "@progress/kendo-theme-default/dist/all.css";
 import "./DataGrid.scss";
 
 const DataGrid = (props) => {
@@ -316,7 +314,7 @@ const DataGrid = (props) => {
                         <span
                           className={`d-block h5 mb-0 strong ${
                             props.dataItem.type === "SENT" ? "text-danger" : props.dataItem.type === "RECEIVED" ? "text-success" : ""
-                            }`}>
+                          }`}>
                           {parseFloat(props.dataItem.amount).toFixed(2)} {props.dataItem.currency}
                         </span>
                         <span className="d-block font-size-sm">

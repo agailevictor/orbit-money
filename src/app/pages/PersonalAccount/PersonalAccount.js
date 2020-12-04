@@ -41,8 +41,7 @@ class PersonalAccount extends React.Component {
             <div className="col-lg-9">
               <ul
                 id="addUserStepFormProgress"
-                className="js-step-progress step step-sm step-icon-sm step step-inline step-item-between text-center d-block mb-0 ml-auto"
-              >
+                className="js-step-progress step step-sm step-icon-sm step step-inline step-item-between text-center d-block mb-0 ml-auto">
                 <li className={`tabsitem ${this.state.activeTab === "PersonalDetails" ? "active" : ""} `}>
                   <a className="step-content-wrapper" href="" onClick={(e) => this.setTab(e, "PersonalDetails")}>
                     <div className="step-content">
@@ -60,7 +59,7 @@ class PersonalAccount extends React.Component {
                 </li>
               </ul>
               <div id="addUserStepFormContent">
-                <PersonalDetails active={this.state.activeTab === "PersonalDetails" ? true : false} />
+                <PersonalDetails {...this.props} active={this.state.activeTab === "PersonalDetails" ? true : false} />
                 {this.state.activeTab === "UploadDocument" && <UploadDocument active={this.state.activeTab === "UploadDocument" ? true : false} />}
               </div>
             </div>

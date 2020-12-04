@@ -40,6 +40,33 @@ class Signin extends React.Component {
     this.setState({ showPassword: !showPassword });
   };
 
+  userSignin = (values) => {
+    this.setState({ signinProgress: true });
+    callApi("post", ApiConstants.SIGN_IN, { email: values.email, password: values.password })
+      .then((response) => {
+        if (response.code === 200) {
+          this.props.userSignedIn(response.data.token);
+          localStorage.setItem("authToken", response.data.token);
+          localStorage.setItem("auth", true);
+          localStorage.setItem("fullName", response.data.fullName);
+          localStorage.setItem("accountNumber", response.data.accountNo);
+          localStorage.setItem("profilePicture", response.data.profilePicture);
+          if (response.data.orbitAccountValid) {
+            this.props.history.replace("/dashboard");
+          } else {
+            this.props.history.replace("/personal-account");
+          }
+        } else {
+          toastService.error(response.message);
+        }
+        this.setState({ signinProgress: false });
+      })
+      .catch((error) => {
+        toastService.error(error);
+        this.setState({ signinProgress: false });
+      });
+  };
+
   render() {
     const { t } = this.props;
 
@@ -59,28 +86,7 @@ class Signin extends React.Component {
                   password: "",
                 }}
                 validationSchema={SignInSchema}
-                onSubmit={async (values) => {
-                  this.setState({ signinProgress: true });
-                  callApi("post", ApiConstants.SIGN_IN, { email: values.email, password: values.password })
-                    .then((response) => {
-                      if (response.code === 200) {
-                        this.props.userSignedIn(response.data.token);
-                        localStorage.setItem("authToken", response.data.token);
-                        localStorage.setItem("auth", true);
-                        localStorage.setItem("fullName", response.data.fullName);
-                        localStorage.setItem("accountNumber", response.data.accountNo);
-                        localStorage.setItem("profilePicture", response.data.profilePicture);
-                        this.props.history.replace("/dashboard");
-                      } else {
-                        toastService.error(response.message);
-                      }
-                      this.setState({ signinProgress: false });
-                    })
-                    .catch((error) => {
-                      toastService.error(error);
-                      this.setState({ signinProgress: false });
-                    });
-                }}>
+                onSubmit={(values) => this.userSignin(values)}>
                 {({ errors }) => (
                   <Form>
                     <div className="text-center mb-5">

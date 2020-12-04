@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { withTranslation } from "react-i18next";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
+import DateRangePicker from "react-bootstrap-daterangepicker";
+import moment from "moment";
 
 import ApiConstants from "../../../shared/config/apiConstants";
 import { callApi } from "../../../services/apiService";
@@ -11,6 +14,8 @@ import AppLoader from "../../../components/AppLoader/AppLoader";
 import CountryList from "../../../components/CountryList/CountryList";
 import ProvinceList from "../../../components/ProvinceList/ProvinceList";
 import CityList from "../../../components/CityList/CityList";
+import OccupationGroup from "../../../components/OccupationGroup/OccupationGroup";
+import OccupationList from "../../../components/OccupationList/OccupationList";
 
 const PersonalDetails = (props) => {
   const { t } = props;
@@ -18,6 +23,10 @@ const PersonalDetails = (props) => {
     firstName: Yup.string().required(t("Settings.PersonalAccount.FirstNameRequiredValidationLabel")),
     middleName: Yup.string().required(t("Settings.PersonalAccount.MiddleNameRequiredValidationLabel")),
     lastName: Yup.string().required(t("Settings.PersonalAccount.LastNameRequiredValidationLabel")),
+    dateOfBirth: Yup.string().required(t("Settings.PersonalAccount.DateOfBirthRequiredValidationLabel")),
+    postalCode: Yup.string().required(t("Settings.PersonalAccount.PostalCodeRequiredValidationLabel")),
+    occupationId: Yup.string().required(t("Settings.PersonalAccount.OccupationRequiredValidationLabel")),
+    occupationGroupId: Yup.string().required(t("Settings.PersonalAccount.OccupationTypeRequiredValidationLabel")),
     address: Yup.string().required(t("Settings.PersonalAccount.AddressRequiredValidationLabel")),
     country: Yup.string().required(t("SignUp.CountryRequiredValidationLabel")),
     city: Yup.mixed().required(t("Settings.PersonalAccount.CityRequiredValidationLabel")),
@@ -30,12 +39,16 @@ const PersonalDetails = (props) => {
     firstName: "",
     middleName: "",
     lastName: "",
+    dateOfBirth: new Date(),
+    postalCode: "",
+    occupationId: "",
+    occupationGroupId: "",
     address: "",
     country: "",
     city: "",
     state: "",
     pep: "false",
-    dped: "false",
+    dpep: "false",
   });
 
   useEffect(() => {
@@ -48,7 +61,12 @@ const PersonalDetails = (props) => {
       .then((response) => {
         setShowLoader(false);
         if (response.code === 200) {
-          setPersonalData(response.data);
+          let data = {
+            ...response.data,
+            pep: response.data.pep ? response.data.pep : false,
+            dpep: response.data.dpep ? response.data.dpep : false,
+          };
+          setPersonalData(data);
         } else {
           toastService.error(response.message);
         }
@@ -61,21 +79,15 @@ const PersonalDetails = (props) => {
 
   const updatePersonalAccountDetails = (values) => {
     setShowLoader(true);
-    let params = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      middleName: values.middleName,
-      address: values.address,
-      country: values.country,
-      state: values.state,
-      city: values.city,
-      pep: values.pep,
-      dpep: values.dpep,
-    };
+    let params = { ...values };
     callApi("put", ApiConstants.UPDATE_PERSONAL_ACCOUNT_DETAILS, params)
       .then((response) => {
         setShowLoader(false);
         if (response.code === 200) {
+          if (response.data && response.data.token) {
+            localStorage.setItem("authToken", response.data.token);
+            props.history.push("/dashboard");
+          }
           toastService.success(response.message);
         } else {
           toastService.error(response.message);
@@ -137,7 +149,6 @@ const PersonalDetails = (props) => {
                   <div className="col-md-4">
                     <div className="form-group">
                       <Field
-                        type="text"
                         className={`form-control ${errors.middleName && isSubmitted ? "is-invalid" : ""}`}
                         name="middleName"
                         id="middleName"
@@ -159,16 +170,104 @@ const PersonalDetails = (props) => {
                     </div>
                   </div>
                 </div>
+                <div className="row">
+                  <div className="col-md-3">
+                    <div className="form-group input-group-merge">
+                      <DateRangePicker
+                        key={moment(personalData.dateOfBirth).format("MM/DD/YYYY")}
+                        initialSettings={{
+                          singleDatePicker: true,
+                          showDropdowns: true,
+                          minYear: 1970,
+                          maxYear: parseInt(moment().format("YYYY"), 10),
+                          autoApply: true,
+                          autoUpdateInput: false,
+                          isCustomDate: true,
+                          startDate: moment(personalData.dateOfBirth).format("MM/DD/YYYY"),
+                        }}
+                        onApply={(event, picker) => {
+                          picker.element.val(moment(picker.startDate).format("YYYY-MM-DD"));
+                          let e = { target: { name: "dateOfBirth", value: moment(picker.startDate).format("YYYY-MM-DD") } };
+                          handleChange(e);
+                        }}>
+                        <input
+                          name="dateOfBirth"
+                          id="dateOfBirth"
+                          placeholder={t("Settings.PersonalAccount.DateOfBirth")}
+                          type="text"
+                          className={`form-control ${errors.dateOfBirth && isSubmitted ? "is-invalid" : ""}`}
+                          style={{ backgroundColor: "transparent", position: "relative", zIndex: 1 }}
+                          defaultValue=""
+                        />
+                      </DateRangePicker>
+                      <ErrorMessage name="dateOfBirth">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
+                      <div className="input-group-append" style={{ zIndex: 0 }}>
+                        <Link to="" className="input-group-text" onClick={(e) => e.preventDefault()}>
+                          <i className="fa fa-calendar"></i>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        className={`form-control ${errors.postalCode && isSubmitted ? "is-invalid" : ""}`}
+                        name="postalCode"
+                        id="postalCode"
+                        placeholder={t("Settings.PersonalAccount.PostalCode")}
+                      />
+                      <ErrorMessage name="postalCode">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <OccupationGroup
+                        isSearchable={true}
+                        value={values.occupationGroupId}
+                        className={`form-control ${errors.occupationGroupId && isSubmitted ? "is-invalid" : ""}`}
+                        name="occupationGroupId"
+                        id="occupationGroupId"
+                        placeholder={t("Settings.PersonalAccount.OccupationType")}
+                        onChange={(value) => {
+                          let event = { target: { name: "occupationGroupId", value: value.value } };
+                          handleChange(event);
+                        }}
+                        error={errors.occupationGroupId}
+                      />
+                      <ErrorMessage name="occupationGroupId">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <OccupationList
+                        isSearchable={true}
+                        groupId={values.occupationGroupId}
+                        value={values.occupationId}
+                        className={`form-control ${errors.occupationId && isSubmitted ? "is-invalid" : ""}`}
+                        name="occupationId"
+                        id="occupationId"
+                        placeholder={t("Settings.PersonalAccount.Occupation")}
+                        onChange={(value) => {
+                          let event = { target: { name: "occupationId", value: value.value } };
+                          handleChange(event);
+                        }}
+                        error={errors.occupationId}
+                      />
+                      <ErrorMessage name="occupationId">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
+                    </div>
+                  </div>
+                </div>
 
                 <div className="row">
                   <div className="col-md-12">
                     <div className="form-group">
                       <Field
+                        name="address"
                         type="text"
                         className={`form-control ${errors.address && isSubmitted ? "is-invalid" : ""}`}
-                        name="address"
-                        id="Address"
-                        placeholder={t("Settings.PersonalAccount.Address")}
+                        id="address"
+                        placeholder="Address"
                       />
                       <ErrorMessage name="address">{(msg) => <div className="invalid-feedback">{msg}</div>}</ErrorMessage>
                     </div>

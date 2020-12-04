@@ -10,7 +10,7 @@ const ApiConstants = {
   FETCH_DOCUMENTS: "/orbit-user-documents/api/document/fetchDocuments",
   FETCH_DOCUMENT: "/orbit-user-documents/api/document/fetchDocument/",
   PUSH_DOCUMENT: "/orbit-user-documents/api/document/pushDocument",
-  UPDATE_DOCUMENT: "/orbit-user-documents/updateUserDocument",
+  UPDATE_DOCUMENT: "/orbit-user-documents/api/document/updateUserDocument",
 
   FETCH_COUNTRIES: "/orbit-lookups/fetchCountries",
   FETCH_PROVINCES: "/orbit-lookups/fetchStates",
@@ -19,6 +19,8 @@ const ApiConstants = {
   FETCH_SUB_CATEGORIES: "/orbit-lookups/fetchSubCategories",
   FETCH_NUMBER_OF_TRANSACTIONS: "/orbit-lookups/fetchNumberOfTransactionPerMonth",
   FETCH_VALUE_OF_TRANSACTIONS: "/orbit-lookups/fetchValueTransactionPerMonth",
+  FETCH_OCCUPATION_GROUPS: "/orbit-lookups/fetchOccupationGroups",
+  FETCH_OCCUPATION: "/orbit-lookups/fetchOccupation",
 
   FETCH_PERSONAL_ACCOUNT_DETAILS: "/orbit-user-management/api/personalAccount",
   UPDATE_PERSONAL_ACCOUNT_DETAILS: "/orbit-user-management/api/personalAccount",

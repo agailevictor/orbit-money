@@ -11,10 +11,25 @@ const countryOptions = [
     icon: "us",
   },
   {
-    value: "fr_ca",
-    label: "French (CA)",
-    icon: "fr",
-  }
+    value: "en_uk",
+    label: "English (UK)",
+    icon: "gb",
+  },
+  {
+    value: "de",
+    label: "Deutsch",
+    icon: "de",
+  },
+  {
+    value: "dk",
+    label: "Dansk",
+    icon: "dk",
+  },
+  {
+    value: "es",
+    label: "Español",
+    icon: "es",
+  },
 ];
 
 const renderOptions = (options) => {
