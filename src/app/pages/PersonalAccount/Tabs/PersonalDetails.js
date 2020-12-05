@@ -117,11 +117,9 @@ const PersonalDetails = (props) => {
                   <div className="col-sm-12 text-center">
                     <div className="d-block align-items-center">
                       <label className="avatar avatar-xl avatar-circle avatar-uploader mr-5" htmlFor="avatarUploader">
-                        <img id="avatarImg" className="avatar-img" src="./assets/img/160x160/img1.jpg" />
-                        <input type="file" className="js-file-attach avatar-uploader-input" id="avatarUploader" />
-                        <span className="avatar-uploader-trigger">
-                          <i className="tio-edit avatar-uploader-icon shadow-soft"></i>
-                        </span>
+                        <div class="avatarCircle">
+                          <span class="initials">{personalData.firstName ? personalData.firstName.charAt(0).toUpperCase() + personalData.lastName.charAt(0).toUpperCase() : "NA"}</span>
+                        </div>
                       </label>
                     </div>
                     <div className={`verifiedLabel ${personalData.kycVerified ? "" : "not-verified"}`}>

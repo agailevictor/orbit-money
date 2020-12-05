@@ -9,27 +9,7 @@ const countryOptions = [
     value: "en_us",
     label: "English (US)",
     icon: "us",
-  },
-  {
-    value: "en_uk",
-    label: "English (UK)",
-    icon: "gb",
-  },
-  {
-    value: "de",
-    label: "Deutsch",
-    icon: "de",
-  },
-  {
-    value: "dk",
-    label: "Dansk",
-    icon: "dk",
-  },
-  {
-    value: "es",
-    label: "Español",
-    icon: "es",
-  },
+  }
 ];
 
 const renderOptions = (options) => {

@@ -97,10 +97,10 @@ class Signin extends React.Component {
                       </p>
                     </div>
 
-                    <SocialMediaLogin />
+                    {/* <SocialMediaLogin /> */}
 
                     <div className="text-center mb-4">
-                      <span className="divider text-muted">{t("SignIn.SocialMediaOr")}</span>
+                      {/* <span className="divider text-muted">{t("SignIn.SocialMediaOr")}</span> */}
                     </div>
 
                     <div className="js-form-message form-group">
