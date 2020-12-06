@@ -42,8 +42,10 @@ const UploadedDocument = (props) => {
           setUploadedDocument(response.dataList);
           setShowLoader(false);
         } else {
-          toastService.error(response.message);
           setShowLoader(false);
+          toastService.error(response.message, {
+            position: "top-right",
+          });
         }
       })
       .catch((error) => {
@@ -59,7 +61,8 @@ const UploadedDocument = (props) => {
   const documentStatus = uploadedDocument.map((document, index) => {
     return (
       <p key={index}>
-        <i className={document.verified ? "fas fa-check-circle" : "fas fa-times"}></i>
+        {/* <i className={document.verified ? "fas fa-check-circle" : "fas fa-times"}></i> */}
+        <i className="fas fa-check-circle"></i>
         <a href='#' target="_blank" style={{ color: "#009fff" }} onClick={(e) => downloadDocuments(e, document)}>
           {document.documentTypes}
         </a>

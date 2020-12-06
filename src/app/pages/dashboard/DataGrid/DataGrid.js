@@ -12,8 +12,6 @@ import { toastService } from "../../../services/toastService";
 import ApiConstants from "../../../shared/config/apiConstants";
 import GridPager from "./GridPager";
 
-import "bootstrap-daterangepicker/daterangepicker.css";
-import "@progress/kendo-theme-default/dist/all.css";
 import "./DataGrid.scss";
 
 const DataGrid = (props) => {
@@ -314,8 +312,7 @@ const DataGrid = (props) => {
                     return (
                       <td>
                         <span
-                          className={`d-block h5 mb-0 strong ${
-                            props.dataItem.type === "SENT" ? "text-danger" : props.dataItem.type === "RECEIVED" ? "text-success" : ""
+                          className={`d-block h5 mb-0 strong ${props.dataItem.type === "SENT" ? "text-danger" : props.dataItem.type === "RECEIVED" ? "text-success" : ""
                             }`}>
                           {parseFloat(props.dataItem.amount).toFixed(2)} {props.dataItem.currency}
                         </span>
@@ -377,7 +374,7 @@ const DataGrid = (props) => {
       {emptyTransactionList && !gridLoader && (
         <div className="row">
           <div className="col-md-12 text-center mt-9">
-            <img src="assets/svg/addmoney/no-transaction.svg" />
+            <img src="assets/svg/addmoney/add-card.svg" />
             <h2 className="mt-5">{t("Dashboard.NoTransaction")}</h2>
             <p>{t("Dashboard.SendOrAddMoneytoWallet")}</p>
           </div>

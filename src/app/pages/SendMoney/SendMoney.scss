@@ -1,0 +1,22 @@
+.step-card-pay {
+  display: none;
+
+  &.active {
+    display: block;
+    animation: fadeIn ease 0.5s;
+    -webkit-animation: fadeIn ease 0.5s;
+    -moz-animation: fadeIn ease 0.5s;
+    -o-animation: fadeIn ease 0.5s;
+    -ms-animation: fadeIn ease 10.5s;
+  }
+}
+.business-registration {
+  .custom-checkbox {
+    float: left;
+    padding-top: 10px;
+  }
+}
+
+button:disabled {
+  cursor: not-allowed;
+}

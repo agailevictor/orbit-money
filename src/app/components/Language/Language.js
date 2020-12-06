@@ -9,11 +9,6 @@ const countryOptions = [
     value: "en_us",
     label: "English (US)",
     icon: "us",
-  },
-  {
-    value: "fr_ca",
-    label: "French (CA)",
-    icon: "fr",
   }
 ];
 

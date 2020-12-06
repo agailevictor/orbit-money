@@ -49,3 +49,23 @@ export const transactionNumberAction = (data) => {
   };
 };
 
+export const occupationGroupsAction = (data) => {
+  return {
+    type: types.OCCUPATION_GROUP_LIST,
+    data,
+  };
+};
+
+export const occupationAction = (data) => {
+  return {
+    type: types.OCCUPATION_LIST,
+    data,
+  };
+};
+
+export const currencyListAction = (data) => {
+  return {
+    type: types.CURRENCIES_LIST,
+    data,
+  };
+};

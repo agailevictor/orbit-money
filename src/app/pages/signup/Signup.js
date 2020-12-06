@@ -32,7 +32,7 @@ class Signup extends React.Component {
       firstName: Yup.string().required(t("SignUp.FirstNameRequiredValidationLabel")),
       lastName: Yup.string().required(t("SignUp.LastNameRequiredValidationLabel")),
       email: Yup.string().email(t("SignUp.EmailPatternValidationLabel")).required(t("SignUp.EmailRequiredValidationLabel")),
-      phone: Yup.string().required(t("SignUp.PhoneNumberRequiredValidationLabel")).length(10, t("SignUp.PhoneNumberLengthValidationLabel")),
+      phone: Yup.string().required(t("SignUp.PhoneNumberRequiredValidationLabel")).max(10, t("SignUp.PhoneNumberLengthValidationLabel")),
       country: Yup.string().required(t("SignUp.CountryRequiredValidationLabel")),
       password: Yup.string().required(t("SignUp.PasswordRequiredValidationLabel")).min(8, t("SignUp.PasswordMinValidationLabel")),
       confirmPassword: Yup.string()
@@ -115,11 +115,11 @@ class Signup extends React.Component {
                       </p>
                     </div>
 
-                    <SocialMediaLogin />
+                    {/* <SocialMediaLogin /> */}
 
-                    <div className="text-center mb-4">
+                    {/* <div className="text-center mb-4">
                       <span className="divider text-muted">{t("SignUp.SocialMediaOr")}</span>
-                    </div>
+                    </div> */}
 
                     <label className="input-label" htmlFor="fullNameSrEmail">
                       {t("SignUp.FullNameLabel")}
@@ -261,7 +261,6 @@ class Signup extends React.Component {
                       className="btn btn-lg btn-block btn-primary mb-2"
                       disabled={this.state.signinProgress}
                       onClick={() => this.setState({ isSubmitted: true })}>
-                      {t("SignUp.SignUpButtonLabel")}
                       {this.state.signinProgress ? t("SignUP.SigningUpButtonLabel") : t("SignUp.SignUpButtonLabel")}
                     </button>
                   </Form>
