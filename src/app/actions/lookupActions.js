@@ -62,3 +62,10 @@ export const occupationAction = (data) => {
     data,
   };
 };
+
+export const currencyListAction = (data) => {
+  return {
+    type: types.CURRENCIES_LIST,
+    data,
+  };
+};

@@ -12,6 +12,7 @@ export const toastService = {
       pauseOnHover: false,
       draggable: false,
       progress: undefined,
+      transition: Slide,
     });
   },
   error: (msg, duration = null) => {
@@ -24,6 +25,7 @@ export const toastService = {
       pauseOnHover: false,
       draggable: false,
       progress: undefined,
+      transition: Slide,
     });
   },
 };

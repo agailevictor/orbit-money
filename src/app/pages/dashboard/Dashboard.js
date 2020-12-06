@@ -1,5 +1,6 @@
 import React from "react";
 import CountUp from "react-countup";
+import { Link } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 
@@ -31,7 +32,12 @@ class Dashboard extends React.Component {
     callApi("get", ApiConstants.FETCH_BALANCE)
       .then((response) => {
         if (response.code === 200) {
-          this.setState({ showLoader: false, balance: response.data.balance ? response.data.balance : 0, currency: response.data.currency, imgFlag: response.data.url });
+          this.setState({
+            showLoader: false,
+            balance: response.data.balance ? response.data.balance : 0,
+            currency: response.data.currency,
+            imgFlag: response.data.url,
+          });
         }
       })
       .catch((error) => {
@@ -61,18 +67,18 @@ class Dashboard extends React.Component {
                   </p>
                   <p className="currency">
                     <span className="display-4 text-dark">
-                      <CountUp start={0} end={this.state.balance } duration={1.5} />
+                      <CountUp start={0} end={this.state.balance} duration={1.5} />
                     </span>
                     <small className="balance_currency">{this.state.currency}</small>
                   </p>
                 </div>
                 <div className="col-md-7 text-right">
-                  <a href="#" className="btn btn-default">
+                  <Link to="/send-money" className="btn btn-default">
                     <img src="assets/svg/dashboard/send-money.svg" /> {t("Dashboard.SendMoney")}
-                  </a>
-                  <a href="#" className="btn btn-default">
+                  </Link>
+                  <Link to="" className="btn btn-default">
                     <img src="assets/svg/dashboard/add-money.svg" /> {t("Dashboard.AddMoney")}
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

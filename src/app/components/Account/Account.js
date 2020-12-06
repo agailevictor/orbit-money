@@ -16,6 +16,7 @@ const Account = (props) => {
   const [customerAccounts, setCustomerAccounts] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState(null);
 
+  const invalidValues = ["null", null, ""];
   const openClass =
     "hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu hs-unfold-content-initialized hs-unfold-css-animation animated slideInUp";
   const closeClass = "hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu";
@@ -137,7 +138,10 @@ const Account = (props) => {
             </div>
             <div className="media-body">
               <span className="card-title h5">{localStorage.getItem("fullName")}</span>
-              <span className="card-text text-danger">{t("Account.MembershipNo")}: {localStorage.getItem("accountNumber")}</span>
+              <span className="card-text text-danger">
+                {t("Account.MembershipNo")}:
+                {invalidValues.includes(localStorage.getItem("accountNumber")) ? "" : localStorage.getItem("accountNumber")}
+              </span>
             </div>
           </div>
         </div>

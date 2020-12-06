@@ -10,7 +10,7 @@ const customStyles = {
     boxShadow: "none",
     height: "100%",
   }),
-  container: (provided, state) => ({ ...provided, minWidth: "100px", padding: 0 }),
+  container: (provided, state) => ({ ...provided, minWidth: "110px", padding: 0 }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     return {
       ...styles,

@@ -18,6 +18,7 @@ import Verify from "./pages/Verify/Verify";
 import CreateBusinessAccount from "./pages/CreateBusinessAccount/CreateBusinessAccount";
 import CustomerDashboard from "./pages/CustomerDashboard/CustomerDashboard";
 
+import SendMoney from "./pages/SendMoney/SendMoney";
 
 const RouteWithLayout = ({ layout, component, ...rest }) => {
   return <Route {...rest} render={(props) => React.createElement(layout, props, React.createElement(component, props))} />;
@@ -53,6 +54,7 @@ export default function AppRouter() {
         <GuardedRoute layout={MainLayout} path="/delete-my-account" component={DeleteMyAccount} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/create-business-account" component={CreateBusinessAccount} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/customer-dashboard" component={CustomerDashboard} auth={true}></GuardedRoute>
+        <GuardedRoute layout={MainLayout} path="/send-money" component={SendMoney} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/" component={Dashboard} exact auth={true}></GuardedRoute>
       </Switch>
     </Router>

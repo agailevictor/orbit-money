@@ -66,7 +66,8 @@ const UploadedDocument = (props) => {
     if (selectedItem) {
       return (
         <p key={index}>
-          <i className={document.verified ? "fas fa-check-circle" : "fas fa-times"}></i>
+          {/* <i className={document.verified ? "fas fa-check-circle" : "fas fa-times"}></i> */}
+          <i className="fas fa-check-circle"></i>
           <a href={AppConfig.API_BASE_URL + ApiConstants.FETCH_DOCUMENT + document.id} target="_blank" style={{ color: "#009fff" }}>
             {selectedItem.label}
           </a>
