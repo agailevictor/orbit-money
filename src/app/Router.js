@@ -9,6 +9,7 @@ import Signup from "./pages/signup/Signup";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Settings from "./pages/Settings/Settings";
 import PersonalAccount from "./pages/PersonalAccount/PersonalAccount";
+import RecipientsList from "./pages/Recipients/RecipientsList";
 import BusinessAccount from "./pages/BusinessAccount/BusinessAccount";
 import EmailSetting from "./pages/EmailSetting/EmailSetting";
 import NotificationSettings from "./pages/NotificationSettings/NotificationSettings";
@@ -50,6 +51,7 @@ export default function AppRouter() {
         <GuardedRoute layout={AppLayout} path="/passwordReset" component={VerifyForgotPassword} auth={false}></GuardedRoute>
         <GuardedRoute layout={AppLayout} path="/update-password" component={UpdatePassword} auth={false}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/dashboard" component={Dashboard} auth={true}></GuardedRoute>
+        <GuardedRoute layout={MainLayout} path="/recipients" component={RecipientsList} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/settings" component={Settings} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/personal-account" component={PersonalAccount} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/business-account" component={BusinessAccount} auth={true}></GuardedRoute>

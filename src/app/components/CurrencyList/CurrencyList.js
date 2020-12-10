@@ -30,7 +30,7 @@ const CurrencyList = (props) => {
         label: (
           <div>
             <img
-              src={option.country.url ? option.country.url : ""}
+              src={option.country ? option.country.url : `./assets/svg/money.svg`}
               className="avatar avatar-xss avatar-circle mr-2"
               style={{ width: "1rem", height: "1rem", marginTop: "-3px" }}
             />
