@@ -33,12 +33,13 @@ class Dashboard extends React.Component {
       .then((response) => {
         if (response.code === 200) {
           this.setState({
-            showLoader: false,
             balance: response.data.balance ? response.data.balance : 0,
             currency: response.data.currency,
             imgFlag: response.data.url,
           });
+          localStorage.setItem("currency", response.data.currency);
         }
+        this.setState({ showLoader: false });
       })
       .catch((error) => {
         toastService.error(error.message);

@@ -38,6 +38,13 @@ const ApiConstants = {
 
   FETCH_TRANSFER_RATE: "/orbitmoney-afex-exchange-rate/quote",
   TRANSFER_MONEY: "/orbit-afex-transaction/transferMoney",
+  GET_BENEFICIARY_LIST: "/orbit-user-recipients/api/recipient",
+  SEARCH_BENEFICIARY_LIST: "/orbit-user-recipients/api/recipient/search",
+  GET_PURPOSE_LIST: "/orbit-user-recipients/api/utility/fetchPurposeOfPayment",
+
+  FORGOT_PASSWORD_REQUEST: "/orbit-user-authentication/forgotPassword",
+  FORGOT_PASSWORD_VALIDATE: "/orbit-user-authentication/validateForgotPassword",
+  FORGOT_PASSWORD_CHANGE: "/orbit-user-authentication/changeUserPassword",
 };
 
 export default ApiConstants;

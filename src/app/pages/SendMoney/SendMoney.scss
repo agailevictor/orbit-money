@@ -20,3 +20,27 @@
 button:disabled {
   cursor: not-allowed;
 }
+
+#stepAmount {
+  .custom-form-conntrol {
+    border-radius: 0px 8px 8px 0px !important;
+  }
+}
+
+.rate-refresh {
+  padding: 10px 0;
+  text-align: center;
+
+  .rate-refresh-time {
+    color: #f00;
+  }
+}
+
+.no-list {
+  border: 1px solid #eee;
+  color: #666;
+  text-align: center;
+  font-weight: 300;
+  font-size: 13px;
+  border-radius: 5px !important;
+}

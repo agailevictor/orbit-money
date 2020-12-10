@@ -120,7 +120,7 @@ class Signin extends React.Component {
                       <label className="input-label" htmlFor="signupSrPassword" tabIndex="0">
                         <span className="d-flex justify-content-between align-items-center">
                           {t("SignIn.PasswordLabel")}
-                          <Link to="#" className="input-label-secondary">
+                          <Link to="/forgot-password" className="input-label-secondary">
                             {t("SignIn.ForgotPasswordLabel")}
                           </Link>
                         </span>
