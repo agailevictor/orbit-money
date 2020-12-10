@@ -32,7 +32,8 @@ const Account = (props) => {
     localStorage.removeItem("selectedCustomerAccount");
     localStorage.removeItem("CustomerAccountToken");
     localStorage.removeItem("authToken");
-    localStorage.removeItem("fullName");
+    localStorage.removeItem("firstName");
+    localStorage.removeItem("lastName");
     localStorage.removeItem("accountNumber");
     localStorage.removeItem("profilePicture");
     props.history.replace("/signin");
@@ -102,7 +103,7 @@ const Account = (props) => {
                 <div className="media-body">
                   <span className="card-title h5">{account.title} </span>
                   <span className="card-text text-danger">
-                    {t("Account.BusinessID")}: {account.businessId}
+                    {t("Account.BusinessID")}: {account.accountNumber}
                   </span>
                   <span className="arrow">
                     <i className="fas fa-chevron-right"></i>
@@ -137,7 +138,7 @@ const Account = (props) => {
               <img className="avatar-img" src={localStorage.getItem("profilePicture")} alt="Image Description" />
             </div>
             <div className="media-body">
-              <span className="card-title h5">{localStorage.getItem("fullName")}</span>
+              <span className="card-title h5">{localStorage.getItem("firstName") + ' ' + localStorage.getItem("lastName")}</span>
               <span className="card-text text-danger">
                 {t("Account.MembershipNo")}:
                 {invalidValues.includes(localStorage.getItem("accountNumber")) ? "" : localStorage.getItem("accountNumber")}

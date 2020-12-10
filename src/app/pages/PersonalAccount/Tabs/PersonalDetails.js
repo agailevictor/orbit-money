@@ -121,7 +121,7 @@ const PersonalDetails = (props) => {
                           <span class="initials">
                             {personalData.firstName
                               ? personalData.firstName.charAt(0).toUpperCase() + personalData.lastName.charAt(0).toUpperCase()
-                              : "NA"}
+                              : ""}
                           </span>
                         </div>
                       </label>
