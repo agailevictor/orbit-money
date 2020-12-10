@@ -1,4 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+import { withTranslation } from "react-i18next";
+import { connect } from "react-redux";
+import { ActionCreators } from "../../actions";
+
+import { callApi } from "../../services/apiService";
+import ApiConstants from "../../shared/config/apiConstants";
+
 
 const Notification = (props) => {
   const [isOpened, setIsOpened] = useState(false);
@@ -18,7 +27,14 @@ const Notification = (props) => {
         closePopup();
       }
     });
-    return () => {};
+    callApi("get", ApiConstants.FETCH_NOTIFICATIONS + "10")
+      .then((response) => {
+        if (response.code === 200) {
+          props.setNotifications(response.dataList);
+          callApi("get", ApiConstants.MARK_NOTIFICATIONS);
+        }
+      });
+    return () => { };
   }, []);
 
   return (
@@ -41,77 +57,47 @@ const Notification = (props) => {
           </div>
           <div className="card-body card-body-height">
             <div className="nav nav-pills flex-column">
-              <a className="nav-link" href="#">
-                <div className="media align-items-center">
-                  <span className="mr-3">
-                    <img className="avatar avatar-xs avatar-4by3" src="./assets/svg/brands/atlassian.svg" alt="User Account" />
-                  </span>
-                  <div className="media-body text-truncate">
-                    <span className="h5 mb-0">Atlassian</span>
-                    <span className="d-block font-size-sm text-body">Security and control across Cloud</span>
-                  </div>
-                </div>
-              </a>
 
-              <a className="nav-link" href="#">
-                <div className="media align-items-center">
-                  <span className="mr-3">
-                    <img className="avatar avatar-xs avatar-4by3" src="./assets/svg/brands/slack.svg" alt="Image Description" />
-                  </span>
-                  <div className="media-body text-truncate">
-                    <span className="h5 mb-0">
-                      Slack <span className="badge badge-primary badge-pill text-uppercase ml-1">Try</span>
-                    </span>
-                    <span className="d-block font-size-sm text-body">Email collaboration software</span>
-                  </div>
-                </div>
-              </a>
+              {
+                props.notifications.map((n, i) => {
+                  return (
+                    <a className="nav-link" href="#" key={i}>
+                      <div className="media align-items-center">
+                        <span className="mr-3">
+                          <img className="avatar avatar-xs avatar-4by3" src="./assets/svg/dashboard/notification-icon.svg" alt="User Account" />
+                        </span>
+                        <div className="media-body text-truncate">
+                          <span className="h5 mb-0">{n.title}</span>
+                          <span className="d-block font-size-sm text-body">{n.detail}</span>
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })
+              }
 
-              <a className="nav-link" href="#">
-                <div className="media align-items-center">
-                  <span className="mr-3">
-                    <img className="avatar avatar-xs avatar-4by3" src="./assets/svg/brands/google-webdev.svg" alt="Image Description" />
-                  </span>
-                  <div className="media-body text-truncate">
-                    <span className="h5 mb-0">Google webdev</span>
-                    <span className="d-block font-size-sm text-body">Work involved in developing a website</span>
-                  </div>
-                </div>
-              </a>
-
-              <a className="nav-link" href="#">
-                <div className="media align-items-center">
-                  <span className="mr-3">
-                    <img className="avatar avatar-xs avatar-4by3" src="./assets/svg/brands/frontapp.svg" alt="Image Description" />
-                  </span>
-                  <div className="media-body text-truncate">
-                    <span className="h5 mb-0">Frontapp</span>
-                    <span className="d-block font-size-sm text-body">The inbox for teams</span>
-                  </div>
-                </div>
-              </a>
-
-              <a className="nav-link" href="#">
-                <div className="media align-items-center">
-                  <span className="mr-3">
-                    <img className="avatar avatar-xs avatar-4by3" src="./assets/svg/illustrations/review-rating-shield.svg" alt="Image Description" />
-                  </span>
-                  <div className="media-body text-truncate">
-                    <span className="h5 mb-0">HS Support</span>
-                    <span className="d-block font-size-sm text-body">Customer service and support</span>
-                  </div>
-                </div>
-              </a>
             </div>
           </div>
-          <a className="card-footer text-center" href="#">
+          <Link className="card-footer text-center" to="/notifications">
             View all notifications
             <i className="tio-chevron-right"></i>
-          </a>
+          </Link>
         </div>
       </div>
     </React.Fragment>
   );
 };
 
-export default Notification;
+const mapStateToProps = (state) => {
+  return {
+    notifications: state.lookupsReducer.notifications,
+  };
+};
+
+const mapDispatchToProps = (dispatch, getState) => {
+  return {
+    setNotifications: (data) => dispatch(ActionCreators.notificationListAction(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Notification));

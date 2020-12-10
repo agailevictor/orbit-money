@@ -126,12 +126,12 @@ const PersonalDetails = (props) => {
                         </div>
                       </label>
                     </div>
-                    <div className={`verifiedLabel ${personalData.kycVerified ? "" : "not-verified"}`}>
+                    {/* <div className={`verifiedLabel ${personalData.kycVerified ? "" : "not-verified"}`}>
                       <b>
                         <i className={personalData.kycVerified ? "fas fa-check-circle" : "fas fa-times"}></i>
                         {personalData.kycVerified ? t("Settings.Verified") : t("Settings.PendingVerification")}
                       </b>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 

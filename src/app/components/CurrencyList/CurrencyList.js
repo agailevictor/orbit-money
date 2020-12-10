@@ -50,7 +50,7 @@ const CurrencyList = (props) => {
         options={currencyOptions}
         value={currencyOptions.filter((option) => option.value === props.value)}
         className={props.className}
-        placeholder={props.placeholder ? props.placeholder : ""}
+        placeholder={props.placeholder ? props.placeholder : "Select Currency"}
         isSearchable={props.isSearchable}
         onChange={(event) => props.onChange(event)}
         error={props.error ? props.error : ""}
