@@ -39,7 +39,7 @@ const PersonalDetails = (props) => {
     firstName: "",
     middleName: "",
     lastName: "",
-    dateOfBirth: new Date(),
+    dateOfBirth: null,
     postalCode: "",
     occupationId: "",
     occupationGroupId: "",
@@ -98,7 +98,6 @@ const PersonalDetails = (props) => {
         toastService.error(e.message);
       });
   };
-
   return (
     <React.Fragment>
       <AppLoader show={showLoader} />
@@ -109,7 +108,8 @@ const PersonalDetails = (props) => {
           validationSchema={validationSchema}
           onSubmit={(values) => {
             updatePersonalAccountDetails(values);
-          }}>
+          }}
+        >
           {({ errors, handleChange, values, setFieldValue }) => (
             <Form>
               <div className="card-body" style={{ padding: "2rem" }}>
@@ -118,7 +118,11 @@ const PersonalDetails = (props) => {
                     <div className="d-block align-items-center">
                       <label className="avatar avatar-xl avatar-circle avatar-uploader mr-5" htmlFor="avatarUploader">
                         <div class="avatarCircle">
-                          <span class="initials">{personalData.firstName ? personalData.firstName.charAt(0).toUpperCase() + personalData.lastName.charAt(0).toUpperCase() : "NA"}</span>
+                          <span class="initials">
+                            {personalData.firstName
+                              ? personalData.firstName.charAt(0).toUpperCase() + personalData.lastName.charAt(0).toUpperCase()
+                              : "NA"}
+                          </span>
                         </div>
                       </label>
                     </div>
@@ -172,22 +176,26 @@ const PersonalDetails = (props) => {
                   <div className="col-md-3">
                     <div className="form-group input-group-merge">
                       <DateRangePicker
-                        key={moment(personalData.dateOfBirth).format("MM/DD/YYYY")}
+                        key={moment(personalData.dateOfBirth).format("YYYY-MM-DD")}
                         initialSettings={{
                           singleDatePicker: true,
                           showDropdowns: true,
                           minYear: 1970,
                           maxYear: parseInt(moment().format("YYYY"), 10),
                           autoApply: true,
-                          autoUpdateInput: false,
+                          autoUpdateInput: personalData.dateOfBirth === null ? false : true,
                           isCustomDate: true,
-                          startDate: moment(personalData.dateOfBirth).format("MM/DD/YYYY"),
+                          startDate: moment(personalData.dateOfBirth).format("YYYY-MM-DD"),
+                          locale: {
+                            format: "YYYY-MM-DD",
+                          },
                         }}
                         onApply={(event, picker) => {
                           picker.element.val(moment(picker.startDate).format("YYYY-MM-DD"));
                           let e = { target: { name: "dateOfBirth", value: moment(picker.startDate).format("YYYY-MM-DD") } };
                           handleChange(e);
-                        }}>
+                        }}
+                      >
                         <input
                           name="dateOfBirth"
                           id="dateOfBirth"

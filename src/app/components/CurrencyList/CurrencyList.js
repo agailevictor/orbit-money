@@ -32,7 +32,7 @@ const CurrencyList = (props) => {
             <img
               src={option.country.url ? option.country.url : ""}
               className="avatar avatar-xss avatar-circle mr-2"
-              style={{ width: "0.9rem", height: "0.9rem", marginTop: "-3px" }}
+              style={{ width: "1rem", height: "1rem", marginTop: "-3px" }}
             />
             {option.code}
           </div>
@@ -46,6 +46,7 @@ const CurrencyList = (props) => {
   return (
     <React.Fragment>
       <Select2
+        isDisabled={props.isDisabled ? props.isDisabled : false}
         options={currencyOptions}
         value={currencyOptions.filter((option) => option.value === props.value)}
         className={props.className}

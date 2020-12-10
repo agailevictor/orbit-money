@@ -312,8 +312,9 @@ const DataGrid = (props) => {
                     return (
                       <td>
                         <span
-                          className={`d-block h5 mb-0 strong ${props.dataItem.type === "SENT" ? "text-danger" : props.dataItem.type === "RECEIVED" ? "text-success" : ""
-                            }`}>
+                          className={`d-block h5 mb-0 strong ${
+                            props.dataItem.type === "SENT" ? "text-danger" : props.dataItem.type === "RECEIVED" ? "text-success" : ""
+                          }`}>
                           {parseFloat(props.dataItem.amount).toFixed(2)} {props.dataItem.currency}
                         </span>
                         <span className="d-block font-size-sm">

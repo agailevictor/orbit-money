@@ -17,6 +17,7 @@ export const toastService = {
   },
   error: (msg, duration = null) => {
     toast.dismiss();
+    if (!msg) msg = "Something went wrong. Please try after some time";
     toast.error(msg, {
       position: "top-center",
       autoClose: 5000,

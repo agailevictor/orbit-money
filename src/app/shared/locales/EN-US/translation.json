@@ -26,6 +26,14 @@
     "PasswordRequiredValidationLabel": "Your password is invalid. Please try again.",
     "PasswordMinimumValidationLabel": "Minimum 8 characters required"
   },
+  "ForgotPassword": {
+    "ForgotPasswordLabel": "Forgot Password?",
+    "YourEmailLabel": "Your email",
+    "MainHeading": "Enter the email address you used when you joined and we'll send you instructions to reset your password.",
+    "ForgotPasswordButtonLabel": "Submit",
+    "ForgotPasswordBack": "Back to",
+    "ChangePasswordLabel": "Change password"
+  },
   "SignUp": {
     "SignUpLabel": "Create your account",
     "HaveAccntLabel": "Already have an account?",
@@ -227,6 +235,74 @@
       "DeleteAccount": "Delete Account",
       "DeleteBusinessAccount": "Delete Business Account",
       "DeleteLabel": "Delete"
+    }
+  },
+  "SendMoney": {
+    "Back": "Back",
+    "Continue": "Continue",
+    "TimerText": "Conversion rate will be changed in next",
+    "Seconds": "seconds",
+    "Amount": {
+      "tab1Title": "How much would you like to pay?",
+      "Amount": "Amount",
+      "You_Send": "You Send",
+      "You_send": "You send",
+      "Recipient_Gets": "Recipient Gets",
+      "Recipient_gets": "Recipient gets",
+      "Trade_Amount": "Trade Amount",
+      "Select": "Select",
+      "Continue": "Continue",
+      "Our_fees": "Our fees",
+      "Conversion_rate": "Conversion rate(+)",
+      "Conversion_rate_will_be_changed": "Conversion rate will be changed",
+      "in_next_30_seconds": "in next 30 seconds",
+      "Okay": "OKAY"
+    },
+    "Recipient": {
+      "Recipient": "Recipient",
+      "Where_would_you_like_to_receive": "Where would you like to receive?",
+      "Share_by_Link": "Share by Link",
+      "Recipent_will_receive_payment_via_link": "Recipent will receive payment via link",
+      "OR": "OR",
+      "Search_Beneficiary": "Search beneficiary",
+      "No_Beneficiary_found": "No Beneficiary found",
+      "Beneficiary_Details": "Beneficiary Details",
+      "Currency": "Currency:",
+      "Beneficiary_Full_Name:": "Beneficiary Full Name:",
+      "Bank_Name": "Bank Name:",
+      "IBAN": "IBAN:"
+    },
+    "Security": {
+      "Security": "Security",
+      "Recipient_details_and_security": "Recipient details and security",
+      "Recipient_Details": "Recipient Details",
+      "Name": "Name",
+      "Create_a_question_with_a_secret_answer_password": "Create a question with a secret answer as the password",
+      "Enter_your_pin_code_of_your_choice": "Enter your pin code of your choice.",
+      "Select_answer_as_password": "Select answer as password",
+      "Reference_Purpose_to_sending_money": "Reference/Purpose to sending money",
+      "What_is_your_favorite_color": "What is your favorite color?",
+      "What_is_your_first_school": "What is your first school?",
+      "Select_Question": "Select Question"
+    },
+    "Review": {
+      "Review": "Review",
+      "Review_your_transaction": "Review your transaction",
+      "You_send": "You send",
+      "Sending_Fee": "Sending Fee",
+      "Conversion_rate": "Conversion rate(+)",
+      "Payee_receives": "Payee receives",
+      "Reference_Purpose_to_sending_money": "Reference/Purpose to sending money",
+      "Pay_Send": "Pay & Send",
+      "Confirm_and_Pay": "Confirm and Pay"
+    },
+    "Pay": {
+      "Pay": "Pay",
+      "Your_transaction": "Your transaction",
+      "has_successfully_done": "has successfully done",
+      "Please_follow_the_instructions_provided_in": "Please follow the instructions provided in",
+      "your_email_address": "your email address.",
+      "Go_To_Dashboard": "Go To Dashbaord"
     }
   }
 }

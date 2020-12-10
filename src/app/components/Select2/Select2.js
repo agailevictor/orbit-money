@@ -56,6 +56,7 @@ const Select2 = (props) => {
         styles={{ ...customStyles, ...props.style }}
         onChange={(event) => props.onChange(event)}
         autosize={false}
+        isDisabled={props.isDisabled ? props.isDisabled : false}
       />
       {props.error && <div className="invalid-feedback">{props.error}</div>}
     </div>

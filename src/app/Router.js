@@ -17,8 +17,10 @@ import DeleteMyAccount from "./pages/DeleteMyAccount/DeleteMyAccount";
 import Verify from "./pages/Verify/Verify";
 import CreateBusinessAccount from "./pages/CreateBusinessAccount/CreateBusinessAccount";
 import CustomerDashboard from "./pages/CustomerDashboard/CustomerDashboard";
-
 import SendMoney from "./pages/SendMoney/SendMoney";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import VerifyForgotPassword from "./pages/VerifyForgotPassword/VerifyForgotPassword";
+import UpdatePassword from "./pages/UpdatePassword/UpdatePassword";
 
 const RouteWithLayout = ({ layout, component, ...rest }) => {
   return <Route {...rest} render={(props) => React.createElement(layout, props, React.createElement(component, props))} />;
@@ -43,7 +45,10 @@ export default function AppRouter() {
       <Switch>
         <GuardedRoute layout={AppLayout} path="/signin" component={Signin} auth={false}></GuardedRoute>
         <GuardedRoute layout={AppLayout} path="/signup" component={Signup} auth={false}></GuardedRoute>
+        <GuardedRoute layout={AppLayout} path="/forgot-password" component={ForgotPassword} auth={false}></GuardedRoute>
         <GuardedRoute layout={AppLayout} path="/verify" component={Verify} auth={false}></GuardedRoute>
+        <GuardedRoute layout={AppLayout} path="/passwordReset" component={VerifyForgotPassword} auth={false}></GuardedRoute>
+        <GuardedRoute layout={AppLayout} path="/update-password" component={UpdatePassword} auth={false}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/dashboard" component={Dashboard} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/settings" component={Settings} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/personal-account" component={PersonalAccount} auth={true}></GuardedRoute>
