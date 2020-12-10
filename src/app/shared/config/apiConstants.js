@@ -36,11 +36,18 @@ const ApiConstants = {
   UPDATE_BUSINESS_ACCOUNT: "/orbit-user-management/api/businessAccount",
   PUSH_BUSINESS_DOCUMENT: "/orbit-user-documents/api/document/pushBusinessDocument",
 
-  FETCH_TRANSFER_RATE: "/orbitmoney-afex-exchange-rate/quote",
-  TRANSFER_MONEY: "/orbit-afex-transaction/transferMoney",
   GET_BENEFICIARY_LIST: "/orbit-user-recipients/api/recipient",
   SEARCH_BENEFICIARY_LIST: "/orbit-user-recipients/api/recipient/search",
+  FETCH_RECIPIENTS_REQUIRED_FIELDS: "/orbit-user-recipients/api/findRequiredFields",
+  DELETE_RECIPIENT: "/orbit-user-recipients/api/delteRecipient",
+  ADD_RECIPIENTS: "/orbit-user-recipients/api/recipient",
+  RECIPIENTS_DELETE: "/orbit-user-recipients/api/recipient",
+  RECIPIENTS_FETCH_BY_ID: "/orbit-user-recipients/api/recipient/findById",
+
   GET_PURPOSE_LIST: "/orbit-user-recipients/api/utility/fetchPurposeOfPayment",
+
+  FETCH_TRANSFER_RATE: "/orbitmoney-afex-exchange-rate/quote",
+  TRANSFER_MONEY: "/orbit-afex-transaction/transferMoney",
 
   FORGOT_PASSWORD_REQUEST: "/orbit-user-authentication/forgotPassword",
   FORGOT_PASSWORD_VALIDATE: "/orbit-user-authentication/validateForgotPassword",

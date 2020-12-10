@@ -53,8 +53,8 @@ const Sidebar = (props) => {
                     <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{t("Sidebar.Dashboard")}</span>
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="js-nav-tooltip-link nav-link" to="#" title="Recipients" data-placement="left">
+                <li className={`nav-item ${location.pathname === "/recipients" || location.pathname === "/" ? "active" : ""}`}>
+                  <Link className="js-nav-tooltip-link nav-link" to="/recipients" title="Recipients" data-placement="left">
                     <i className="fas fa-user-friends nav-icon"></i>
                     <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{t("Sidebar.Recipients")}</span>
                   </Link>

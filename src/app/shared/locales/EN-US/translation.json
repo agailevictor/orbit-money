@@ -304,5 +304,49 @@
       "your_email_address": "your email address.",
       "Go_To_Dashboard": "Go To Dashbaord"
     }
+  },
+  "Recipients": {
+    "RecipientsHeading": "Recipients",
+    "AddRecipient": {
+      "AddNewRecipientModal": "Add New Recipient",
+      "CountryRequiredValidationLabel": "Country is required",
+      "CurrencyRequiredValidationLabel": "Currency  is required",
+      "RecipientNameRequiredValidationLabel": "Recipient full name is required",
+      "BankNameRequiredValidationLabel": "Bank name is required",
+      "BankNumberRequiredValidationLabel": "Account number is required",
+      "IbanRequiredValidationLabel": "IBAN  is required",
+      "SwiftRequiredValidationLabel": "SWIFT code  is required",
+      "AbaRequiredValidationLabel": "ABA code  is required",
+      "BankSWIFTBICRequiredValidationLabel": "SWIFT/BIC code is required",
+      "ReceiptAddressLine1RequiredValidationLabel": "Address is required",
+      "ReceiptPostalCodeRequiredValidationLabel": "Postal code is required",
+      "ReceiptRegionIdRequiredValidationLabel": "Region is required",
+      "CityRequiredValidationLabel": "City is required",
+      "FieldLabelCountry": "Country",
+      "FieldLabelCity": "City",
+      "FieldLabelCurrency": "Currency",
+      "FieldLabelBank": "Bank Name",
+      "FieldLabelRecipientFullName": "Recipient Full Name",
+      "FieldLabelRecipientBankName": "Bank name",
+      "FieldLabelBankAccountNumber": "Account Number",
+      "FieldLabelBankSWIFTBIC": "SIWFT/BIC",
+      "FieldLabelReceiptAddressLine1": "Address Line 1",
+      "FieldLabelPurposeOfPayment": "Purpose of Payment",
+      "FieldLabelReceiptPostalCode": "Postal Code",
+      "FieldLabelRegion": "Region"
+    },
+    "DeleteRecipient": {
+      "DeleteRecipientModal": "DeleteRecipientModal"
+    },
+    "Buttons": {
+      "AddRecipients": "Add Recipients"
+    }
+  },
+  "General": {
+    "Button": {
+      "Cancel": "Cancel",
+      "Save": "Save",
+      "Delete": "Delete"
+    }
   }
 }
