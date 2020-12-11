@@ -7,7 +7,7 @@ import ReactTooltip from "react-tooltip";
 
 import Spinner from "../../../components/Spinner/Spinner";
 import Select2 from "../../../components/Select2/Select2";
-import { callApi, callDownloadApi } from "../../../services/apiServices";
+import { callApi, callDownloadApi } from "../../../services/apiService";
 import { toastService } from "../../../services/toastService";
 import ApiConstants from "../../../shared/config/apiConstants";
 import GridPager from "./GridPager";
@@ -175,22 +175,22 @@ const DataGrid = (props) => {
               <div className="row justify-content-between align-items-center flex-grow-1">
                 <div className="col-12 col-md">
                   <div className="d-flex justify-content-between align-items-center">
-                    <Nav variant="pills" 
-                         activeKey={key}
-                         className="reportsTabs"
-                         onSelect={(k) => {
-                          setKey(k);
-                          setSortOption(k);
-                          fetchTransaction(Math.floor(skip / take) + 1, take, k, fromDate, toDate, searchData);
-                        }}>
+                    <Nav variant="pills"
+                      activeKey={key}
+                      className="reportsTabs"
+                      onSelect={(k) => {
+                        setKey(k);
+                        setSortOption(k);
+                        fetchTransaction(Math.floor(skip / take) + 1, take, k, fromDate, toDate, searchData);
+                      }}>
                       <Nav.Item>
-                          <Nav.Link eventKey="all-transactions">{t("Reports.AllTransactions")}</Nav.Link>
+                        <Nav.Link eventKey="all-transactions">{t("Reports.AllTransactions")}</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                          <Nav.Link eventKey="outgoing-transactions">{t("Reports.OutgoingTransactions")}</Nav.Link>
+                        <Nav.Link eventKey="outgoing-transactions">{t("Reports.OutgoingTransactions")}</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                          <Nav.Link eventKey="incoming-transactions">{t("Reports.IncomingTransactions")}</Nav.Link>
+                        <Nav.Link eventKey="incoming-transactions">{t("Reports.IncomingTransactions")}</Nav.Link>
                       </Nav.Item>
                     </Nav>
                   </div>
@@ -394,7 +394,7 @@ const DataGrid = (props) => {
       {emptyTransactionList && !gridLoader && (
         <div className="row">
           <div className="col-md-12 text-center mt-9">
-            <img src="assets/svg/addmoney/no-transaction.svg" />
+            <img src="assets/svg/addmoney/add-card.svg" />
             <h2 className="mt-5">{t("Dashboard.NoTransaction")}</h2>
             <p>{t("Dashboard.SendOrAddMoneytoWallet")}</p>
           </div>

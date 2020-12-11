@@ -52,6 +52,14 @@ const ApiConstants = {
   FORGOT_PASSWORD_REQUEST: "/orbit-user-authentication/forgotPassword",
   FORGOT_PASSWORD_VALIDATE: "/orbit-user-authentication/validateForgotPassword",
   FORGOT_PASSWORD_CHANGE: "/orbit-user-authentication/changeUserPassword",
+
+  FETCH_BANKS: "/orbit-dcbank-integration/getBankList",
+  FETCH_BRANCHES: "/orbit-dcbank-integration/getBranches?branchId=",
+  FETCH_DIRECT_DEBIT_ACCOUNTS: "/orbit-dcbank-integration/getBankAccounts?userId=22",
+  POST_BANK_DETAILS: "/orbit-dcbank-integration/addCustomerBankDetails",
+
+  FETCH_NOTIFICATIONS: "/orbit-user-dashboard/api/notifications/fetchNotifications?limit=",
+  MARK_NOTIFICATIONS: "/orbit-user-dashboard/api/notifications/markAsRead"
 };
 
 export default ApiConstants;
