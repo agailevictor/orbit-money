@@ -164,11 +164,6 @@ const DataGrid = (props) => {
             <div className="col-md-6">
               <h4>{t("Dashboard.LatestTransactions")}</h4>
             </div>
-            <div className="col-md-6 text-right">
-              <a href="#">
-                <b>{t("Dashboard.ViewAll")}</b>
-              </a>
-            </div>
           </div>
           <div className="card">
             <div className="card-header">

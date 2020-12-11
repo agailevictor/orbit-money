@@ -55,6 +55,7 @@ const Select2 = (props) => {
         defaultValue={props.defaultValue}
         placeholder={props.placeholder}
         isSearchable={props.isSearchable}
+        filterOption={props.filterOption}
         styles={{ ...customStyles, ...props.style }}
         onChange={(event) => props.onChange(event)}
         autosize={false}

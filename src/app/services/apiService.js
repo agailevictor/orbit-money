@@ -67,6 +67,7 @@ export const callDownloadApi = (method, url, params, filename, hasCustomerAccoun
         document.body.appendChild(link);
         link.click();
         link.remove();
+        resolve(response);
       })
       .catch((e) => {
         reject(e);

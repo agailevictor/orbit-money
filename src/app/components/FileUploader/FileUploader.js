@@ -17,6 +17,8 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import AppLoader from "../AppLoader/AppLoader";
 import { toastService } from "../../services/toastService";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFileEncode);
@@ -29,7 +31,8 @@ class FileUploader extends Component {
       // Set initial files, type 'local' means this is a file
       // that has already been uploaded to the server (see docs)
       files: [],
-      uploader: false
+      uploader: false,
+      loader: false
       //loader: false
     };
   }
@@ -63,36 +66,46 @@ class FileUploader extends Component {
     let params = {
       documentId: document.id,
     };
-    const filename = document.documentTypes + ".jpg";
-    callDownloadApi("get", ApiConstants.FETCH_DOCUMENT + document.id, null, filename, false).catch((error) => {
+    const filename = document.documentTypes + "." + document.fileType.toLowerCase();
+    this.setState({ loader: true });
+    callDownloadApi("get", ApiConstants.FETCH_DOCUMENT + document.id, null, filename, false).then(() => {
+      this.setState({ loader: false });
+    }).catch((error) => {
       toastService.error(error.message);
+      this.setState({ loader: false });
     });
   };
 
   render() {
+
+    if (this.state.loader)
+      return (
+        <div style={{ backgroundColor: 'white', padding: "20px" }}>
+          <div style={{ textAlign: 'center' }}><Loader
+            type="Puff"
+            color="#00BFFF"
+            height={25}
+            width={25}
+          /></div></div>);
+
     return (
       (this.props.doc && !this.state.uploader) ?
-        <div className="filepond--wrapper">
-          <div className="filepond--root filepond--hopper" >
-            <div style={{ padding: "17px", backgroundColor: 'white' }}>
-              <div style={{ textAlign: 'center' }}>
+        <div style={{ backgroundColor: 'white', padding: '10px' }}>
+          <div style={{ textAlign: 'center' }}>
+            <label>
+              {this.props.label}
+            </label>
 
-                <label>
-                  {this.props.label}
-                </label>
-
-              </div>
-              <div style={{ textAlign: 'center' }}>
-                <a href='#' target="_blank" style={{ color: "#009fff" }} onClick={(e) => this.downloadDocuments(e, this.props.doc)}>
-                  Download
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <a href='#' target="_blank" style={{ color: "#009fff" }} onClick={(e) => this.downloadDocuments(e, this.props.doc)}>
+              Download
               </a>
-              </div>
-              <div style={{ textAlign: 'center' }}>
-                <a href="#" style={{ color: "#009fff" }} onClick={() => this.setState({ uploader: true })}>
-                  Remove
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <a href="#" style={{ color: "#009fff" }} onClick={() => this.setState({ uploader: true })}>
+              Remove
               </a>
-              </div>
-            </div>
           </div>
         </div>
         :

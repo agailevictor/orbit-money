@@ -8,7 +8,6 @@ import { callApi } from "../../services/apiService";
 import ApiConstants from "../../shared/config/apiConstants";
 
 import AppLoader from "../../components/AppLoader/AppLoader";
-import CurrencyList from "../../components/CurrencyList/CurrencyList";
 import DataGrid from "./DataGrid/DataGrid";
 import "./Reports.scss";
 
@@ -46,15 +45,6 @@ class Reports extends React.Component {
                 <div className="row">
                   <div className="col-md-9">
                     <h1 className="page-title">Reports</h1>
-                  </div>
-                  <div className="col-md-3">
-                    <div className="form-group">
-
-                      <CurrencyList
-                        options={options}
-                        isSearchable="true" />
-
-                    </div>
                   </div>
                 </div>
               </div>
