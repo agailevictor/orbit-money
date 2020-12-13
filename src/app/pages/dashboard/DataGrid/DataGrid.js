@@ -161,11 +161,6 @@ const DataGrid = (props) => {
             <div className="col-md-6">
               <h4>{t("Dashboard.LatestTransactions")}</h4>
             </div>
-            <div className="col-md-6 text-right">
-              <a href="#">
-                <b>{t("Dashboard.ViewAll")}</b>
-              </a>
-            </div>
           </div>
           <div className="card">
             <div className="card-header">
@@ -312,9 +307,8 @@ const DataGrid = (props) => {
                     return (
                       <td>
                         <span
-                          className={`d-block h5 mb-0 strong ${
-                            props.dataItem.type === "SENT" ? "text-danger" : props.dataItem.type === "RECEIVED" ? "text-success" : ""
-                          }`}>
+                          className={`d-block h5 mb-0 strong ${props.dataItem.type === "SENT" ? "text-danger" : props.dataItem.type === "RECEIVED" ? "text-success" : ""
+                            }`}>
                           {parseFloat(props.dataItem.amount).toFixed(2)} {props.dataItem.currency}
                         </span>
                         <span className="d-block font-size-sm">

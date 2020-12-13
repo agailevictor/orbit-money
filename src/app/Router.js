@@ -22,9 +22,19 @@ import SendMoney from "./pages/SendMoney/SendMoney";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import VerifyForgotPassword from "./pages/VerifyForgotPassword/VerifyForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword/UpdatePassword";
+import Notifications from "./pages/Notifications/Notifications"
+import Reports from "./pages/Reports/Reports"
+import AddMoney from "./pages/AddMoney/AddMoney"
+import ETransfer from "./pages/AddMoney/ETransfer"
+import WirePayment from "./pages/AddMoney/WirePayment"
+import DirectDebit from "./pages/AddMoney/DirectDebit"
 
 const RouteWithLayout = ({ layout, component, ...rest }) => {
-  return <Route {...rest} render={(props) => React.createElement(layout, props, React.createElement(component, props))} />;
+  return <Route {...rest} render={(props) => {
+    if (rest.full)
+      props.full = true;
+    return React.createElement(layout, props, React.createElement(component, props));
+  }} />;
 };
 
 const GuardedRoute = ({ auth, ...rest }) => {
@@ -63,6 +73,12 @@ export default function AppRouter() {
         <GuardedRoute layout={MainLayout} path="/customer-dashboard" component={CustomerDashboard} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/send-money" component={SendMoney} auth={true}></GuardedRoute>
         <GuardedRoute layout={MainLayout} path="/" component={Dashboard} exact auth={true}></GuardedRoute>
+        <GuardedRoute layout={MainLayout} path="/reports" component={Reports} auth={true}></GuardedRoute>
+        <GuardedRoute layout={MainLayout} full={true} path="/add-money" component={AddMoney} auth={true}></GuardedRoute>
+        <GuardedRoute layout={MainLayout} full={true} path="/add-e-transfer" component={ETransfer} auth={true}></GuardedRoute>
+        <GuardedRoute layout={MainLayout} full={true} path="/add-direct-debit" component={DirectDebit} auth={true}></GuardedRoute>
+        <GuardedRoute layout={MainLayout} full={true} path="/add-wire-payment" component={WirePayment} auth={true}></GuardedRoute>
+        <GuardedRoute layout={MainLayout} path="/notifications" component={Notifications} auth={true}></GuardedRoute>
       </Switch>
     </Router>
   );

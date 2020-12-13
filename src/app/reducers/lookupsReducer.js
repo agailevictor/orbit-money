@@ -11,6 +11,9 @@ const initialState = {
   occupationGroupList: [],
   occupationList: {},
   currencyList: [],
+  bankList: [],
+  branchList: [],
+  notifications: []
 };
 
 const lookupsReducer = (state = initialState, action) => {
@@ -35,6 +38,12 @@ const lookupsReducer = (state = initialState, action) => {
       return { ...state, occupationList: action.data };
     case types.CURRENCIES_LIST:
       return { ...state, currencyList: action.data };
+    case types.BANK_LIST:
+      return { ...state, bankList: action.data };
+    case types.BRANCH_LIST:
+      return { ...state, branchList: action.data };
+    case types.NOTIFICATIONS_LIST:
+      return { ...state, notifications: action.data };
     default:
       return state;
   }

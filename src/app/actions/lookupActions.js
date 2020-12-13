@@ -69,3 +69,24 @@ export const currencyListAction = (data) => {
     data,
   };
 };
+
+export const bankListAction = (data) => {
+  return {
+    type: types.BANK_LIST,
+    data,
+  };
+};
+
+export const branchListAction = (data) => {
+  return {
+    type: types.BRANCH_LIST,
+    data,
+  };
+};
+
+export const notificationListAction = (data) => {
+  return {
+    type: types.NOTIFICATIONS_LIST,
+    data,
+  };
+}

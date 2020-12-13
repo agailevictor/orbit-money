@@ -60,7 +60,7 @@ const Sidebar = (props) => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="js-nav-tooltip-link nav-link" to="#" title="Reports" data-placement="left">
+                  <Link className="js-nav-tooltip-link nav-link" to="/reports" title="Reports" data-placement="left">
                     <i className="fas fa-file-invoice nav-icon"></i>
                     <span className="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{t("Sidebar.Reports")}</span>
                   </Link>

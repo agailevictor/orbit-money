@@ -28,7 +28,7 @@ const MainLayout = (props) => {
     }
     window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener("resize", () => {});
+      window.removeEventListener("resize", () => { });
     };
   });
 
@@ -38,9 +38,11 @@ const MainLayout = (props) => {
 
   return (
     <React.Fragment>
-      <Header onMobileMenuClick={mobileMenuClick} openMenu={openMenu}></Header>
-      <Sidebar onMobileMenuClick={mobileMenuClick} openMenu={openMenu}></Sidebar>
-      <main id="content" role="main" className="main">
+      <Header onMobileMenuClick={mobileMenuClick} openMenu={openMenu} full={props.full ? true : false}></Header>
+      {
+        !props.full ? <Sidebar onMobileMenuClick={mobileMenuClick} openMenu={openMenu}></Sidebar> : <></>
+      }
+      <main id="content" role="main" className="main" style={props.full ? { paddingLeft: "0px" } : {}}>
         {props.children}
       </main>
     </React.Fragment>

@@ -146,14 +146,14 @@ class Signin extends React.Component {
                         </div>
                       </div>
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <div className="custom-control custom-checkbox">
                         <Field type="checkbox" className="custom-control-input" id="termsCheckbox" name="termsCheckbox" />
                         <label className="custom-control-label font-size-sm text-muted" htmlFor="termsCheckbox">
                           {t("SignIn.RememberMeLabel")}
                         </label>
                       </div>
-                    </div>
+                    </div> */}
 
                     <button
                       type="submit"

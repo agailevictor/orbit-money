@@ -44,21 +44,25 @@ const Header = (props) => {
           <div className="navbar-brand-wrapper">
             <Link className="navbar-brand" to="/dashboard" aria-label="Front">
               <img className="navbar-brand-logo" src="./assets/svg/logos/logo.svg" alt="Logo" />
-              <img className="navbar-brand-logo-mini" src="./assets/svg/logos/logo-short.svg" alt="Logo" />
+              {
+                !props.full ? <img className="navbar-brand-logo-mini" src="./assets/svg/logos/logo-short.svg" alt="Logo" /> : <></>
+              }
             </Link>
           </div>
 
-          <div className="navbar-nav-wrap-content-left">
-            <ReactTooltip id="toggle-invoker" place="right" />
-            <button type="button" className="js-navbar-vertical-aside-toggle-invoker toggle-invoker close mr-3" onClick={toggleSidebar}>
-              <i className="tio-first-page navbar-vertical-aside-toggle-short-align" data-for="toggle-invoker" data-tip={t("Header.Collapse")}></i>
-              <i className="tio-last-page navbar-vertical-aside-toggle-full-align" data-for="toggle-invoker" data-tip={t("Header.Expand")}></i>
-            </button>
-            <button type="button" className="js-navbar-vertical-aside-toggle-invoker mobile-toggle-invoker close mr-3" onClick={toggleMobileMenu}>
-              <i className="tio-first-page navbar-vertical-aside-toggle-short-align" data-for="toggle-invoker" data-tip1={t("Header.Collapse")}></i>
-              <i className="tio-last-page navbar-vertical-aside-toggle-full-align" data-for="toggle-invoker" data-tip1={t("Header.Collapse")}></i>
-            </button>
-          </div>
+          {
+            !props.full ? <div className="navbar-nav-wrap-content-left">
+              <ReactTooltip id="toggle-invoker" place="right" />
+              <button type="button" className="js-navbar-vertical-aside-toggle-invoker toggle-invoker close mr-3" onClick={toggleSidebar}>
+                <i className="tio-first-page navbar-vertical-aside-toggle-short-align" data-for="toggle-invoker" data-tip={t("Header.Collapse")}></i>
+                <i className="tio-last-page navbar-vertical-aside-toggle-full-align" data-for="toggle-invoker" data-tip={t("Header.Expand")}></i>
+              </button>
+              <button type="button" className="js-navbar-vertical-aside-toggle-invoker mobile-toggle-invoker close mr-3" onClick={toggleMobileMenu}>
+                <i className="tio-first-page navbar-vertical-aside-toggle-short-align" data-for="toggle-invoker" data-tip1={t("Header.Collapse")}></i>
+                <i className="tio-last-page navbar-vertical-aside-toggle-full-align" data-for="toggle-invoker" data-tip1={t("Header.Collapse")}></i>
+              </button>
+            </div> : <></>
+          }
 
           <div className="navbar-nav-wrap-content-right">
             <ul className="navbar-nav align-items-center flex-row">

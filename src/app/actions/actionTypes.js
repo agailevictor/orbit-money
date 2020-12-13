@@ -14,8 +14,15 @@ export const OCCUPATION_GROUP_LIST = "OCCUPATION_GROUP_LIST";
 export const OCCUPATION_LIST = "OCCUPATION_LIST";
 export const CURRENCIES_LIST = "CURRENCIES_LIST";
 
+// Bank List
+export const BANK_LIST = "BANK_LIST";
+export const BRANCH_LIST = "BRANCH_LIST";
+
 // Business Account
 export const UPDATE_REGISTRATION_DATA = "UPDATE_REGISTRATION_DATA";
 
 //Send Money
 export const SAVE_SENDING_AMOUNT_DETAILS = "SAVE_SENDING_AMOUNT_DETAILS";
+
+// Notifications
+export const NOTIFICATIONS_LIST = "NOTIFICATIONS_LIST";

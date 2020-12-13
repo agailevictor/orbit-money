@@ -45,6 +45,8 @@ const Select2 = (props) => {
   return (
     <div>
       <Select
+        name={props.name}
+        id={props.id}
         options={props.options}
         value={props.value}
         getOptionLabel={(x) => x.label}
@@ -53,6 +55,7 @@ const Select2 = (props) => {
         defaultValue={props.defaultValue}
         placeholder={props.placeholder}
         isSearchable={props.isSearchable}
+        filterOption={props.filterOption}
         styles={{ ...customStyles, ...props.style }}
         onChange={(event) => props.onChange(event)}
         autosize={false}

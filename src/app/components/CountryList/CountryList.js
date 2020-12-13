@@ -27,10 +27,11 @@ const CountryList = (props) => {
     return options.map((option) => {
       return {
         value: option.id,
+        title: option.title,
         label: (
           <div>
             <img
-              src={option.url ? option.url : `./assets/vendor/flags/1x1/${option.icon}.svg`}
+              src={option.url ? option.url : `./assets/vendor/flags/1x1/${option.alpha2Code}.svg`}
               className="avatar avatar-xss avatar-circle mr-2"
               style={{ width: "1rem", height: "1rem", marginTop: "-3px" }}
             />
@@ -42,16 +43,23 @@ const CountryList = (props) => {
   };
 
   const countryOptions = renderOptions(props.countryList);
+  function customFilter(option, searchText) {
+    return option.data.title.toLowerCase().includes(searchText);
+  }
+
 
   return (
     <React.Fragment>
       <Select2
+        name={props.name}
+        id={props.id}
         options={countryOptions}
         value={countryOptions.filter((option) => option.value === props.value)}
         className={props.className}
         placeholder={props.placeholder ? props.placeholder : "Country"}
         isSearchable={props.isSearchable}
         onChange={(event) => props.onChange(event)}
+        filterOption={customFilter}
         error={props.error ? props.error : ""}
       />
     </React.Fragment>

@@ -77,7 +77,7 @@ class Dashboard extends React.Component {
                   <Link to="/send-money" className="btn btn-default">
                     <img src="assets/svg/dashboard/send-money.svg" /> {t("Dashboard.SendMoney")}
                   </Link>
-                  <Link to="" className="btn btn-default">
+                  <Link to="/add-money" className="btn btn-default">
                     <img src="assets/svg/dashboard/add-money.svg" /> {t("Dashboard.AddMoney")}
                   </Link>
                 </div>

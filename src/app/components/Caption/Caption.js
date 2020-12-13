@@ -16,7 +16,7 @@ const Caption = () => {
           <Link to="/">
             <img className="w-100" src="./assets/svg/logos/logo.svg" alt="Logo" />
           </Link>
-          <Language width="160px" />
+          {/* <Language width="160px" /> */}
         </div>
       </div>
       <div className="caption-container">

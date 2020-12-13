@@ -348,5 +348,50 @@
       "Save": "Save",
       "Delete": "Delete"
     }
+  },
+  "Reports": {
+    "ReportsHeading": "Reports",
+    "AllTransactions": "All Transactions",
+    "OutgoingTransactions": "Outgoing Transactions",
+    "IncomingTransactions": "Incoming Transactions"
+  },
+  "AddMoney": {
+    "SELECT_OPTION_STATEMENT": "Select the option you prefer to use",
+    "E_Transfer": {
+      "title": "e-Transfer"
+    },
+    "Select": "Select",
+    "Direct_Debit": {
+      "title": "Direct debit",
+      "select_account": "Select Your Account",
+      "add_new": "Add new Account",
+      "accout_not_active": "Account status is: ",
+      "amount_to_transfer": "Enter Amount To Transfer",
+      "enter_amount": "Enter Amount",
+      "send_money": "Send Money",
+      "FirstName": "First Name",
+      "LastName": "Last Name",
+      "AccountName": "Account Name",
+      "AccountNumber": "Account Number",
+      "FinancialInstitution": "Financial Institution",
+      "FinancialInstitutionBranch": "Financial Institution Branch",
+      "LoadingBranches": "Loading Branches",
+      "Errors": {
+        "FirstName": "First Name is required",
+        "LastName": "Last Name is required",
+        "AccountName": "Account Name is required",
+        "AccountNumber": "Account Number is required",
+        "Institute": "Financial Institution field is required",
+        "Branch": "Branch field is required"
+      }
+    },
+    "Credit_Card": {
+      "title": "Credit Card"
+    },
+    "Wire_Payment": {
+      "title": "Wire Payment"
+    },
+    "Fees": "fees",
+    "You_will_pay": "You will pay"
   }
 }
