@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
@@ -24,6 +25,7 @@ const Review = (props) => {
     let params = values;
     callApi("post", ApiConstants.TRANSFER_MONEY, params)
       .then((response) => {
+        props.afterTransaction();
         if (response.code === 200) {
           toastService.success(response.message);
           props.onSetTabs(null, "tab5");
@@ -98,8 +100,8 @@ const Review = (props) => {
               beneficiaryId: props.sendMoneyData?.beneficiary?.id,
               purposeOfPayment: "",
               quoteId: props.sendMoneyData?.transferRate?.QuoteId,
-              settlementCcy: props.sendMoneyData?.transferRate?.SettlementCcy,
-              tradeCcy: props.sendMoneyData?.transferRate?.TradeCcy,
+              settlementCcy: props.sendMoneyData?.transferRate?.TradeCcy,
+              tradeCcy: props.sendMoneyData?.transferRate?.SettlementCcy,
             }}
             onSubmit={(values) => {
               transferMoney(values);
@@ -188,9 +190,12 @@ const Review = (props) => {
                     </button>
 
                     <div className="ml-auto">
-                      <button type="button" className="btn btn-info" disabled>
+                      {/* <button type="button" className="btn btn-info" disabled>
                         {t("SendMoney.Review.Pay_Send")}
-                      </button>
+                      </button> */}
+                      <Link className="btn btn-info" to="/add-money" disabled={!values.purposeOfPayment}>
+                        {t("SendMoney.Review.Pay_Send")}
+                      </Link>
                       &nbsp; &nbsp;
                       <button type="submit" className="btn btn-primary" disabled={!values.purposeOfPayment}>
                         {t("SendMoney.Review.Confirm_and_Pay")} <i className="tio-chevron-right"></i>

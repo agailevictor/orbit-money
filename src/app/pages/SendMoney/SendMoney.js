@@ -26,6 +26,11 @@ class SendMoney extends React.Component {
     this.setState({ activeTab: tab });
   };
 
+  deactivateRateCounter = () => {
+    if (this.countdown) clearInterval(this.countdown);
+    this.setState({ showRateCounter: false });
+  }
+
   activateRateCounter = () => {
     this.setState({ showRateCounter: true });
     let counter = 30;
@@ -63,15 +68,14 @@ class SendMoney extends React.Component {
             <div className="col-lg-2 vertailTab">
               <ul id="addUserStepFormProgress" className="step step-sm step-icon-sm step-inline step-item-between mb-3 mb-md-5 verticleSteps">
                 <li
-                  className={`step-item ${
-                    this.state.activeTab === "tab1" ||
+                  className={`step-item ${this.state.activeTab === "tab1" ||
                     this.state.activeTab === "tab2" ||
                     this.state.activeTab === "tab3" ||
                     this.state.activeTab === "tab4" ||
                     this.state.activeTab === "tab5"
-                      ? "active"
-                      : ""
-                  }`}>
+                    ? "active"
+                    : ""
+                    }`}>
                   <a className="step-content-wrapper" to="#">
                     <div className="step-content">
                       <span className="step-title">{t("SendMoney.Amount.Amount")}</span>
@@ -81,14 +85,13 @@ class SendMoney extends React.Component {
                   <div className="verticalBar">&nbsp;</div>
                 </li>
                 <li
-                  className={`step-item ${
-                    this.state.activeTab === "tab2" ||
+                  className={`step-item ${this.state.activeTab === "tab2" ||
                     this.state.activeTab === "tab3" ||
                     this.state.activeTab === "tab4" ||
                     this.state.activeTab === "tab5"
-                      ? "active"
-                      : ""
-                  }`}>
+                    ? "active"
+                    : ""
+                    }`}>
                   <a className="step-content-wrapper" to="#">
                     <div className="step-content">
                       <span className="step-title">{t("SendMoney.Recipient.Recipient")}</span>
@@ -98,9 +101,8 @@ class SendMoney extends React.Component {
                   <div className="verticalBar">&nbsp;</div>
                 </li>
                 <li
-                  className={`step-item ${
-                    this.state.activeTab === "tab3" || this.state.activeTab === "tab4" || this.state.activeTab === "tab5" ? "active" : ""
-                  }`}>
+                  className={`step-item ${this.state.activeTab === "tab3" || this.state.activeTab === "tab4" || this.state.activeTab === "tab5" ? "active" : ""
+                    }`}>
                   <a className="step-content-wrapper" to="#">
                     <div className="step-content">
                       <span className="step-title">{t("SendMoney.Security.Security")}</span>
@@ -142,7 +144,7 @@ class SendMoney extends React.Component {
                 <Security active={this.state.activeTab === "tab3"} onSetTabs={this.setTabs} />
                 <Review active={this.state.activeTab === "tab3"} onSetTabs={this.setTabs} />
                 <Review active={this.state.activeTab === "tab4"} onSetTabs={this.setTabs} />
-                <Pay active={this.state.activeTab === "tab5"} onSetTabs={this.setTabs} />
+                <Pay active={this.state.activeTab === "tab5"} onSetTabs={this.setTabs} afterTransaction={this.deactivateRateCounter} />
               </div>
               {this.state.showRateCounter && (
                 <div className="rate-refresh">

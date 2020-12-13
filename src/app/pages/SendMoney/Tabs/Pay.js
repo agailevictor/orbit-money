@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 
 const Pay = (props) => {
@@ -20,9 +21,7 @@ const Pay = (props) => {
               </p>
             </div>
             <div className="d-flex justify-content-center mt-3">
-              <a className="btn btn-white" href="dashboard.html">
-                {t("SendMoney.Pay.Go_To_Dashboard")}
-              </a>
+              <Link className="btn btn-white" to="/dashboard"> {t("SendMoney.Pay.Go_To_Dashboard")}</Link>
             </div>
           </div>
         </div>
